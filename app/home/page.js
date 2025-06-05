@@ -1,5 +1,3 @@
-// app/home/page.js
-
 import Header from "../ui/home/Header";
 import Section1 from "../ui/home/Section1";
 import Section2 from "../ui/home/Section2";
