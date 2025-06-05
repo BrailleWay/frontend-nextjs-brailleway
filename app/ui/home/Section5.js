@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import React from 'react';
 export default function SobreNos() {
     return (
@@ -35,4 +32,3 @@ export default function SobreNos() {
     )
   }
   
->>>>>>> fb30509f383ec288bb2eddf25e457f05764b92b3
