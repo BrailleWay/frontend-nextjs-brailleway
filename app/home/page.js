@@ -7,6 +7,7 @@ import Section5 from "../ui/home/Section5"
 
 
 export default function Home(){
+    const name = Renan
     return(
       <>
         <Header/>
