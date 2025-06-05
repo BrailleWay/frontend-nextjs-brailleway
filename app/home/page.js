@@ -2,6 +2,8 @@ import Section1 from "../ui/home/Section1"
 import Header from "../ui/home/Header"
 import Section2 from "../ui/home/Section2"
 import Section3 from "../ui/home/Section3"
+import Section5 from "../ui/home/Section5"
+
 
 export default function Home(){
     return(
@@ -10,6 +12,7 @@ export default function Home(){
         <Section1/>
         <Section2/>
         <Section3/>
+        <Section5/>
       </>
     )
   }
