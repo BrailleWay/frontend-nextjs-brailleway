@@ -12,9 +12,9 @@ export default function Section1(){
                         </div>
                         <div className="absolute rounded-4xl shadow-xl/40 shadow-cyan-500 bg-gradient-to-r from-blue-500 to-teal-400 p-6 lg:p-12 w-213 h-160">
                             <div className="text-white space-y-4 max-w-xs">
-                                <h3 class="text-5xl font-['Inter-semibold']">Ouça nossas <br class="sm:hidden" /> Frequências</h3>
-                                <p class="text-3xl font-['Inter-medium']"> Teste grátis e tenha acesso a nossos sons para relaxar</p>
-                                <button class="font-['Inter-semibold'] mt-4 inline-block bg-white text-black w-44 h-14 text-xl px-5 py-2 rounded-full shadow hover:shadow-md transition"> Ouça agora </button>
+                                <h3 className="text-5xl font-['Inter-semibold']">Ouça nossas Frequências</h3>
+                                <p className="text-3xl font-['Inter-medium']"> Teste grátis e tenha acesso a nossos sons para relaxar</p>
+                                <button className="font-['Inter-semibold'] mt-4 inline-block bg-white text-black w-44 h-14 text-xl px-5 py-2 rounded-full shadow hover:shadow-md transition"> Ouça agora </button>
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@ export default function Section1(){
                             Para quem enxerga com o coração e sente com a alma, o <span className='text-[#1C71E4] font-["Poppins-bold"]'>Braille Way</span> abre portas para uma terapia mais humana, acessível e feita para transformar vidas.
                         </p>
                         <div className='flex flex-col h-full items-center justify-center'>
-                            <button class="font-['Poppins-medium'] text-2xl h-18 w-64 inline-block bg-gradient-to-r from-blue-500 to-teal-400 text-white  px-5 py-2 rounded-full shadow-md hover:shadow-md transition"> Cadastre-se </button>
+                            <button className="font-['Poppins-medium'] text-2xl h-18 w-64 inline-block bg-gradient-to-r from-blue-500 to-teal-400 text-white  px-5 py-2 rounded-full shadow-md hover:shadow-md transition"> Cadastre-se </button>
                         </div>
                         <div className='flex w-200 items-end'>
                             <div className='border rounded-full flex w-49 h-22 relative items-center justify-center'>
