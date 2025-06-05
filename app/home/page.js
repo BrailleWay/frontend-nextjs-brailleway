@@ -1,9 +1,9 @@
-import 
+import Section1 from "../ui/home/Section1"
 
 export default function Home(){
     return(
       <>
-        <ComeComeçar/>
+        <Section1/>
       </>
     )
   }
