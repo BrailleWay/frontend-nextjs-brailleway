@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/',          // quando alguém acessar “/”
-        destination: '/home', // leve para “/home”
+        destination: '/homepage', // leve para “/home”
         permanent: true       // usar 308 (padrão do Next.js) para indicar redirect “permanente”
       }
     ]
