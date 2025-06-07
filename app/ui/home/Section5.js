@@ -19,7 +19,7 @@ export const Section5 = () => {
             <img
               className="w-[278px] h-[201px] object-cover ml-4 rounded-lg"
               alt="Imagem"
-              src={FotoEquipe}
+              src="/fotos/Foto Equipe.png"
             />
             <div className="flex flex-col items-start gap-4 ml-8">
               <div className="font-medium text-[#222222] text-[40px] leading-[56px] font-poppins">
