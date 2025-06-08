@@ -6,7 +6,7 @@ export const Section6 = () => {
     return (
         <div className="relative w-[1300px] h-[1150px] bg-white left-[100px] top-[-20px]">
             {/* TÍTULO NO TOPO */}
-            <div className="absolute top-[120px] left-[60px] font-medium text-[#1c1c1c] text-[32px] leading-tight z-100">
+            <div className=" font-inter absolute top-[120px] left-[60px] font-normal text-[#1c1c1c] text-[32px] leading-tight z-100">
                 Precisa Relaxar? Ouvir um som relaxante? <br />
                 <span className="text-[#cb6ce6] font-semibold"> Entre em nossa sala e relaxe!</span>
             </div>
