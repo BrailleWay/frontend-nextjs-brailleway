@@ -21,7 +21,7 @@ export const Section6 = () => {
     };
 
     return (
-        <div className="relative w-[1503px] h-[1382px] bg-white left-[505px] top-[-130px]">
+        <div className="relative w-[1503px] h-[1382px] bg-white left-[30px] top-[-130px]">
             {/* TÍTULO NO TOPO */}
             <div className="absolute top-[210px] left-[86px] font-medium text-[#1c1c1c] text-[32px] tracking-[0] leading-[normal] z-100">
                 Precisa Relaxar? Ouvir um som relaxante? <br />
