@@ -22,7 +22,7 @@ export const Section6 = () => {
                                 </div>
                                 <p className="relative w-[220px] font-light text-[#fff] text-lg leading-tight">
                                     Ele acalma, relaxa e alivia faz se sentir seguro.<br />
-                                    Feche os olhos e permita-se sentir...<br />
+                                    Feche os olhos<br />
                                    
                                 </p>
                             </div>
@@ -38,7 +38,7 @@ export const Section6 = () => {
                         {/* Bloco 2 */}
                         <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
-                                <p className="relative w-[220px] font-medium text-primary text-2xl leading-tight">
+                                <p className="relative w-[220px] font-normal text-primary text-2xl leading-tight">
                                     Som ao escolher uma estrela
                                 </p>
                                 <p className="relative w-[220px] font-light text-[#212020] text-lg leading-tight">
