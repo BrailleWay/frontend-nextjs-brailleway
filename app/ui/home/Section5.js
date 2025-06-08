@@ -1,5 +1,5 @@
 {/*import amarelaEPretaEstDioDeDesignModernoGuiaDeMarcaApresentaO71 from "./amarela-e-preta-est-dio-de-design-moderno-guia-de-marca-apresenta-o-7-1.png";*/}
-import FotoEquipe from "../../../public/fotos/Foto Equipe.png";
+import FotoEquipes from "../../../public/fotos/Foto Equipe.png";
 {/*import instagramPostFarmCiaSimplesVerdeEBranco51 from "./"; */}
 import Pessoa from "../../../public/imgHome/Pessoa fundo amarelo e mão apontado cabelos pretos.png";
 
@@ -19,7 +19,7 @@ export const Section5 = () => {
             <img
               className="w-[278px] h-[201px] object-cover ml-4 rounded-lg"
               alt="Imagem"
-              src={FotoEquipe}
+              src="/fotos/Foto Equipe.png"
             />
             <div className="flex flex-col items-start gap-4 ml-8">
               <div className="font-medium text-[#222222] text-[40px] leading-[56px] font-poppins">
