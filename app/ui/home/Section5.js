@@ -7,9 +7,9 @@ export const Section5 = () => {
     <div className="w-full flex justify-center items-center py-8 bg-white">
       <div className="w-[1257px] h-[545px] flex flex-col  justify-center relative">
         {/* Título sobreposto */}
-        <p className="font-medium text-transparent text-5xl leading-[57.2px] font-inter text-left mb-0">
-          <span className="text-[#333333]">Transformando vidas </span>
-          <span className=" font-medium text-[#2e91ed]"> por <br/> meio do cuidado</span>
+        <p className="font-medium text-transparent text-5xl text-[32px]   leading-[57.2px] font-inter text-left mb-0">
+          <span className=" text-[#333333]">Transformando vidas </span>
+          <span className=" font-semibold text-[#2e91ed]"> por <br/> meio do cuidado</span>
         </p>
         {/* Bloco principal */}
         <div className="flex flex-row items-center justify-center w-full gap-12">
@@ -21,7 +21,7 @@ export const Section5 = () => {
               src="/fotos/Foto Equipe.png"
             />
             <div className="flex flex-col  gap-2 ml-6">
-              <div className="font-semibold text-[#222222] text-[40px] leading-[70px] font-poppins">
+              <div className="font-semibold text-[#222222] text-[30px] leading-[70px] font-poppins">
                 Quem Somos
               </div>
               <p className="font-medium text-neutral-800 text-base leading-[28.6px] font-poppins w-[354px]">
