@@ -11,7 +11,7 @@ export const Section6 = () => {
                 <span className="text-[#cb6ce6] font-semibold"> Entre em nossa sala e relaxe!</span>
             </div>
             {/* CONTEÚDO PRINCIPAL */}
-            <div className="absolute w-[1150px] h-[1000px] top-56 left-[60px]">
+            <div className="font-poppins absolute w-[1150px] h-[1000px] top-56 left-[60px]">
                 <div className="absolute w-[1130px] h-[1000px] top-0 left-0">
                     <div className="flex flex-wrap w-[950px] items-start gap-10 absolute top-20 left-0">
                         {/* Bloco 1 */}
@@ -36,7 +36,7 @@ export const Section6 = () => {
                             />
                         </div>
                         {/* Bloco 2 */}
-                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden">
+                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
                                 <p className="relative w-[220px] font-medium text-primary text-2xl leading-tight">
                                     Som ao escolher uma estrela
@@ -52,7 +52,7 @@ export const Section6 = () => {
                             />
                         </div>
                         {/* Bloco 3 */}
-                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden">
+                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
                                 <p className="relative w-[220px] font-normal text-primary text-2xl leading-tight">
                                     Som ao escolher uma estrela
@@ -68,7 +68,7 @@ export const Section6 = () => {
                             />
                         </div>
                         {/* Bloco 4 */}
-                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden">
+                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
                                 <div className="font-medium text-primary text-2xl leading-tight">
                                     Som de Aviso
@@ -84,7 +84,7 @@ export const Section6 = () => {
                             />
                         </div>
                         {/* Bloco 5 */}
-                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden">
+                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
                                 <div className="font-medium text-primary text-2xl leading-tight">
                                     Voz de Guia Acolhedora
@@ -100,7 +100,7 @@ export const Section6 = () => {
                             />
                         </div>
                         {/* Bloco 6 */}
-                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden">
+                        <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
                                 <div className="font-medium text-primary text-2xl leading-tight">
                                     Voz de Guia Masculina
