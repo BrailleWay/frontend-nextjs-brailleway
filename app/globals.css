@@ -1,2 +1,6 @@
 @import "tailwindcss";
 
+.bg-gradient-roxo {
+  background: linear-gradient(90deg, #cb6ce6 0%, #9700aa 100%);
+}
+

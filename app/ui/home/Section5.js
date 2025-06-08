@@ -1,6 +1,5 @@
-{/*import amarelaEPretaEstDioDeDesignModernoGuiaDeMarcaApresentaO71 from "./amarela-e-preta-est-dio-de-design-moderno-guia-de-marca-apresenta-o-7-1.png";*/}
+
 import FotoEquipes from "../../../public/fotos/Foto Equipe.png";
-{/*import instagramPostFarmCiaSimplesVerdeEBranco51 from "./"; */}
 import  PessoaAmarela from "../../../public/imgHome/PessoaFundoAzuleVerde.png";
 
 export const Section5 = () => {
