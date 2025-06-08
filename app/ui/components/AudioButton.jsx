@@ -4,7 +4,7 @@
 "use client";
 import { useRef, useState } from "react";
 
-export default function AudioButton({ src }) {
+export default function AudioButton({ src, buttonClassName = "", imgClassName = "" }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -26,15 +26,14 @@ export default function AudioButton({ src }) {
   return (
     <>
       <div
-        className="w-[50px] h-[50px] bg-[#cb6ce6] rounded-full flex items-center justify-center
-                   cursor-pointer transition duration-200 hover:bg-[#b24dd7] hover:scale-110 absolute top-10 left-10 z-10"
+        className={`bg-[#cb6ce6] rounded-full flex items-center justify-center cursor-pointer transition duration-200 hover:bg-[#b24dd7] hover:scale-110 absolute z-10 ${buttonClassName}`}
         onClick={handlePlayPause}
         tabIndex={0}
         role="button"
         aria-label={isPlaying ? "Pausar áudio" : "Tocar áudio"}
       >
         <img
-          className="w-[41px] h-7 pointer-events-none"
+          className={`pointer-events-none ${imgClassName}`}
           src={isPlaying ? "/imgHome/Pause.png" : "/imgHome/Play.png"}
           alt={isPlaying ? "Pausar" : "Tocar"}
         />
