@@ -7,19 +7,19 @@ export default function PsychologistSection() {
       name: 'Julian Jameson',
       rating: 4.8,
       specialties: 'Adultos, Adolescentes',
-      image: '/psych1.jpg',
+      image: '',
     },
     {
       name: 'Julian Jameson',
       rating: 4.8,
       specialties: 'Adultos, Adolescentes',
-      image: '/psych2.jpg',
+      image: '',
     },
     {
       name: 'Julian Jameson',
       rating: 4.8,
       specialties: 'Adultos, Adolescentes',
-      image: '/psych3.jpg',
+      image: '',
     },
   ]
 
@@ -42,7 +42,7 @@ export default function PsychologistSection() {
         {psychologists.map((psych, index) => (
           <div key={index} className="bg-white shadow-md rounded-xl overflow-hidden w-64">
             <div className="h-48 relative">
-              <Image src={psych.image} alt={psych.name} layout="fill" objectFit="cover" />
+              
             </div>
             <div className="p-4">
               <h3 className="font-semibold text-gray-800">{psych.name}</h3>
