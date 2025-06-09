@@ -56,3 +56,8 @@
     font-family: "Inter-bold";
     src: url(/fonts/Inter/Inter_18pt-Bold.ttf) format("truetype");
 }
+
+.bg-gradient-roxo {
+  background: linear-gradient(90deg, #cb6ce6 0%, #9700aa 100%);
+}
+
