@@ -10,6 +10,7 @@ import {
   UserPlus,
   X
 } from 'lucide-react'
+import Image from 'next/image';
 
 
 
@@ -52,9 +53,10 @@ export default function Header() {
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
         {/* Logo: w-20 no desktop, md:w-16 em <768px, sm:w-12 em <640px */}
         <div className="flex-shrink-0">
-          <img
+          <Image
+            src='/home/logo.png' width={49} height={47}
             alt="Logo Brailleway"
-            className="w-20 md:w-16 sm:w-12"
+            className="w-20 md:w-13 sm:w-12"
           />
         </div>
 
@@ -87,7 +89,7 @@ export default function Header() {
           onClick={() => setIsOpen(true)}
           className="md:hidden focus:outline-none"
         >
-          <img alt="Menu" className="w-6 h-6" />
+          <Image width={44} height={33} src='/home/sort.png' alt="Menu" className="w-6 h-6" />
         </button>
       </div>
 
@@ -102,10 +104,7 @@ export default function Header() {
         `}
       >
         <div className="flex items-center justify-between px-4 py-4 border-b">
-          <img
-            alt="Logo Brailleway"
-            className="w-16 sm:w-14"
-          />
+          imagem
           <button
             onClick={() => setIsOpen(false)}
             className="focus:outline-none"

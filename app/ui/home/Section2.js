@@ -1,4 +1,5 @@
 // src/components/VoceImporta.jsx
+import Image from 'next/image'
 import React from 'react'
 
 
@@ -43,8 +44,8 @@ export default function VoceImporta() {
         <div className="w-full md:w-1/2 flex justify-center">
             <div className='w-121 h-140'>
                 <div className="relative">
-                    <img
-                        
+                    <Image
+                        src="/home/caraDaJaquetaAmarela.png"
                         alt=""
                         className="absolute z-10 block rounded-lg object-cover w-full h-auto"
                         width={486}

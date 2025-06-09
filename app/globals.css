@@ -1,5 +1,62 @@
 @import "tailwindcss";
 
+@theme {
+    --breakpoint-xs: 25rem;
+    --shadow-3xl: 0 35px 35px rgba(0, 0, 0, 0.25);
+}
+
+@font-face {
+    font-family: "Urbanist-semibold";
+    src: url(/fonts/Urbanist/Urbanist-SemiBold.ttf) format("truetype");
+}
+
+
+@font-face {
+    font-family: "Urbanist-bold";
+    src: url(/fonts/Urbanist/Urbanist-Bold.ttf) format("truetype");
+}
+
+
+@font-face {
+    font-family: "Urbanist-medium";
+    src: url(/fonts/Urbanist/Urbanist-Medium.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-medium";
+    src: url(/fonts/Poppins/Poppins-Medium.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-regular";
+    src: url(/fonts/Poppins/Poppins-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-bold";
+    src: url(/fonts/Poppins/Poppins-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-semibold";
+    src: url(/fonts/Poppins/Poppins-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Inter-semibold";
+    src: url(/fonts/Inter/Inter-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Inter-medium";
+    src: url(/fonts/Inter/Inter-Medium.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Inter-bold";
+    src: url(/fonts/Inter/Inter_18pt-Bold.ttf) format("truetype");
+}
+
 .bg-gradient-roxo {
   background: linear-gradient(90deg, #cb6ce6 0%, #9700aa 100%);
 }

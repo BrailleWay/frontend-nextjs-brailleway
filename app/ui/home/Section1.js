@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 export default function Section1(){
@@ -5,9 +6,9 @@ export default function Section1(){
         <>
             <div className="">
                 <div className="flex flex-row mt-20 gap-40 items-center">
-                    <div className='flex items-end relative ml-20 w-213 h-177 justify-end'>
-                        <div className='absolute z-10'>
-                            <img className='object-cover h-180' src="./src/img/pessoa.png" alt="" />
+                    <div className='flex items-end relative  ml-20 w-213 h-177 justify-end'>
+                        <div className='absolute right-100 overflow-visible z-10'>
+                            <Image width={1080} height={1080}  className='object-cover  h-180' src="/home/familia.png" alt="" />
 
                         </div>
                         <div className="absolute rounded-4xl shadow-xl/40 shadow-cyan-500 bg-gradient-to-r from-blue-500 to-teal-400 p-6 lg:p-12 w-213 h-160">
@@ -31,9 +32,9 @@ export default function Section1(){
                         </div>
                         <div className='flex w-200 items-end'>
                             <div className='border rounded-full flex w-49 h-22 relative items-center justify-center'>
-                                <img className='p-2 absolute -left-[0.25px] z-1' src="./src/img/pessoa-container1.png"/>
-                                <img className='p-2 absolute z-10' src="./src/img/pessoa-container2.png"/>
-                                <img className='p-2 absolute -right-[0.1px] z-20' src="./src/img/pessoa-container3.png"/>
+                                <Image alt='' className='p-2 absolute -left-[0.25px] z-1 size-18' width={64} height={64} src="/home/pessoa-container1.png"/>
+                                <Image alt='' className='p-2 absolute z-10 size-18' width={64} height={64}  src="/home/pessoa-container2.png"/>
+                                <Image alt='' className='p-2 absolute -right-[0.1px] z-20 size-18' width={64} height={64}  src="/home/pessoa-container3.png"/>
                             </div>
                             <div className='ml-3 w-full h-22 flex items-center'>
                                 <p className='text-xl'><span className='font-["Urbanist-bold"]'>430+</span><span className='font-["Urbanist-semibold"]'>Usuários usam a Brailleway</span></p>
