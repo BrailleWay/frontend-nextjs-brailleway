@@ -6,9 +6,9 @@ export default function Section1(){
         <>
             <div className="">
                 <div className="flex flex-row mt-20 gap-40 items-center">
-                    <div className='flex items-end relative ml-20 w-213 h-177 justify-end'>
-                        <div className='absolute z-10'>
-                            <Image width={538} height={696}  className='object-cover h-180' src="/home/pessoa.png" alt="" />
+                    <div className='flex items-end relative  ml-20 w-213 h-177 justify-end'>
+                        <div className='absolute right-100 overflow-visible z-10'>
+                            <Image width={1080} height={1080}  className='object-cover  h-180' src="/home/familia.png" alt="" />
 
                         </div>
                         <div className="absolute rounded-4xl shadow-xl/40 shadow-cyan-500 bg-gradient-to-r from-blue-500 to-teal-400 p-6 lg:p-12 w-213 h-160">
