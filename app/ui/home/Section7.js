@@ -20,7 +20,7 @@ export default function Section7(){
                         ativo === 'avulso' ? 'text-blue-500 bg-white' : 'text-white bg-transparent'
                     }`}>Avulso</button>
                 </div>
-                <div id="planos" className=' mx-auto lg:justify-center sm:justify-center sm:mx-auto mt-4 gap-20 p-10 mb-10 md:mx-auto bg-white lg:mx-auto rounded-4xl  font-["Poppins-medium"]'>
+                <div id="planos" className='mx-2.5 lg:justify-center sm:justify-center sm:mx-auto mt-4 gap-20 p-10 mb-10 md:mx-auto bg-white lg:mx-auto rounded-4xl  font-["Poppins-medium"]'>
                     <div className=''>
                         
                         
@@ -34,8 +34,8 @@ export default function Section7(){
                                     exit={{ opacity: 0, y: -20 }}
                                     transition={{ duration: 0.4 }}
                                 >
-                                    <div className={`flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20`}>
-                            <div id="plano1" className=' space-y-3  p-10  flex flex-col hover:shadow-3xl hover:-translate-y-10 ease-in-out transition hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white'>
+                                    <div className={` flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20`}>
+                            <div id="plano1" className=' space-y-3  p-10  flex flex-col  hover:shadow-3xl hover:-translate-y-10 ease-in-out transition hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white'>
                                 <div className=' text-[#1C71E4] flex justify-end'><p className='bg-white rounded-4xl px-6 py-1 outline outline-[#6941EB] group-hover:outline-none transition duration-300 ease-in-out '>Mais Popular</p></div>
                                 <h2 className='group-hover:text-white text-4xl font-["Poppins-bold"] text-[#231D4F]'>R$19 <span className='text-gray-400 text-lg group-hover:text-white'>/mês</span></h2>
                                 <h3 className='group-hover:text-white text-[#231D4F] text-2xl'>Starter</h3>
