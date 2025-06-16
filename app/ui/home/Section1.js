@@ -4,42 +4,23 @@ import React from 'react';
 export default function Section1(){
     return(
         <>
-            <div className="">
-                <div className="flex flex-row mt-20 gap-40 items-center">
-                    <div className='flex items-end relative  ml-20 w-213 h-177 justify-end'>
-                        <div className='absolute right-100 overflow-visible z-10'>
-                            <Image width={1080} height={1080}  className='object-cover  h-180' src="/home/familia.png" alt="" />
+            <div className="container gap-60 md:gap-9 lg:gap-50 2xl:gap-20 mt-20 mb-20 mx-auto flex flex-col-reverse lg:flex-row">
 
-                        </div>
-                        <div className="absolute rounded-4xl shadow-xl/40 shadow-cyan-500 bg-gradient-to-r from-blue-500 to-teal-400 p-6 lg:p-12 w-213 h-160">
-                            <div className="text-white space-y-4 max-w-xs">
-                                <h3 className="text-5xl font-['Inter-semibold']">Ouça nossas Frequências</h3>
-                                <p className="text-3xl font-['Inter-medium']"> Teste grátis e tenha acesso a nossos sons para relaxar</p>
-                                <button className="font-['Inter-semibold'] mt-4 inline-block bg-white text-black w-44 h-14 text-xl px-5 py-2 rounded-full shadow hover:shadow-md transition"> Ouça agora </button>
-                            </div>
-                        </div>
+                <div id="container-esquerda" className='relative rounded-4xl lg:max-w-3xl w-full flex flex-row md:bg-gradient-to-r md:from-[#2180E1] md:from-24% md:via-[#3EC9D4] md:via-56% md:to-[#42D2D2] md:to-100%'>
+                    <div className='lg:h-125 md:h-80 w-full lg:max-w-sm space-y-2 md:z-0 z-10 flex flex-col items-center md:items-start rounded-4xl md:bg-transparent md:via-transparent md:to-transparent md:from-transparent bg-gradient-to-r from-[#2180E1] from-24% via-[#3EC9D4] via-56% to-[#42D2D2] to-100%'>
+                        <h2 className='text-white md:text-left text-center font-["Inter-semibold"] mt-10 text-4xl mx-10 md:max-w-sm'>Ouça nossas frequências</h2>
+                        <h3 className='text-white md:text-left text-center font-["Inter-medium"] mx-10 md:max-w-sm'>Teste gratis e tenha acesso a nossos sons para relaxar</h3>
+                        <button className='px-6.5 mb-5 bg-white text-black py-2.5 font-["Inter-semibold"] w-fit mx-10 mt-5 text-sm rounded-full'>Ouça Agora</button>
                     </div>
+                    <Image className='2xl:w-125 lg:w-125 lg:left-60 lg:bottom-0 md:w-80 absolute z-0 2xl:left-80 2xl:bottom-0 md:bottom-0.25 md:left-130 object-cover bottom-22' src="/home/familia.png" alt='' width={1080} height={1080} />
+                </div>
 
-                    <div className='flex flex-col w-200 h-160'>
-                        <div className='pb-2 border-b-2'>
-                            <h2 className='text-8xl h-46.5 mb-4'><span className='font-["Urbanist-medium"]'>Sua mente <br/> merece</span> <span className='text-[#1C71E4] font-["Urbanist-bold"]'>cuidados</span></h2>
-                        </div>
-                        <p className='text-xl mt-3 font-["Poppins-regular"]'>
-                            Para quem enxerga com o coração e sente com a alma, o <span className='text-[#1C71E4] font-["Poppins-bold"]'>Braille Way</span> abre portas para uma terapia mais humana, acessível e feita para transformar vidas.
-                        </p>
-                        <div className='flex flex-col h-full items-center justify-center'>
-                            <button className="font-['Poppins-medium'] text-2xl h-18 w-64 inline-block bg-gradient-to-r from-blue-500 to-teal-400 text-white  px-5 py-2 rounded-full shadow-md hover:shadow-md transition"> Cadastre-se </button>
-                        </div>
-                        <div className='flex w-200 items-end'>
-                            <div className='border rounded-full flex w-49 h-22 relative items-center justify-center'>
-                                <Image alt='' className='p-2 absolute -left-[0.25px] z-1 size-18' width={64} height={64} src="/home/pessoa-container1.png"/>
-                                <Image alt='' className='p-2 absolute z-10 size-18' width={64} height={64}  src="/home/pessoa-container2.png"/>
-                                <Image alt='' className='p-2 absolute -right-[0.1px] z-20 size-18' width={64} height={64}  src="/home/pessoa-container3.png"/>
-                            </div>
-                            <div className='ml-3 w-full h-22 flex items-center'>
-                                <p className='text-xl'><span className='font-["Urbanist-bold"]'>430+</span><span className='font-["Urbanist-semibold"]'>Usuários usam a Brailleway</span></p>
-                            </div>
-                        </div>
+                <div id="merece-cuidados" className='flex flex-col lg:max-w-2xl'>
+                    <h2 className='text-center lg:text-left lg:max-w-xl mb-8 text-7xl font-["Urbanist-medium"]'>Sua saúde merece <span className='font-["Urbanist-bold"] text-[#1C71E4]'>cuidados</span></h2>
+                    <div className='h-0.5 w-full mb-5 bg-black'></div>
+                    <h3 className='text-center lg:text-left font-["Poppins-regular"] text-xl'>Para quem enxerga com o coração e sente com a alma, a <span className='text-[#1C71E4] font-["Poppins-bold"]'>Acolhera</span> abre portas para consultas mais humanas, acessíveis e feitas para transformar vidas.</h3>
+                    <div className='w-full flex justify-center'>
+                        <button className='font-["Poppins-medium"] rounded-full text-white px-10 py-4.5 text-2xl mt-4 lg:mt-15 bg-gradient-to-r from-[#4090EC] from-0% via-[#1C71E4] via-51% to-[#44D7D1] to-100% w-fit'>Cadastre-se</button>
                     </div>
                 </div>
             </div>
