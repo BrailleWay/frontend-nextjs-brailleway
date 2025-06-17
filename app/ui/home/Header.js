@@ -11,6 +11,7 @@ import {
   X
 } from 'lucide-react'
 import Image from 'next/image';
+import { PopoverDemo } from '@/components/Popover';
 
 
 
@@ -52,12 +53,13 @@ export default function Header() {
 
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
         {/* Logo: w-20 no desktop, md:w-16 em <768px, sm:w-12 em <640px */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex flex-row items-center gap-10">
           <Image
             src='/home/logo.png' width={49} height={47}
             alt="Logo Brailleway"
             className="w-20 md:w-13 sm:w-12"
           />
+          <PopoverDemo />
         </div>
 
         {/* Menu desktop (oculto em md e sm) */}
