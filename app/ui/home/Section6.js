@@ -1,6 +1,6 @@
 "use client";
-import Button from "../components/Button";
-import AudioButton from "../../ui/components/AudioButton";
+import Button from "../../../components/Button";
+import AudioButton from "../../../components/AudioButton";
 
 export const Section6 = () => {
     return (
