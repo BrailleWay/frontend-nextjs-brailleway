@@ -14,7 +14,7 @@ export default function Section1() {
                     className="img-vazada"
                 />
                 <div id="container-esquerda">
-                    <div className="w-full px-4 py-8 space-y-4 z-10">
+                    <div className="w-full  space-y-4 z-10">
                         <h2 className="text-white text-center md:text-left font-['Inter-semibold'] text-4xl md:max-w-sm">
                             Ouça nossas<br/> frequências
                         </h2>
@@ -30,7 +30,7 @@ export default function Section1() {
                                 fontFamily: 'Inter, sans-serif',
                                 fontWeight: 500,
                                 fontSize: '1rem',
-                                margin: '0rem -0.8rem',
+                                margin: '0rem 0rem',
                                 boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
                                 position: 'relative',
                             }}
