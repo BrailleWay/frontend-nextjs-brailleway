@@ -55,7 +55,7 @@ export default function Header() {
         {/* Logo: w-20 no desktop, md:w-16 em <768px, sm:w-12 em <640px */}
         <div className="flex-shrink-0 flex flex-row items-center gap-10">
           <Image
-            src='/home/logo.png' width={49} height={47}
+            src='/logo.png' width={49} height={47}
             alt="Logo Brailleway"
             className="w-20 md:w-13 sm:w-12"
           />
