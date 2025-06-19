@@ -1,11 +1,4 @@
-import { Urbanist, Poppins, Inter } from "next/font/google";
 import "./globals.css";
-
-const urbanist = Urbanist({
-  variable: "--font-urbanist-sans",
-  subsets: ["latin"],
-});
-
 
 
 export const metadata = {
@@ -15,7 +8,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body>
         {children}
       </body>

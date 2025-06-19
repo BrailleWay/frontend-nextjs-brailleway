@@ -215,6 +215,7 @@ model Especialidade {
 model Medico {
   id               Int                     @id @default(autoincrement()) @map("medico_id")
   nome             String                  @db.VarChar(255)
+  senha            String                  @db.VarChar(255)
   crm              String                  @unique @db.VarChar(20)
   email            String                  @unique @db.VarChar(255)
   telefone         String                  @db.VarChar(255)
