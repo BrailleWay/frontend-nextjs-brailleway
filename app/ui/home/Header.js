@@ -46,17 +46,25 @@ export default function Header() {
     <header className="relative">
       {/* Overlay (aparece apenas quando isOpen === true) */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
       />
 
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
         {/* Logo: w-20 no desktop, md:w-16 em <768px, sm:w-12 em <640px */}
         <div className="flex-shrink-0 flex flex-row items-center gap-10">
           <Image
-            src='/logo.png' width={49} height={47}
-            alt="Logo Brailleway"
+            src='/home/brailleway_logo.png' width={500} height={500}
+            alt=" No canto esquerdo do cabeçalho, sobre um fundo branco, está posicionada a logo da Braille Way.
+A logo tem a forma de um quadrado com cantos arredondados. Esse quadrado possui um degradê suave 
+que remete à brisa do mar:
+começa na borda inferior direita com um tom verde-água claro , passa por um azul vivo no centro , 
+e termina na parte superior com um azul mais claro e radiante .
+Dentro do quadrado há um ícone de óculos escuros, simbolizando acessibilidade visual.
+À direita do quadrado está o nome da marca: a palavra “Braille”, escrita em azul e em negrito, seguida logo abaixo pela palavra “Way”, 
+em preto e sem negrito, formando “Braille Way”.
+Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, representando o valor central da marca: inclusão e acolhimento."
+
             className="w-20 md:w-13 sm:w-12"
           />
           <PopoverDemo />
@@ -72,10 +80,10 @@ export default function Header() {
               <a href="#">Como funciona</a>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Sou psicólogo</a>
+              <a href="#">Sou especialista</a>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Procurar psicólogo</a>
+              <a href="#">Procurar especialista</a>
             </li>
             <li className="hover:text-[#338DEF]">
               <a href="#">Login</a>

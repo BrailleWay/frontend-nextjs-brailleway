@@ -10,7 +10,15 @@ export default function Section1() {
             <div className="relative   flex justify-center items-center ">
                 <img
                     src="/home/familia (4).png"
-                    alt="família"
+                    alt="A imagem é composta por um fundo em formato de quadrado com um degradê que começa na borda inferior direita com um tom verde-água claro, transita para um azul vivo no centro e finaliza na parte superior com um azul mais claro e radiante, refletindo as cores da logo.
+
+Em frente a esse fundo colorido, há um homem enquadrado do peito para cima. Ele está olhando para a direita, levemente para cima, com uma expressão sorridente. É careca,  além de sobrancelhas finas e um nariz um pouco mais alongado.
+
+Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala preta que possui três listras azuis.
+
+À direita da imagem, fora do quadrado colorido, há um texto posicionado logo abaixo do cabeçalho, sobre um fundo branco.
+
+"
                     className="img-vazada"
                 />
                 <div id="container-esquerda">
