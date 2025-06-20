@@ -77,6 +77,7 @@ export default function Section1() {
                         hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.28)]
                         hover:scale-105
                         active:scale-100
+                        cursor-pointer
                         "
                     >
                       Cadastre-se
