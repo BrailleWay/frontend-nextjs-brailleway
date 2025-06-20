@@ -24,13 +24,13 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
                 <div id="container-esquerda">
                     <div className="w-full  space-y-4 z-0">
                         <h2 className="text-white text-center md:text-left font-['Inter-semibold'] text-4xl md:max-w-sm">
-                            Ouça nossas<br/> frequências
+                            Ouça nossas<br /> frequências
                         </h2>
                         <h3 className="text-white text-center md:text-left font-regular font-inter text-base md:max-w-sm">
                             Teste grátis<br /> e tenha acesso <br />a nossos sons <br />para relaxar
                         </h3>
-                        
-                          <Button
+
+                        <Button
                             style={{
                                 background: 'white',
                                 color: '#1c1c1c',
@@ -43,10 +43,10 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
                                 boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
                                 position: 'relative',
                             }}
-                          >
+                        >
                             Ouça Agora
-                          </Button>
-                         
+                        </Button>
+
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
                 </h3>
                 <div className="w-full flex justify-center lg:justify-start">
                     <button
-                      className="
+                        className="
                         font-['Poppins-regular']
                         rounded-full
                         text-white
@@ -88,7 +88,7 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
                         cursor-pointer
                         "
                     >
-                      Cadastre-se
+                        Cadastre-se
                     </button>
                 </div>
             </div>

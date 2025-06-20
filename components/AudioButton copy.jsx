@@ -22,13 +22,16 @@ export default function AutoPlayAudio({ src, buttonClassName = "", imgClassName 
 
   // 🎯 Disparar áudio automaticamente no primeiro clique em qualquer lugar da página
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.1; // 🔊 Ajuste de volume (20%)
+    }
+
     const handleUserInteraction = () => {
       if (audioRef.current) {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
           .catch(err => console.log("Erro ao tocar áudio:", err));
 
-        // Remove o listener após tocar uma vez
         window.removeEventListener('click', handleUserInteraction);
       }
     };
