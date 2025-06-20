@@ -63,7 +63,7 @@ e termina na parte superior com um azul mais claro e radiante .
 Dentro do quadrado há um ícone de óculos escuros, simbolizando acessibilidade visual.
 À direita do quadrado está o nome da marca: a palavra “Braille”, escrita em azul e em negrito, seguida logo abaixo pela palavra “Way”, 
 em preto e sem negrito, formando “Braille Way”.
-Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, representando o valor central da marca: inclusão e acolhimento."
+Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, representando o valor central da marca: inclusão e acolhimento"
 
             className="w-20 md:w-13 sm:w-12"
           />
