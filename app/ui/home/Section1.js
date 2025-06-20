@@ -14,14 +14,15 @@ export default function Section1() {
                     className="img-vazada"
                 />
                 <div id="container-esquerda">
-                    <div className="w-full  space-y-4 z-10">
+                    <div className="w-full  space-y-4 z-0">
                         <h2 className="text-white text-center md:text-left font-['Inter-semibold'] text-4xl md:max-w-sm">
                             Ouça nossas<br/> frequências
                         </h2>
                         <h3 className="text-white text-center md:text-left font-regular font-inter text-base md:max-w-sm">
                             Teste grátis<br /> e tenha acesso <br />a nossos sons <br />para relaxar
                         </h3>
-                        <Button
+                        
+                          <Button
                             style={{
                                 background: 'white',
                                 color: '#1c1c1c',
@@ -34,9 +35,10 @@ export default function Section1() {
                                 boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
                                 position: 'relative',
                             }}
-                        >
+                          >
                             Ouça Agora
-                        </Button>
+                          </Button>
+                         
                     </div>
                 </div>
             </div>
