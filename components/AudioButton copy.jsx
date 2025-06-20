@@ -14,12 +14,8 @@ export default function AudioPlayer({
   const handlePlayPause = () => {
     if (!audioRef.current) return;
     if (!isPlaying) {
-      try {
-        audioRef.current.play();
-        setIsPlaying(true);
-      } catch (error) {
-        console.error("Erro ao tentar tocar áudio:", error);
-      }
+      audioRef.current.play();
+      setIsPlaying(true);
     } else {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -36,7 +32,7 @@ export default function AudioPlayer({
           await audioRef.current.play();
           setIsPlaying(true);
         } catch (error) {
-          console.warn("Autoplay bloqueado pelo navegador:", error);
+          console.warn("Autoplay bloqueado:", error);
         }
       };
       playAudio();
@@ -46,15 +42,7 @@ export default function AudioPlayer({
   return (
     <>
       <div
-        className={`
-          w-[60px] h-[60px]
-          bg-[#cb6ce6] rounded-full 
-          flex items-center justify-center 
-          cursor-pointer transition duration-200 
-          hover:bg-[#b24dd7] hover:scale-110 
-          absolute z-10
-          ${buttonClassName}
-        `}
+        className={`w-[60px] h-[60px] bg-[#cb6ce6] rounded-full flex items-center justify-center cursor-pointer transition duration-200 hover:bg-[#b24dd7] hover:scale-110 absolute z-10 ${buttonClassName}`}
         onClick={handlePlayPause}
         tabIndex={0}
         role="button"
