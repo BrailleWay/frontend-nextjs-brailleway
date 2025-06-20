@@ -179,6 +179,13 @@
   }
 }
 
+
+@media (max-width: 639px) {
+   h2 {
+    font-size: 3rem;
+  }
+}
+
 #container-esquerda h2 {
   font-size: 2rem;
 }
