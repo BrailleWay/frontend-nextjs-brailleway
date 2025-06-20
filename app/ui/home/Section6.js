@@ -122,11 +122,11 @@ export const Section6 = () => {
                             <Button >Ouça mais</Button>
                         </div>
                     </div>
-                    <img
+                 {   /* <img
                         className="absolute w-[950] h-[950px] top-10 left-[800px] object-cover"
                         alt="Image"
                         src="/imgHome/FoneDeOuvido.png"
-                    />
+                    />*/}
                 </div>
             </div>
         </div>

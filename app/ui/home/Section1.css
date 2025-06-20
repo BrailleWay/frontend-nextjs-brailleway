@@ -22,8 +22,8 @@
 /* Telas grandes */
 @media (min-width: 1024px) {
   #container-esquerda {
-    max-width: 700px;
-    padding: 2rem 5rem;
+    max-width: 800px;
+    padding: 2rem 10rem;
     border-radius: 2.5rem;
   }
 }
@@ -65,17 +65,18 @@
 
 @media (min-width: 768px) {
   .img-vazada {
-    width: 200px;
-    top: -60px;
+    width: 340px;
+    top: -48px;
+    margin-left: 7rem;
   }
 }
 
 /* Telas grandes */
 @media (min-width: 1024px) {
   .img-vazada {
-     width: 450px;
-    margin-left: 4rem;
-    margin-top: 4rem;
+     width: 400px;
+    margin-left: 1rem;
+    margin-top: 3.6rem;
   
   }
 }
@@ -83,27 +84,37 @@
 @media (min-width: 1280px) {
   .img-vazada {
     width: 450px;
-    margin-left: 7rem;
+    margin-left: 6rem;
     margin-top: 1.3rem;
       top: -80px;
 
   }
 }
 
+@media (min-width: 768px) {
+  #container-esquerda h2,#container-esquerda ,
+  #container-esquerda h3 {
+    text-align: left;      /* ou left, center, conforme desejar */
+    margin-left:0rem;      /* exemplo: afasta da esquerda */
+    margin-right: 0rem;        /* exemplo: encosta na direita */
+  }
+}
+
  
  @media (min-width: 1024px) {
-  #container-esquerda h2,
+  #container-esquerda h2,#container-esquerda ,
   #container-esquerda h3 {
-    text-align: right;      /* ou left, center, conforme desejar */
-    margin-left: 4rem;      /* exemplo: afasta da esquerda */
-    margin-right: 10;        /* exemplo: encosta na direita */
+    text-align: left;      /* ou left, center, conforme desejar */
+    margin-left: 0rem;      /* exemplo: afasta da esquerda */
+    margin-right: 0rem;  
+  
   }
 }
 
 
 
 @media (min-width: 1280px) {
-  #container-esquerda h2, 
+  #container-esquerda h2, #container-esquerda button,
   #container-esquerda h3 {
     text-align: left;      /* ou left, center, conforme desejar */
     margin-left: 0.5rem;      /* exemplo: afasta da esquerda */
@@ -140,4 +151,5 @@
     font-size: 0.9rem;
 
  }
+
 
