@@ -1,3 +1,4 @@
+ 
 import LoginLogout from "@/components/teste/login-logout";
 import Footer from "../ui/home/Footer";
 import Header from "../ui/home/Header";
@@ -8,11 +9,13 @@ import Section4 from "../ui/home/Section4";
 import Section5 from "../ui/home/Section5";
 import Section6 from "../ui/home/Section6";
 import Section7 from "../ui/home/Section7";
+ 
 
 
 export default function Home() {
   return (
     <>
+     
       <LoginLogout />
       <Header />
       <Section1 />

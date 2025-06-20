@@ -29,10 +29,16 @@ export const Section6 = () => {
                             <div className="absolute w-[200px] top-[40px] left-[110px] font-semibold text-[#fff] text-2xl leading-tight">
                                 Áudio Principal
                             </div>
+
+
+
                             <AudioButton
                                 src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"
                                 buttonClassName="w-[60px] h-[60px] top-6 left-6"
                                 imgClassName="w-[32px] h-8"
+
+                           
+                               
                             />
                         </div>
                         {/* Bloco 2 */}

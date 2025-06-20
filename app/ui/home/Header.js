@@ -173,7 +173,27 @@ Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, re
             <li>
               <a
                 href="#"
-                className="flex items-center justify-center space-x-2 rounded-full w-full h-12 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200"
+                className="flex
+    items-center
+    justify-center
+    space-x-2
+    rounded-full
+    w-full
+    h-12
+    bg-[#338DEF]
+    text-white
+    hover:bg-blue-600
+    transition-colors
+    duration-200
+    cursor-pointer
+    font-medium
+    text-base
+    shadow-md
+    hover:shadow-lg
+    active:scale-95
+    active:shadow-inner
+    
+  "
               >
                 <UserPlus size={20} />
                 <span>Cadastre-se</span>
