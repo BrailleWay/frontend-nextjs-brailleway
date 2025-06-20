@@ -34,10 +34,10 @@ export const Section6 = () => {
 
 
                             <AutoPlayAudio
-                                src="/audios/432 hz FREQUÊNCIA PARA EXPANDIR A CONSCIÊNCIA  Elevar a Vibração, Meditação Profunda, Paz (mp3cut.net).mp3"
+                                src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"
                                 buttonClassName="w-[60px] h-[60px] top-6 left-6"
                                 imgClassName="w-[32px] h-8"
-                              
+
                            
                                
                             />
