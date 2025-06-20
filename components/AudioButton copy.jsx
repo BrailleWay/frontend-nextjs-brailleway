@@ -1,10 +1,13 @@
-//este componente é usado para tocar um áudio quando o usuário clica no botão
-
-
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
-export default function AudioButton({ src, buttonClassName = "", imgClassName = "" }) {
+export default function AudioPlayer({
+  src,
+  buttonClassName = "",
+  imgClassName = "",
+  autoPlay = true,
+  volume = 0.2,
+}) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -23,17 +26,42 @@ export default function AudioButton({ src, buttonClassName = "", imgClassName = 
     }
   };
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+    if (autoPlay && audioRef.current) {
+      const playAudio = async () => {
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.warn("Autoplay bloqueado pelo navegador:", error);
+        }
+      };
+      playAudio();
+    }
+  }, [autoPlay, volume]);
+
   return (
     <>
       <div
-        className={`bg-[#cb6ce6] rounded-full flex items-center justify-center cursor-pointer transition duration-200 hover:bg-[#b24dd7] hover:scale-110 absolute z-10 ${buttonClassName}`}
+        className={`
+          w-[60px] h-[60px]
+          bg-[#cb6ce6] rounded-full 
+          flex items-center justify-center 
+          cursor-pointer transition duration-200 
+          hover:bg-[#b24dd7] hover:scale-110 
+          absolute z-10
+          ${buttonClassName}
+        `}
         onClick={handlePlayPause}
         tabIndex={0}
         role="button"
         aria-label={isPlaying ? "Pausar áudio" : "Tocar áudio"}
       >
         <img
-          className={`pointer-events-none ${imgClassName}`}
+          className={`w-[28px] h-[28px] pointer-events-none ${imgClassName}`}
           src={isPlaying ? "/imgHome/Pause.png" : "/imgHome/Play.png"}
           alt={isPlaying ? "Pausar" : "Tocar"}
         />

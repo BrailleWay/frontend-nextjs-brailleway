@@ -1,6 +1,7 @@
 "use client";
 import Button from "../../../components/Button";
 import AudioButton from "../../../components/AudioButton";
+import AudioPlayer from "../../../components/AudioButton copy";
 
 export const Section6 = () => {
     return (
@@ -33,8 +34,12 @@ export const Section6 = () => {
 
 
  
-                            <AudioButton
-                                src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"></AudioButton>
+                            <AudioPlayer
+                                src=" /audios/432 hz FREQUÊNCIA PARA EXPANDIR A CONSCIÊNCIA  Elevar a Vibração, Meditação Profunda, Paz (mp3cut.net) (3).mp3">
+
+
+
+                                </AudioPlayer>
  
                            
                          </div>
