@@ -9,7 +9,6 @@ export default async function LoginLogout() {
   return (
     <header className="p-4 bg-gray-100">
       <nav className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="font-bold text-xl">Telemed</Link>
         <div>
           {session?.user ? (
             <div className="flex items-center gap-4">
