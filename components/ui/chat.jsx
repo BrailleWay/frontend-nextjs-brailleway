@@ -11,6 +11,10 @@ import { MessageList } from "@/components/ui/message-list"
 import { PromptSuggestions } from "@/components/ui/prompt-suggestions"
 import Image from "next/image";
 
+import { motion } from "framer-motion";
+ 
+import { TypingEffect } from "./TypingEffect"; // <-- importa o TypingEffect certinho
+
 export function Chat({
   messages,
   handleSubmit,
@@ -140,7 +144,33 @@ export function Chat({
   return (
     <ChatContainer className={className}>
       {isEmpty && append && suggestions ? (
-        <PromptSuggestions label={`IA Brailinho`} append={append} suggestions={suggestions} ><Image alt="" src={`/logo.png`}width={50} height={50} /></PromptSuggestions>
+
+<PromptSuggestions
+  label={
+    <div className="flex items-center gap-3">
+      <motion.div
+        animate={{ y: [0, -4, 0] }}
+        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+      >
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={100}
+          height={80}
+          className="rounded-full"
+        />
+      </motion.div>
+
+      <TypingEffect
+        text="Olá, como posso te ajudar?"
+        className="text-[#2a2a2a]"
+      />
+    </div>
+  }
+  append={(value) => console.log("append", value)} // <-- testando se funciona
+  suggestions={["Qual seu nome?", "O que você faz?", "Me explique sobre IA"]}
+/>
+
       ) : null}
       {messages.length > 0 ? (
         <ChatMessages messages={messages}>
