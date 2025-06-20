@@ -32,15 +32,12 @@ export const Section6 = () => {
 
 
 
+ 
                             <AudioButton
-                                src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"
-                                buttonClassName="w-[60px] h-[60px] top-6 left-6"
-                                imgClassName="w-[32px] h-8"
-
+                                src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"></AudioButton>
+ 
                            
-                               
-                            />
-                        </div>
+                         </div>
                         {/* Bloco 2 */}
                         <div className="relative w-[320px] h-[260px] bg-light-gray-2 rounded-[20px] overflow-hidden bg-[#F8F8F8]">
                             <div className="inline-flex flex-col items-start gap-5 absolute top-[110px] left-8">
@@ -138,4 +135,6 @@ export const Section6 = () => {
         </div>
     );
 };
+
+
 export default Section6;
