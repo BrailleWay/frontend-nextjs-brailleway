@@ -1,7 +1,6 @@
 "use client";
 import Button from "../../../components/Button";
 import AudioButton from "../../../components/AudioButton";
-import AutoPlayAudio from "../../../components/AudioButton copy";
 
 export const Section6 = () => {
     return (
@@ -33,7 +32,7 @@ export const Section6 = () => {
 
 
 
-                            <AutoPlayAudio
+                            <AudioButton
                                 src="/audios/Black Green Modern Playful Abstract Marketing Proposal Presentation (3) (audio-extractor.net).mp3"
                                 buttonClassName="w-[60px] h-[60px] top-6 left-6"
                                 imgClassName="w-[32px] h-8"
