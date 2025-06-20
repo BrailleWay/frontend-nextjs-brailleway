@@ -35,7 +35,7 @@ export const Section6 = () => {
 
  
                             <AudioPlayer
-                                src=" /audios/432 hz FREQUÊNCIA PARA EXPANDIR A CONSCIÊNCIA  Elevar a Vibração, Meditação Profunda, Paz (mp3cut.net) (3).mp3">
+                                src="/audios/meditacao.mp3">
 
 
 
