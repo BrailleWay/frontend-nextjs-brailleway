@@ -7,7 +7,7 @@ export default function Section1() {
     return (
         <div className="container gap-16 md:gap-9 lg:gap-24 2xl:gap-20 mt-20 mb-20 mx-auto flex flex-col-reverse lg:flex-row px-4">
             {/* ESQUERDA */}
-            <div className="relative w-full flex justify-center items-center">
+            <div className="relative   flex justify-center items-center ">
                 <img
                     src="/home/familia (4).png"
                     alt="família"
@@ -26,11 +26,11 @@ export default function Section1() {
                             style={{
                                 background: 'white',
                                 color: '#1c1c1c',
-                                padding: '7px 23px',
+                                padding: '7px 17px',
                                 borderRadius: '9999px',
                                 fontFamily: 'Inter, sans-serif',
-                                fontWeight: 500,
-                                fontSize: '1rem',
+                                fontWeight: 400,
+                                fontSize: '0.9rem',
                                 margin: '0rem 0rem',
                                 boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
                                 position: 'relative',
@@ -60,7 +60,7 @@ export default function Section1() {
                         rounded-full
                         text-white
                         px-10
-                        py-4.5
+                        py-2.5
                         text-lg
                         md:text-2xl
                         mt-4

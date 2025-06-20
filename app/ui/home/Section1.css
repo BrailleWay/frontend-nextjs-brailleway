@@ -16,6 +16,17 @@
     max-width: 500px;
     padding: 2rem 2rem;
     border-radius: 2rem;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 768px) {
+  #container-esquerda {
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+    padding: 1rem 3rem;
+    border-radius: 2.5rem;
   }
 }
 
@@ -35,10 +46,8 @@
     padding: 0rem 0.5rem;
     border-radius: 3rem;
     padding-bottom: 0;
-     height: 390px;
-     width: 32.7rem;
-      
-
+    height: 390px;
+    width: 32.7rem;
   }
 }
 
@@ -46,110 +55,134 @@
   position: relative;
 }
 
+/* Estilo base da imagem (desktop) */
 .img-vazada {
   position: absolute;
-  top: -40px;      /* Ajuste para subir ou descer */
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
+  width: 350px;
   height: auto;
   z-index: 20;
-  pointer-events: none; /* Se quiser que clique passe para o quadrado */
+  pointer-events: none;
 }
 
-@media (min-width: 640px) {
+
+
+
+
+
+/* Telas menores que 768px → imagem pequena */
+@media (max-width: 765px) {
   .img-vazada {
-    width: 260px;
+    width: 330px;
+    top: -39px;
+    margin-left: 6rem;
   }
 }
 
-@media (min-width: 768px) {
+
+@media (min-width: 766px) {
   .img-vazada {
-    width: 340px;
-    top: -48px;
-    margin-left: 7rem;
+    width: 300px;
+    top: -40px;
+    margin-left: 8rem;
   }
 }
 
-/* Telas grandes */
+
+/* Telas menores que 768px → imagem pequena */
+@media (max-width: 640px) {
+  .img-vazada {
+    width:  300px;
+    top:  -25px;
+    margin-left: 6rem;
+  }
+}
+
+
+
+ 
+
+
+
+/* 1024px ou mais → imagem maior */
 @media (min-width: 1024px) {
   .img-vazada {
-     width: 400px;
+    width: 400px;
     margin-left: 1rem;
-    margin-top: 3.6rem;
-  
+    margin-top: 3rem;
   }
 }
 
+/* 1280px ou mais → imagem ainda maior */
 @media (min-width: 1280px) {
   .img-vazada {
     width: 450px;
     margin-left: 6rem;
     margin-top: 1.3rem;
-      top: -80px;
-
+    top: -80px;
   }
 }
+
+/* Textos */
+@media (min-width: 640px) {
+  #container-esquerda h2, #container-esquerda, #container-esquerda h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Textos */
+@media (max-width: 640px) {
+  #container-esquerda h2, #container-esquerda, #container-esquerda h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+} 
 
 @media (min-width: 768px) {
-  #container-esquerda h2,#container-esquerda ,
-  #container-esquerda h3 {
-    text-align: left;      /* ou left, center, conforme desejar */
-    margin-left:0rem;      /* exemplo: afasta da esquerda */
-    margin-right: 0rem;        /* exemplo: encosta na direita */
+  #container-esquerda h2, #container-esquerda, #container-esquerda h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
- 
- @media (min-width: 1024px) {
-  #container-esquerda h2,#container-esquerda ,
-  #container-esquerda h3 {
-    text-align: left;      /* ou left, center, conforme desejar */
-    margin-left: 0rem;      /* exemplo: afasta da esquerda */
-    margin-right: 0rem;  
-  
+@media (min-width: 1024px) {
+  #container-esquerda h2, #container-esquerda, #container-esquerda h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
-
-
 
 @media (min-width: 1280px) {
-  #container-esquerda h2, #container-esquerda button,
-  #container-esquerda h3 {
-    text-align: left;      /* ou left, center, conforme desejar */
-    margin-left: 0.5rem;      /* exemplo: afasta da esquerda */
-    margin-right: 0;        /* exemplo: encosta na direita */
+  #container-esquerda h2, #container-esquerda button, #container-esquerda h3 {
+    text-align: left;
+    margin-left: 0.5rem;
+    margin-right: 0;
     padding-top: 0rem;
   }
-}
 
-@media (min-width: 1280px) {
   #container-esquerda h2 {
-   
     padding-top: 2rem;
   }
 }
 
-
-
-
 @media (max-width: 639px) {
-    h2,h3 {
-     text-align: center;
-     margin-left: 0;
-     
-   
+  h2, h3 {
+    text-align: center;
+    margin-left: 0;
   }
 }
 
+#container-esquerda h2 {
+  font-size: 2rem;
+}
 
- #container-esquerda h2{
-    font-size: 2rem;
-    
- }
- #container-esquerda h3{
-    font-size: 0.9rem;
-
- }
-
-
+#container-esquerda h3 {
+  font-size: 0.9rem;
+}
