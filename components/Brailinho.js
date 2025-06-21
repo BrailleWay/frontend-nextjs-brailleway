@@ -1,6 +1,6 @@
 "use client"
  
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useChat } from "@ai-sdk/react"
  
@@ -23,6 +23,8 @@ const MODELS = [
 export function ChatDemo(props) {
   const [selectedModel, setSelectedModel] = useState(MODELS[0].id)
   const { data: session } = useSession()
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [awaitingVoice, setAwaitingVoice] = useState(false)
   const {
     messages,
     input,
@@ -39,6 +41,26 @@ export function ChatDemo(props) {
       model: selectedModel,
     },
   })
+
+  useEffect(() => {
+    if (!awaitingVoice && messages.length === 0) {
+      setMessages([{ role: "assistant", content: "Deseja conversar por voz?" }])
+      setAwaitingVoice(true)
+    }
+  }, [awaitingVoice, messages.length, setMessages])
+
+  useEffect(() => {
+    if (awaitingVoice) {
+      const firstUser = messages.find((m) => m.role === "user")
+      if (firstUser) {
+        const answer = firstUser.content.toLowerCase()
+        if (answer.includes("sim")) {
+          setVoiceEnabled(true)
+        }
+        setAwaitingVoice(false)
+      }
+    }
+  }, [messages, awaitingVoice])
  
   const isLoading = status === "submitted" || status === "streaming"
 
@@ -83,7 +105,7 @@ export function ChatDemo(props) {
         stop={stop}
         append={append}
         setMessages={setMessages}
-        transcribeAudio={transcribeAudio}
+        transcribeAudio={voiceEnabled ? transcribeAudio : undefined}
         suggestions={suggestions}
       />
     </div>
