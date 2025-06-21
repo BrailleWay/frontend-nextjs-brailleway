@@ -11,7 +11,7 @@ const google = createGoogleGenerativeAI({
 
 const buildGoogleGenAIPrompt = (messages) => {
   const systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar 
-  telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual.`;
+  telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual. Pode responder perguntas não relacionadas ao site também.`;
   return [{ role: "system", content: systemPrompt }, ...messages];
 };
 
@@ -29,7 +29,7 @@ export async function POST(request) {
   const modelId = requestBody.model;
 
   const stream = await streamText({
-    model: google(modelId || "gemini-2.0-flash"),
+    model: google(modelId || "gemini-2.5-flash-preview-05-20"),
     messages: buildGoogleGenAIPrompt(messages),
     temperature: 1,
   });

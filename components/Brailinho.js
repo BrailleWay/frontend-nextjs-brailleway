@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select"
  
 const MODELS = [
-  { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
+  { id: "gemini-2.5-flash-preview-05-20", name: "gemini-2.5-flash-preview-05-20" },
   { id: "", name: "" },
 ]
  
