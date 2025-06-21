@@ -42,7 +42,7 @@ export default function AudioPlayer({
   return (
     <>
       <div
-        className={`w-[60px] h-[60px] bg-[#cb6ce6] rounded-full flex items-center justify-center cursor-pointer transition duration-200 hover:bg-[#b24dd7] hover:scale-110 absolute z-10 ${buttonClassName}`}
+        className={`w-[60px] h-[60px] bg-[#4BA8FF] rounded-full flex items-center justify-center cursor-pointer transition duration-200 hover:bg-[#4BA8FF] hover:scale-110 absolute z-10 ${buttonClassName}`}
         onClick={handlePlayPause}
         tabIndex={0}
         role="button"
