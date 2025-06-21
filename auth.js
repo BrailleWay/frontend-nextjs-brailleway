@@ -20,43 +20,66 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        // Usando o modelo Paciente do seu schema
-        const user = await prisma.paciente.findUnique({
-          where: {
-            email: credentials.email,
-          },
+        // Primeiro tentamos autenticar como Paciente
+        const patient = await prisma.paciente.findUnique({
+          where: { email: credentials.email },
         });
 
-        if (!user) {
-          return null;
+        if (patient) {
+          const passwordsMatch = await bcrypt.compare(
+            credentials.password,
+            patient.senha
+          );
+
+          if (passwordsMatch) {
+            return {
+              id: patient.id.toString(),
+              name: patient.nome,
+              email: patient.email,
+              role: "paciente",
+            };
+          }
         }
 
-        const passwordsMatch = await bcrypt.compare(
-          credentials.password,
-          user.senha
-        );
+        // Em seguida tentamos autenticar como Médico
+        const doctor = await prisma.medico.findUnique({
+          where: { email: credentials.email },
+        });
 
-        if (!passwordsMatch) {
-          return null;
+        if (doctor) {
+          const passwordsMatch = await bcrypt.compare(
+            credentials.password,
+            doctor.senha
+          );
+
+          if (passwordsMatch) {
+            return {
+              id: doctor.id.toString(),
+              name: doctor.nome,
+              email: doctor.email,
+              role: "medico",
+            };
+          }
         }
-        
-        // Retorna o objeto do usuário sem a senha
-        // O Next-Auth usará isso para criar a sessão/JWT
-        return { id: user.id.toString(), name: user.nome, email: user.email };
+
+        // Se nenhum usuário for encontrado ou a senha estiver incorreta
+        return null;
       },
     }),
   ],
   callbacks: {
-    // Adiciona o ID do usuário ao token JWT e à sessão
+    // Adiciona o ID e a role do usuário ao token JWT e à sessão
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },

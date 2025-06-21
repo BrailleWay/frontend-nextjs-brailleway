@@ -8,7 +8,7 @@ export default function LoginPage() {
   async function handleLogin(formData) {
     "use server";
     try {
-      await signIn("credentials", formData);
+      await signIn("credentials", formData, { redirectTo: "/dashboard" });
     } catch (error) {
       // O erro de redirect é esperado e deve ser tratado pelo Next.js.
       // Verificamos se o erro é o específico de 'NEXT_REDIRECT'. Se for, o relançamos

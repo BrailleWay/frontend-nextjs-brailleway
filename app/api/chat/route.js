@@ -2,16 +2,25 @@
 
 import { streamText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-// import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_API_KEY || "",
 });
 
 
-const buildGoogleGenAIPrompt = (messages) => {
-  const systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar 
+const buildGoogleGenAIPrompt = (messages, role) => {
+  let systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar
   telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual. Pode responder perguntas não relacionadas ao site também.`;
+
+  if (role === "paciente") {
+    systemPrompt +=
+      " O usuário está autenticado como paciente. Ajude-o a consultar seus próprios dados e a agendar consultas.";
+  } else if (role === "medico") {
+    systemPrompt +=
+      " O usuário está autenticado como médico. Responda questões apenas sobre seus próprios dados e consultas.";
+  }
+
   return [{ role: "system", content: systemPrompt }, ...messages];
 };
 
@@ -28,9 +37,12 @@ export async function POST(request) {
   const messages = requestBody.messages || [];
   const modelId = requestBody.model;
 
+  const session = await auth();
+  const role = session?.user?.role;
+
   const stream = await streamText({
     model: google(modelId || "gemini-2.5-flash-preview-05-20"),
-    messages: buildGoogleGenAIPrompt(messages),
+    messages: buildGoogleGenAIPrompt(messages, role),
     temperature: 1,
   });
 
