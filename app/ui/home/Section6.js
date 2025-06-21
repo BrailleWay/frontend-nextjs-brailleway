@@ -25,7 +25,7 @@ export const Section6 = () => {
                     {/* IMG DESKTOP */}
                     <div className="hidden sm:flex w-full justify-end">
                         <img
-                            className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[600px] max-w-none object-contain"
+                            className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[500px] max-w-none object-contain"
                             src="/imgHome/FoneDeOuvido.png"
                             alt="Fone de Ouvido"
                         />
@@ -39,12 +39,11 @@ export const Section6 = () => {
                         max-w-[1300px] 
                         mx-auto 
                         lg:ml-24
-                        /* 🔥 Margem à esquerda apenas no desktop (a partir de lg = 1024px) */
                     "
                 >
 
                     {/* TÍTULOS */}
-                    <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-20">
+                    <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-16">
                         Precisa Relaxar? Ouvir um som relaxante? <br />
                         <span className="text-[#4BA8FF] font-regular">
                             Entre em nossa sala e relaxe!
@@ -52,7 +51,7 @@ export const Section6 = () => {
                     </div>
 
                     {/* BLOCOS */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {[
                             {
                                 title: "Áudio Principal",
@@ -92,18 +91,18 @@ export const Section6 = () => {
                                 key={idx}
                                 className={`font-poppins rounded-2xl overflow-hidden ${
                                     item.bg || "bg-[#F8F8F8]"
-                                } ${item.text || "text-[#343434]"} relative p-6 min-h-[240px]`}
+                                } ${item.text || "text-[#343434]"} relative p-4 min-h-[190px]`}
                             >
-                                <div className="text-2xl font-medium mb-2">
+                                <div className="text-xl font-medium mb-2">
                                     {item.title}
                                 </div>
                                 <p
-                                    className="font-light text-lg mb-4"
+                                    className="font-light text-base mb-3"
                                     style={{
                                         color:
                                             item.text === "text-white"
                                                 ? "#fff"
-                                                : "#5a5a5a", // descrição cinza escuro
+                                                : "#5a5a5a",
                                     }}
                                 >
                                     {item.desc}
@@ -113,8 +112,8 @@ export const Section6 = () => {
                                 ) : (
                                     <AudioButton
                                         src={item.src}
-                                        buttonClassName="w-[60px] h-[60px]"
-                                        imgClassName="w-8 h-8"
+                                        buttonClassName="w-[50px] h-[50px]"
+                                        imgClassName="w-6 h-6"
                                     />
                                 )}
                             </div>
@@ -122,7 +121,7 @@ export const Section6 = () => {
                     </div>
 
                     {/* BOTÃO */}
-                    <div className="mt-10">
+                    <div className="mt-8">
                         <Button>Ouça mais</Button>
                     </div>
                 </div>
