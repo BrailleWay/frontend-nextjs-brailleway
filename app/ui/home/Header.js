@@ -74,7 +74,7 @@ Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, re
         <nav className="hidden md:flex space-x-8 items-center">
           <ul className="flex space-x-8 items-center">
             <li className="hover:text-[#338DEF]">
-              <a href="#">Início</a>
+              <a href="/homepage">Início</a>
             </li>
             <li className="hover:text-[#338DEF]">
               <a href="#">Como funciona</a>
@@ -86,10 +86,10 @@ Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, re
               <a href="#">Procurar especialista</a>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Login</a>
+              <a href="/login">Login</a>
             </li>
             <li className="rounded-full flex justify-center items-center w-37 h-14 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200">
-              <a href="#">Cadastre-se</a>
+              <a href="/cadastro/paciente">Cadastre-se</a>
             </li>
           </ul>
         </nav>
