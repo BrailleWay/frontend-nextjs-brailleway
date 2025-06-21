@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image';
 import { PopoverDemo } from '@/components/Popover';
+import Link from 'next/link';
 
 
 
@@ -74,22 +75,22 @@ Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, re
         <nav className="hidden md:flex space-x-8 items-center">
           <ul className="flex space-x-8 items-center">
             <li className="hover:text-[#338DEF]">
-              <a href="/homepage">Início</a>
+              <Link href="/homepage">Início</Link>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Como funciona</a>
+              <Link href="#">Como funciona</Link>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Sou especialista</a>
+              <Link href="/cadastro/medico">Sou especialista</Link>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="#">Procurar especialista</a>
+              <Link href="#">Procurar especialista</Link>
             </li>
             <li className="hover:text-[#338DEF]">
-              <a href="/login">Login</a>
+              <Link href="/login">Login</Link>
             </li>
             <li className="rounded-full flex justify-center items-center w-37 h-14 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200">
-              <a href="/cadastro/paciente">Cadastre-se</a>
+              <Link href="/cadastro/paciente">Cadastre-se</Link>
             </li>
           </ul>
         </nav>
