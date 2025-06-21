@@ -1,11 +1,18 @@
 "use client";
 
-import { X } from "lucide-react";
+import { X, HeartPulse, Stethoscope, BriefcaseMedical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 export default function Section7() {
   const [ativo, setAtivo] = useState("planos");
+
+  const pulseAnimation = {
+    animate: {
+      scale: [1, 1.2, 1],
+      transition: { repeat: Infinity, duration: 1.2, ease: "easeInOut" },
+    },
+  };
 
   return (
     <div className="bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4,_#44D7D1)] w-full">
@@ -58,13 +65,16 @@ export default function Section7() {
                 <div className="flex flex-col lg:flex-row items-center justify-center gap-16">
 
                   {/* CARD 1 */}
-                  <div
-                    className="outline outline-gray-200 w-[340px] lg:w-[400px] space-y-6 p-10 rounded-4xl flex flex-col"
-                  >
+                  <div className="outline outline-gray-200 w-[340px] lg:w-[400px] space-y-6 p-10 rounded-4xl flex flex-col">
                     <h2 className='text-5xl font-["Poppins-Bold"] text-[#231D4F]'>
                       R$19 <span className="text-gray-400 text-xl">/mês</span>
                     </h2>
-                    <h3 className="text-[#231D4F] text-3xl">Starter</h3>
+                    <h3 className="text-[#231D4F] text-3xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <Stethoscope size={26} />
+                      </motion.div>
+                      Starter
+                    </h3>
                     <p className="text-gray-600 text-lg">Automação Básica</p>
                     <div className="space-y-4">
                       {["Multi-step Zaps", "Suporte Básico", "Integrações Limitadas"].map(
@@ -84,9 +94,7 @@ export default function Section7() {
                   </div>
 
                   {/* CARD DO MEIO */}
-                  <div
-                    className="outline outline-gray-200 w-[360px] lg:w-[420px] space-y-6 p-10 rounded-4xl flex flex-col bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] shadow-3xl scale-105"
-                  >
+                  <div className="outline outline-gray-200 w-[360px] lg:w-[420px] space-y-6 p-10 rounded-4xl flex flex-col bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] shadow-3xl scale-105">
                     <div className="flex justify-end">
                       <p className="bg-white text-[#1C71E4] rounded-4xl px-6 py-1 outline outline-[#1C71E4]">
                         Mais Popular
@@ -95,7 +103,12 @@ export default function Section7() {
                     <h2 className='text-white text-5xl font-["Poppins-Bold"]'>
                       R$29 <span className="text-xl">/mês</span>
                     </h2>
-                    <h3 className="text-white text-3xl">Profissional</h3>
+                    <h3 className="text-white text-3xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <HeartPulse size={26} />
+                      </motion.div>
+                      Profissional
+                    </h3>
                     <p className="text-white text-lg">Automação Profissional</p>
                     <div className="space-y-4">
                       {["Multi-step Zaps", "Suporte Premium", "Integrações Ilimitadas"].map(
@@ -115,13 +128,16 @@ export default function Section7() {
                   </div>
 
                   {/* CARD 3 */}
-                  <div
-                    className="outline outline-gray-200 w-[340px] lg:w-[400px] space-y-6 p-10 rounded-4xl flex flex-col"
-                  >
+                  <div className="outline outline-gray-200 w-[340px] lg:w-[400px] space-y-6 p-10 rounded-4xl flex flex-col">
                     <h2 className='text-5xl font-["Poppins-Bold"] text-[#231D4F]'>
                       R$49 <span className="text-gray-400 text-xl">/mês</span>
                     </h2>
-                    <h3 className="text-[#231D4F] text-3xl">Enterprise</h3>
+                    <h3 className="text-[#231D4F] text-3xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <BriefcaseMedical size={26} />
+                      </motion.div>
+                      Enterprise
+                    </h3>
                     <p className="text-gray-600 text-lg">Soluções Avançadas</p>
                     <div className="space-y-4">
                       {["Multi-step Zaps", "Suporte Dedicado", "Integrações Customizadas"].map(
@@ -150,8 +166,22 @@ export default function Section7() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                {/* Conteúdo Avulso */}
-                <div className="text-black">Conteúdo Avulso</div>
+                {/* TELA AVULSO */}
+                <div className="flex flex-col items-center justify-center text-center gap-10">
+                  <h2 className='text-[#231D4F] text-5xl font-["Poppins-Bold"]'>
+                    Consulta Avulsa
+                  </h2>
+                  <p className="text-gray-600 text-lg lg:w-[60%]">
+                    Ideal para quem busca um atendimento pontual, sem compromissos mensais.  
+                    A flexibilidade que você precisa, com a qualidade que merece.
+                  </p>
+                  <h3 className='text-4xl text-[#1C71E4] font-["Poppins-Bold"]'>
+                    R$80 <span className="text-gray-500 text-xl">por consulta</span>
+                  </h3>
+                  <button className="mt-4 py-4 rounded-full bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] text-white text-lg w-[250px] cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">
+                    Comprar Agora
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
