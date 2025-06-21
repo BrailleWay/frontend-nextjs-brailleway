@@ -8,13 +8,13 @@
 
 .texto-preto {
   color: #343434;
-  font-family: 'Inter', sans-serif;
+  font-family: 'poppins', sans-serif;
   font-weight: 500;
 }
 
 .texto-azul {
   color: #1C71E4;
-  font-family: 'Inter', sans-serif;
+  font-family: 'poppins', sans-serif;
   font-weight: 600;
 }
 
@@ -160,7 +160,7 @@
   margin-left: auto;
   margin-right: auto;
   padding: 2rem 1rem;
-  margin-top: 2rem; /* 
+  margin-top: 4rem; /* 
   
   🔥 Diminui o espaço do topo */
 }
