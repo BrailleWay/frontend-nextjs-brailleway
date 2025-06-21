@@ -1,4 +1,11 @@
-'use client';
+/* Mantendo comentários intactos */
+/* Texto padrão #3C3C3C */
+/* Hover azul #338DEF */
+/* Bolinha indicadora sempre na lateral esquerda */
+/* Botão "Cadastre-se" compacto */
+/* 🔥 AUMENTADO o espaçamento dos tópicos (desktop e mobile) */
+
+'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -10,10 +17,8 @@ import {
   UserPlus,
   X
 } from 'lucide-react'
-import Image from 'next/image';
-import { PopoverDemo } from '@/components/Popover';
-
-
+import Image from 'next/image'
+import { PopoverDemo } from '@/components/Popover'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -42,158 +47,124 @@ export default function Header() {
     }
   }, [isOpen])
 
+  // 🔥 Página atual simulada (troque aqui pra testar)
+  const currentPage = 'Início'
+
   return (
     <header className="relative">
       {/* Overlay (aparece apenas quando isOpen === true) */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
       />
 
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
-        {/* Logo: w-20 no desktop, md:w-16 em <768px, sm:w-12 em <640px */}
+        {/* Logo */}
         <div className="flex-shrink-0 flex flex-row items-center gap-10">
           <Image
-            src='/home/brailleway_logo.png' width={500} height={500}
-            alt=" No canto esquerdo do cabeçalho, sobre um fundo branco, está posicionada a logo da Braille Way.
-A logo tem a forma de um quadrado com cantos arredondados. Esse quadrado possui um degradê suave 
-que remete à brisa do mar:
-começa na borda inferior direita com um tom verde-água claro , passa por um azul vivo no centro , 
-e termina na parte superior com um azul mais claro e radiante .
-Dentro do quadrado há um ícone de óculos escuros, simbolizando acessibilidade visual.
-À direita do quadrado está o nome da marca: a palavra “Braille”, escrita em azul e em negrito, seguida logo abaixo pela palavra “Way”, 
-em preto e sem negrito, formando “Braille Way”.
-Logo abaixo da logo visual, está escrita a palavra “acolher” em braille, representando o valor central da marca: inclusão e acolhimento"
-
+            src="/home/brailleway_logo.png"
+            width={500}
+            height={500}
+            alt="Logo da Braille Way"
             className="w-20 md:w-13 sm:w-12"
           />
           <PopoverDemo />
         </div>
 
-        {/* Menu desktop (oculto em md e sm) */}
-        <nav className="hidden md:flex space-x-8 items-center">
-          <ul className="flex space-x-8 items-center">
-            <li className="hover:text-[#338DEF]">
-              <a href="#">Início</a>
-            </li>
-            <li className="hover:text-[#338DEF]">
-              <a href="#">Como funciona</a>
-            </li>
-            <li className="hover:text-[#338DEF]">
-              <a href="#">Sou especialista</a>
-            </li>
-            <li className="hover:text-[#338DEF]">
-              <a href="#">Procurar especialista</a>
-            </li>
-            <li className="hover:text-[#338DEF]">
-              <a href="#">Login</a>
-            </li>
-            <li className="rounded-full flex justify-center items-center w-37 h-14 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200">
-              <a href="#">Cadastre-se</a>
+        {/* Menu desktop */}
+        <nav className="hidden md:flex space-x-10 items-center">
+          <ul className="flex space-x-10 items-center text-[#3C3C3C]">
+            {[
+              { label: 'Início', href: '#' },
+              { label: 'Como funciona', href: '#' },
+              { label: 'Sou especialista', href: '#' },
+              { label: 'Procurar especialista', href: '#' },
+              { label: 'Login', href: '#' }
+            ].map((item) => (
+              <li
+                key={item.label}
+                className={`relative flex items-center gap-2 ${
+                  currentPage === item.label ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
+                } hover:text-[#338DEF] transition-colors duration-200`}
+              >
+                {/* 🔵 Indicador (bolinha) lateral */}
+                {currentPage === item.label && (
+                  <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
+                )}
+                <a href={item.href} className="block">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+
+            {/* 🔥 Botão "Cadastre-se" */}
+            <li>
+              <a
+                href="#"
+                className="flex items-center justify-center rounded-full bg-[#338DEF] text-white px-5 py-2 text-sm hover:bg-blue-600 transition-all duration-200 shadow-sm active:scale-95"
+              >
+                Cadastre-se
+              </a>
             </li>
           </ul>
         </nav>
 
+        {/* Botão menu mobile */}
         <button
           id="hamburger-button"
           onClick={() => setIsOpen(true)}
           className="md:hidden focus:outline-none"
         >
-          <Image width={44} height={33} src='/home/sort.png' alt="Menu" className="w-6 h-6" />
+          <Image width={44} height={33} src="/home/sort.png" alt="Menu" className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Drawer lateral (aparece em md e sm) */}
+      {/* Drawer lateral (menu mobile) */}
       <aside
         ref={drawerRef}
-        className={`
-          fixed top-0 left-0 h-full bg-white shadow-lg z-50
-          transform transition-transform duration-300
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          w-64  /* ocupa ~75% da tela em mobile; ajuste se quiser maior/menor */
-        `}
+        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } w-64`}
       >
         <div className="flex items-center justify-between px-4 py-4 border-b">
           imagem
-          <button
-            onClick={() => setIsOpen(false)}
-            className="focus:outline-none"
-          >
+          <button onClick={() => setIsOpen(false)} className="focus:outline-none">
             <X size={24} />
           </button>
         </div>
 
-        <nav className="mt-4 px-4">
-          <ul className="space-y-4">
+        <nav className="mt-6 px-4">
+          <ul className="space-y-6 text-[#3C3C3C]">
+            {[
+              { label: 'Início', icon: <Home size={20} />, href: '#' },
+              { label: 'Como funciona', icon: <Info size={20} />, href: '#' },
+              { label: 'Sou psicólogo', icon: <UserCheck size={20} />, href: '#' },
+              { label: 'Procurar psicólogo', icon: <Search size={20} />, href: '#' },
+              { label: 'Login', icon: <LogIn size={20} />, href: '#' }
+            ].map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className={`flex items-center space-x-3 ${
+                    currentPage === item.label ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
+                  } hover:text-[#338DEF] transition-colors duration-200 relative`}
+                >
+                  {/* 🔵 Bolinha lateral */}
+                  {currentPage === item.label && (
+                    <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
+                  )}
+                  {item.icon}
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            ))}
+
+            {/* 🔥 Botão "Cadastre-se" mobile */}
             <li>
               <a
                 href="#"
-                className="flex items-center space-x-3 hover:text-[#338DEF] transition-colors duration-200"
-              >
-                <Home size={20} />
-                <span>Início</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 hover:text-[#338DEF] transition-colors duration-200"
-              >
-                <Info size={20} />
-                <span>Como funciona</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 hover:text-[#338DEF] transition-colors duration-200"
-              >
-                <UserCheck size={20} />
-                <span>Sou psicólogo</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 hover:text-[#338DEF] transition-colors duration-200"
-              >
-                <Search size={20} />
-                <span>Procurar psicólogo</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center space-x-3 hover:text-[#338DEF] transition-colors duration-200"
-              >
-                <LogIn size={20} />
-                <span>Login</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex
-    items-center
-    justify-center
-    space-x-2
-    rounded-full
-    w-full
-    h-12
-    bg-[#338DEF]
-    text-white
-    hover:bg-blue-600
-    transition-colors
-    duration-200
-    cursor-pointer
-    font-medium
-    text-base
-    shadow-md
-    hover:shadow-lg
-    active:scale-95
-    active:shadow-inner
-    
-  "
+                className="flex items-center justify-center space-x-2 rounded-full w-full h-11 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer font-medium text-sm shadow-md hover:shadow-lg active:scale-95"
               >
                 <UserPlus size={20} />
                 <span>Cadastre-se</span>
