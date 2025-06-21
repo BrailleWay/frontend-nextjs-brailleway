@@ -1,0 +1,166 @@
+/* 🎨 Tipografia */
+.titulo-principal {
+  font-size: 2.6rem;
+  line-height: 1;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+.texto-preto {
+  color: #343434;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.texto-azul {
+  color: #1C71E4;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.subtitulo {
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #343434;
+}
+
+.texto {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  color: #343434;
+}
+
+/* 🧠 Layout dos blocos de texto */
+.bloco-texto {
+  margin-top: 2rem;
+}
+
+/* 🔥 Layout principal */
+.container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4rem 1rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .flex-container {
+    flex-direction: row;
+  }
+}
+
+/* 🖼️ Imagem */
+.imagem-container {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.imagem-principal {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 🎨 Gradient atrás da imagem */
+.gradient-bg {
+  position: absolute;
+  bottom: 0; /* ✅ Alinha com a base da imagem */
+  left: 20px; /* ✅ Espaço no lado esquerdo */
+  width: calc(100% - 20px); /* ✅ Lado direito acompanha a imagem */
+  height: 85%; /* ✅ Topo mais vazado */
+  background: linear-gradient(to right, #007cfb, #00dfd8);
+  border-radius: 2rem;
+  z-index: 1;
+  padding: 4px;
+
+  /* ✨ Sombra */
+  box-shadow: 
+    0 10px 25px rgba(0, 124, 251, 0.4),
+    0 15px 40px rgba(0, 223, 216, 0.3);
+}
+
+/* 🔄 Responsividade da imagem e do gradiente */
+@media (max-width: 1132px) {
+  .imagem-container {
+    max-width: 420px;
+  }
+
+  .gradient-bg {
+    width: calc(100% - 15px);
+    height: 80%;
+    left: 15px;
+  }
+}
+
+@media (max-width: 880px) {
+  .imagem-container {
+    max-width: 300px;
+  }
+
+  .gradient-bg {
+    width: calc(100% - 10px);
+    height: 75%;
+    left: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .imagem-container,
+  .gradient-bg {
+    display: none;
+  }
+}
+
+/* 🅿️ Ajustes finais textos menores */
+@media (max-width: 800px) {
+  .titulo-principal {
+    font-size: 2.25rem;
+    text-align: left;
+  }
+
+  
+
+/* 🅿️ Ajustes finais textos menores */
+@media (max-width: 766px) {
+  .titulo-principal {
+    font-size: 2.25rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 766px) {
+  .texto, .subtitulo {
+    
+    text-align: center;
+  }
+}
+  
+  
+  .subtitulo {
+    font-size: 1.25rem;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+  margin-top: 2rem; /* 
+  
+  🔥 Diminui o espaço do topo */
+}
