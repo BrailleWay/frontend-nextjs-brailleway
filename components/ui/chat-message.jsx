@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react"
+import React, { useMemo, useState, useEffect } from "react"
 import { cva } from "class-variance-authority";
 import { motion } from "framer-motion"
 import { Ban, ChevronRight, Code2, Loader2, Terminal } from "lucide-react"
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import { FilePreview } from "@/components/ui/file-preview"
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
+import AudioPlayer from "@/components/AudioPlayer"
 
 const chatBubbleVariants = cva(
   "group/message relative break-words rounded-lg p-3 text-sm sm:max-w-[70%]",
@@ -75,6 +76,28 @@ export const ChatMessage = ({
   }, [experimental_attachments])
 
   const isUser = role === "user"
+
+  const [audioSrc, setAudioSrc] = useState(null)
+
+  useEffect(() => {
+    const synthesize = async () => {
+      if (role !== "assistant" || !content) return
+      try {
+        const resp = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: content }),
+        })
+        if (resp.ok) {
+          const data = await resp.json()
+          setAudioSrc(`data:audio/mp3;base64,${data.audioContent}`)
+        }
+      } catch (err) {
+        console.error("TTS error", err)
+      }
+    }
+    synthesize()
+  }, [role, content])
 
   const formattedTime = createdAt?.toLocaleTimeString("en-US", {
     hour: "2-digit",
@@ -170,6 +193,7 @@ export const ChatMessage = ({
           {formattedTime}
         </time>
       ) : null}
+      {audioSrc && <AudioPlayer src={audioSrc} />}
     </div>
   );
 }
