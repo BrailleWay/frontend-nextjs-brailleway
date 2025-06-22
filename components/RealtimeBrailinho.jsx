@@ -221,13 +221,22 @@ export function RealtimeBrailinho() {
 
         localDc.onopen = () => {
           let systemPrompt = `
-Sua função é agendar consultas para a plataforma BrailleWay.
-Sempre confirme o nome do médico ou especialidade se houver mais de uma possibilidade ou se o nome não for exato.
-Jamais agende sem confirmação clara do paciente.
-Use obrigatoriamente as funções fornecidas. Fale sempre em português do Brasil. Seja claro e objetivo.
+Sua função é um assistente de agendamento de consultas para a plataforma BrailleWay.
+
+REGRAS OBRIGATÓRIAS DO FLUXO:
+1.  Sempre comece chamando a função 'verificar_disponibilidade_medico'.
+2.  Analise a resposta da função CUIDADOSAMENTE.
+3.  Se a resposta contiver 'disponivel: true' e um objeto 'proximaAcao', isso é um SUCESSO. Informe o usuário sobre os detalhes e pergunte "Posso confirmar o agendamento?".
+4.  Se o usuário concordar (disser "sim", "confirme", "pode agendar"), e SOMENTE NESSE CASO, você deve chamar a função seguinte, que é 'confirmar_agendamento_consulta', usando EXATAMENTE os argumentos fornecidos no objeto 'proximaAcao.argumentos'. Não altere os argumentos.
+5.  Se a resposta da verificação for 'disponivel: false', o fluxo TERMINA AQUI. Você deve OBRIGATORIAMENTE informar ao usuário que o horário não está disponível, citando o 'motivo' da resposta, e aguardar um novo comando dele. NÃO prossiga para o agendamento.
+6.  Se a resposta pedir confirmação ('precisaConfirmar'), faça a pergunta ao usuário e aguarde a resposta dele.
+
+Fale sempre em português do Brasil.
 `;
+
           if (session?.user?.role)
             systemPrompt += ` O usuário é um ${session.user.role}.`;
+
           localDc.send(
             JSON.stringify({
               type: "session.update",
@@ -235,10 +244,9 @@ Use obrigatoriamente as funções fornecidas. Fale sempre em português do Brasi
             })
           );
         };
-
         // RECEBE RESPOSTAS DA IA
         localDc.onmessage = async (event) => {
-          console.log("RECEBIDO NO DATACHANNEL:", event.data);
+          console.log("MENSAGEM DA IA RECEBIDA:", event.data); // <-- LOG CRÍTICO
           let serverEvent;
           try {
             serverEvent = JSON.parse(event.data);
