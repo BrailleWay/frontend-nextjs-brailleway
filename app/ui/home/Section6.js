@@ -44,7 +44,7 @@ export const Section6 = () => {
 
                     {/* TÍTULOS */}
                     <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-16">
-                        Precisa Relaxar? Ouvir um som relaxante? <br />
+                        Precisa Relaxar? Que tal ouvir um som Tranquilizador? <br />
                         <span className="text-[#4BA8FF] font-regular">
                             Entre em nossa sala e relaxe!
                         </span>
@@ -63,12 +63,12 @@ export const Section6 = () => {
                             },
                             {
                                 title: "Som ao escolher uma estrela",
-                                desc: "Esse som confirma que você escolheu uma estrela.",
+                                desc: "Esse som confirma que você escolheu uma estrela, usado para a avaliação.",
                                 player: false,
                             },
                             {
-                                title: "Som ao escolher uma estrela",
-                                desc: "Esse som confirma que você escolheu uma estrela.",
+                                title: "Som ao entrar em chamada",
+                                desc: "Esse som mostra que você entrou em chamada, usado para as sessões entre você e o profissional.",
                                 player: false,
                             },
                             {

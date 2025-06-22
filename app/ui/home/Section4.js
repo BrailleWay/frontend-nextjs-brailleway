@@ -32,8 +32,8 @@ export default function PsychologistSection() {
           <h2 className="text-4xl font-semibold text-[#343434] mb-4">
             Ache seu <span className="text-[#1C71E4]">profissional ideal</span>
           </h2>
-          <p className="text-[#232323] mb-6 text-1xl">
-            Encontre o profissional perfeito para você! Avaliar o atendimento nos ajuda a garantir a qualidade dos serviços de telemedicina e construir uma rede cada vez mais acolhedora e eficiente em psicologia, psiquiatria e clínica geraa rede cada vez mais acolhedora e eficiente em psicologia, psiquiatria e clínica gerala rede cada vez mais acolhedora e eficiente em psicologia, psiquiatria e clínica gerall.
+          <p className="text-[#232323] mb-6 text-1xl text-justify">
+            Encontre o especialista perfeito para você! Avaliar o atendimento nos ajuda a garantir a qualidade dos serviços de telemedicina e construir uma rede cada vez mais acolhedora e eficiente em áreas oferecidas pela Braille Way no serviço de Telemedicina.
           </p>
           <button className="font-['Poppins-regular']
 rounded-full

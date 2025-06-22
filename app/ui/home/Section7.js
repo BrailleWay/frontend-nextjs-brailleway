@@ -67,7 +67,7 @@ export default function Section7() {
                   {/* CARD 1 */}
                   <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
                     <h2 className='text-4xl font-["Poppins-Bold"] text-[#231D4F]'>
-                      R$19 <span className="text-gray-400 text-lg">/mês</span>
+                      R$50  <span className="text-gray-400 text-lg">/mês</span>
                     </h2>
                     <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
                       <motion.div {...pulseAnimation}>
@@ -77,11 +77,11 @@ export default function Section7() {
                     </h3>
                     <p className="text-gray-600 text-base">Automação Básica</p>
                     <div className="space-y-3">
-                      {["Multi-step Zaps", "Suporte Básico", "Integrações Limitadas"].map(
+                      {["Sessões: 1 sessão / mês", "Duração: 40 minutos", "Suporte Básico"].map(
                         (item, idx) => (
                           <div key={idx} className="flex items-center gap-3 text-gray-600">
                             <div className="bg-gray-100/70 rounded-full w-7 h-7 flex items-center justify-center">
-                              <X size={16} />
+                              ✔
                             </div>
                             <p>{item}</p>
                           </div>
@@ -101,7 +101,7 @@ export default function Section7() {
                       </p>
                     </div>
                     <h2 className='text-white text-4xl font-["Poppins-Bold"]'>
-                      R$29 <span className="text-lg">/mês</span>
+                      R$80 <span className="text-lg">/mês</span>
                     </h2>
                     <h3 className="text-white text-2xl flex items-center gap-2">
                       <motion.div {...pulseAnimation}>
