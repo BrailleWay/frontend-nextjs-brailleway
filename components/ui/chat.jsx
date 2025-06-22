@@ -1,6 +1,6 @@
 "use client";
-import { forwardRef, useCallback, useRef, useState } from "react";
-import { ArrowDown, ThumbsDown, ThumbsUp } from "lucide-react"
+import { forwardRef, useCallback, useRef, useState, useEffect } from "react";
+import { ArrowDown, ThumbsDown, ThumbsUp, Volume2, VolumeX } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useAutoScroll } from "@/hooks/use-auto-scroll"
@@ -14,6 +14,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
  
 import { TypingEffect } from "./TypingEffect"; // <-- importa o TypingEffect certinho
+import { speak } from "@/lib/utils/tts"
 
 export function Chat({
   messages,
@@ -33,8 +34,29 @@ export function Chat({
   const isEmpty = messages.length === 0
   const isTyping = lastMessage?.role === "user"
 
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const lastSpokenId = useRef(null)
+
   const messagesRef = useRef(messages)
   messagesRef.current = messages
+
+  useEffect(() => {
+    const last = messages.at(-1)
+    if (!voiceEnabled || !last || last.role !== "assistant") return
+    if (lastSpokenId.current === last.id) return
+
+    let text = last.content
+    if (!text && last.parts && last.parts.length > 0) {
+      text = last.parts
+        .filter((p) => p.type === "text" && p.text)
+        .map((p) => p.text)
+        .join(" ")
+    }
+    if (text) {
+      speak(text)
+      lastSpokenId.current = last.id
+    }
+  }, [messages, voiceEnabled])
 
   // Enhanced stop function that marks pending tool calls as cancelled
   const handleStop = useCallback(() => {
@@ -182,15 +204,31 @@ export function Chat({
         isPending={isGenerating || isTyping}
         handleSubmit={handleSubmit}>
         {({ files, setFiles }) => (
-          <MessageInput
-            value={input}
-            onChange={handleInputChange}
-            allowAttachments
-            files={files}
-            setFiles={setFiles}
-            stop={handleStop}
-            isGenerating={isGenerating}
-            transcribeAudio={transcribeAudio} />
+          <>
+            <MessageInput
+              value={input}
+              onChange={handleInputChange}
+              allowAttachments
+              files={files}
+              setFiles={setFiles}
+              stop={handleStop}
+              isGenerating={isGenerating}
+              transcribeAudio={transcribeAudio} />
+            <div className="mt-2 flex justify-end">
+              <Button
+                type="button"
+                size="icon"
+                variant="outline"
+                aria-label={voiceEnabled ? "Disable voice output" : "Enable voice output"}
+                onClick={() => setVoiceEnabled((v) => !v)}>
+                {voiceEnabled ? (
+                  <Volume2 className="h-4 w-4" />
+                ) : (
+                  <VolumeX className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </>
         )}
       </ChatForm>
     </ChatContainer>
