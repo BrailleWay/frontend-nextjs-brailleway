@@ -1,15 +1,15 @@
 // /app/api/chat/route.js
 
 import { streamText } from "ai";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
 import { auth } from "@/auth";
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_API_KEY || "",
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
 });
 
 
-const buildGoogleGenAIPrompt = (messages, role) => {
+const buildOpenAIPrompt = (messages, role) => {
   let systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar
   telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual. Pode responder perguntas não relacionadas ao site também.`;
 
@@ -41,8 +41,8 @@ export async function POST(request) {
   const role = session?.user?.role;
 
   const stream = await streamText({
-    model: google(modelId || "gemini-2.5-flash-preview-05-20"),
-    messages: buildGoogleGenAIPrompt(messages, role),
+    model: openai(modelId || "gpt-4o-mini"),
+    messages: buildOpenAIPrompt(messages, role),
     temperature: 1,
   });
 
