@@ -1,18 +1,19 @@
 /* Olá Galera!
 Aqui está o código CSS para o componente Button, que inclui um gradiente de cor,
- fonte personalizada e efeitos de hover. Você pode personalizar as variáveis CSS 
- para alterar a aparência do botão conforme necessário. Para Usar é só importar
- no JSX e para trocar a cor basta colocar uma div e alterar a cor entre aspas.
+fonte personalizada e efeitos de hover. Você pode personalizar as variáveis CSS 
+para alterar a aparência do botão conforme necessário. Para Usar é só importar
+no JSX e para trocar a cor basta colocar uma div e alterar a cor entre aspas.
 
 
- <div style={{ '--button-gradient': 'linear-gradient(90deg, #ff9800 0%, #ff5722 100%)' }}>
-  <Button>Botão com cor diferente</Button>
+<div style={{ '--button-gradient': 'linear-gradient(90deg, #ff9800 0%, #ff5722 100%)' }}>
+ <Button>Botão com cor diferente</Button>
 </div>
 
 */
 
+/* 🔥 Botão com gradiente atualizado (azul para verde água) */
 .button-custom {
-  background: var(--button-gradient, linear-gradient(90deg, #cb6ce6 0%, #9700aa 100%));
+  background: var(--button-gradient, linear-gradient(90deg, #4090EC 0%, #1C71E4 50%, #44D7D1 100%));
   color: #fff;
   font-family: var(--button-font-family);
   font-size: var(--button-font-size);

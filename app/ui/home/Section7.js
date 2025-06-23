@@ -1,27 +1,39 @@
 "use client";
 
-import Image from "next/image";
-import { useState, React } from "react";
+import { X, HeartPulse, Stethoscope, BriefcaseMedical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 export default function Section7() {
   const [ativo, setAtivo] = useState("planos");
+
+  const pulseAnimation = {
+    animate: {
+      scale: [1, 1.2, 1],
+      transition: { repeat: Infinity, duration: 1.2, ease: "easeInOut" },
+    },
+  };
+
   return (
-    <div className="bg-[linear-gradient(to_right,_#4BA8FF_0%,_#1C71E4_47%,_#44D7D1_100%)]">
-      <div className="text-white container lg:max-w-8xl mx-auto flex flex-col">
-        <h2 className='tracking-widest mt-3 font-["Poppins-medium"] text-center text-3xl'>
+    <div className="bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4,_#44D7D1)] w-full pb-6">
+      <div className="text-white max-w-7xl mx-auto px-4 flex flex-col">
+
+        {/* TÍTULOS */}
+        <h2 className='tracking-widest mt-10 font-["Poppins-SemiBold"] text-center text-3xl lg:text-4xl'>
           Nossos Planos
         </h2>
-        <h3 className=' text-center font-["Inter-medium"] text-base lg:text-lg lg:w-1/2 mx-3 lg:mx-auto'>
+        <h3 className='text-center font-["Poppins-Regular"] text-base lg:text-lg lg:w-2/3 mx-3 lg:mx-auto mt-3'>
           Nossos Pacotes de Cuidados Acessíveis foram pensados para oferecer
           qualidade, conforto e bem-estar a preços justos.
         </h3>
-        <div className='mt-4 flex flex-row items-center font-["Poppins-semibold"] rounded-full w-fit mx-auto outline-white outline p-1'>
+
+        {/* BOTÕES DE SELEÇÃO */}
+        <div className='mt-6 flex flex-row items-center font-["Poppins-SemiBold"] rounded-full w-fit mx-auto outline outline-white p-1.5 gap-3'>
           <button
             onClick={() => setAtivo("planos")}
-            className={`cursor-pointer rounded-full p-2 text-center text-md w-20 mx-auto ${
+            className={`cursor-pointer rounded-full px-6 py-2 text-base ${
               ativo === "planos"
-                ? "text-blue-500 bg-white"
+                ? "text-[#338DEF] bg-white"
                 : "text-white bg-transparent"
             }`}
           >
@@ -29,274 +41,150 @@ export default function Section7() {
           </button>
           <button
             onClick={() => setAtivo("avulso")}
-            className={`cursor-pointer rounded-full p-2 text-center text-md w-20 mx-auto ${
+            className={`cursor-pointer rounded-full px-6 py-2 text-base ${
               ativo === "avulso"
-                ? "text-blue-500 bg-white"
+                ? "text-[#338DEF] bg-white"
                 : "text-white bg-transparent"
             }`}
           >
             Avulso
           </button>
         </div>
-        <div
-          id="planos"
-          className='mx-2.5 lg:justify-center sm:justify-center sm:mx-auto mt-4 gap-20 p-4 mb-10 md:mx-auto bg-white lg:mx-auto rounded-4xl  font-["Poppins-medium"]'
-        >
-          <div className="">
-            <AnimatePresence mode="wait">
-              {ativo === "planos" ? (
-                <motion.div
-                  key="planos"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <div
-                    className={` flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20`}
-                  >
-                    <div
-                      id="plano1"
-                      className="outline-gray-300 outline hover:outline-transparent lg:max-w-md space-y-3 p-10 w-full flex flex-col  hover:shadow-3xl hover:-translate-y-10 ease-in-out transistion hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white"
-                    >
-                      <div className=" text-[#1C71E4] flex justify-end">
-                        <p className="bg-white rounded-4xl px-6 py-1 outline outline-[#6941EB] group-hover:outline-none transition duration-300 ease-in-out ">
-                          Mais Popular
-                        </p>
-                      </div>
-                      <h2 className='group-hover:text-white text-4xl font-["Poppins-bold"] text-[#231D4F]'>
-                        R$19{" "}
-                        <span className="text-gray-400 text-lg group-hover:text-white">
-                          /mês
-                        </span>
-                      </h2>
-                      <h3 className="group-hover:text-white text-[#231D4F] text-2xl">
-                        Starter
-                      </h3>
-                      <p className="group-hover:text-white text-gray-400 text-base">
-                        Unleash the power of automation
-                      </p>
-                      <div className="space-y-2 mt-2">
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white  flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                      </div>
-                      <button className="cursor-pointer mt-40 py-3 rounded-2xl bg-[linear-gradient(to_right,_#1E92A9_0%,_#498FE5_38%,_#4784F6_78%)]">
-                        Comprar Agora
-                      </button>
-                    </div>
-                    <div
-                      id="plano2"
-                      className="outline-gray-300 outline hover:outline-transparent w-full max-w-md space-y-3  p-10  flex flex-col hover:shadow-3xl hover:-translate-y-10 ease-in-out transition hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white"
-                    >
-                      <div className=" text-[#1C71E4] flex justify-end">
-                        <p className="bg-white rounded-4xl px-6 py-1 outline outline-[#6941EB] group-hover:outline-none transition duration-300 ease-in-out ">
-                          Mais Popular
-                        </p>
-                      </div>
-                      <h2 className='group-hover:text-white text-4xl font-["Poppins-bold"] text-[#231D4F]'>
-                        R$19{" "}
-                        <span className="text-gray-400 text-lg group-hover:text-white">
-                          /mês
-                        </span>
-                      </h2>
-                      <h3 className="group-hover:text-white text-[#231D4F] text-2xl">
-                        Starter
-                      </h3>
-                      <p className="group-hover:text-white text-gray-400 text-base">
-                        Unleash the power of automation
-                      </p>
-                      <div className="space-y-2 mt-2">
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                      </div>
-                      <button className="cursor-pointer mt-40 py-3 rounded-2xl bg-[linear-gradient(to_right,_#1E92A9_0%,_#498FE5_38%,_#4784F6_78%)]">
-                        Comprar Agora
-                      </button>
-                    </div>
-                    <div
-                      id="plano3"
-                      className="outline-gray-300 outline hover:outline-transparent w-full max-w-md space-y-3  p-10  flex flex-col hover:shadow-3xl hover:-translate-y-10 ease-in-out transition hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white"
-                    >
-                      <div className=" text-[#1C71E4] flex justify-end">
-                        <p className="bg-white rounded-4xl px-6 py-1 outline outline-[#6941EB] group-hover:outline-none transition duration-300 ease-in-out ">
-                          Mais Popular
-                        </p>
-                      </div>
-                      <h2 className='group-hover:text-white text-4xl font-["Poppins-bold"] text-[#231D4F]'>
-                        R$19{" "}
-                        <span className="text-gray-400 text-lg group-hover:text-white">
-                          /mês
-                        </span>
-                      </h2>
-                      <h3 className="group-hover:text-white text-[#231D4F] text-2xl">
-                        Starter
-                      </h3>
-                      <p className="group-hover:text-white text-gray-400 text-base">
-                        Unleash the power of automation
-                      </p>
-                      <div className="space-y-2 mt-2">
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                        <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                          <Image
-                            alt=""
-                            src="/home/Shape.png"
-                            width={20}
-                            height={20}
-                            className="size-5"
-                          />
-                          <p>Multi-step Zaps</p>
-                        </div>
-                      </div>
-                      <button className="cursor-pointer mt-40 py-3 rounded-2xl bg-[linear-gradient(to_right,_#1E92A9_0%,_#498FE5_38%,_#4784F6_78%)]">
-                        Comprar Agora
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="avulso"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <div
-                    id="avulso"
-                    className="outline-gray-300 outline hover:outline-transparent w-full max-w-md space-y-3  p-10  flex flex-col hover:shadow-3xl hover:-translate-y-10 ease-in-out transition hover:scale-105 duration-300 group hover:bg-gradient-to-r hover:from-[#6941EB] hover:via-[#6941EB] hover:to-[#4BA8FF] rounded-4xl bg-white"
-                  >
-                    <div className=" text-[#1C71E4] flex justify-end">
-                      <p className="bg-white rounded-4xl px-6 py-1 outline outline-[#6941EB] group-hover:outline-none transition duration-300 ease-in-out ">
-                        Mais Popular
-                      </p>
-                    </div>
-                    <h2 className='group-hover:text-white text-4xl font-["Poppins-bold"] text-[#231D4F]'>
-                      R$19{" "}
-                      <span className="text-gray-400 text-lg group-hover:text-white">
-                        /mês
-                      </span>
+
+        {/* CONTEÚDO DOS CARDS */}
+        <div className="w-full mt-10 gap-10 p-6 mb-10 bg-white rounded-4xl font-['Poppins-Medium']">
+          <AnimatePresence mode="wait">
+            {ativo === "planos" ? (
+              <motion.div
+                key="planos"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
+
+                  {/* CARD 1 */}
+                  <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
+                    <h2 className='text-4xl font-["Poppins-Bold"] text-[#231D4F]'>
+                      R$50  <span className="text-gray-400 text-lg">/mês</span>
                     </h2>
-                    <h3 className="group-hover:text-white text-[#231D4F] text-2xl">
+                    <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <Stethoscope size={24} />
+                      </motion.div>
                       Starter
                     </h3>
-                    <p className="group-hover:text-white text-gray-400 text-base">
-                      Unleash the power of automation
-                    </p>
-                    <div className="space-y-2 mt-2">
-                      <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                        <Image
-                          alt=""
-                          src="/home/Shape.png"
-                          width={20}
-                          height={20}
-                          className="size-5"
-                        />
-                        <p>Multi-step Zaps</p>
-                      </div>
-                      <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                        <Image
-                          alt=""
-                          src="/home/Shape.png"
-                          width={20}
-                          height={20}
-                          className="size-5"
-                        />
-                        <p>Multi-step Zaps</p>
-                      </div>
-                      <div className="group-hover:text-white flex flex-row gap-0.5 text-gray-400 items-center">
-                        <Image
-                          alt=""
-                          src="/home/Shape.png"
-                          width={20}
-                          height={20}
-                          className="size-5"
-                        />
-                        <p>Multi-step Zaps</p>
-                      </div>
+                    <p className="text-gray-600 text-base">Automação Básica</p>
+                    <div className="space-y-3">
+                      {["Sessões: 1 sessão / mês", "Duração: 40 minutos", "Suporte Básico"].map(
+                        (item, idx) => (
+                          <div key={idx} className="flex items-center gap-3 text-gray-600">
+                            <div className="bg-gray-100/70 rounded-full w-7 h-7 flex items-center justify-center">
+                              ✔
+                            </div>
+                            <p>{item}</p>
+                          </div>
+                        )
+                      )}
                     </div>
-                    <button className="cursor-pointer mt-40 py-3 rounded-2xl bg-[linear-gradient(to_right,_#1E92A9_0%,_#498FE5_38%,_#4784F6_78%)]">
+                    <button className="mt-6 py-3 rounded-full bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] text-white text-base w-full cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">
                       Comprar Agora
                     </button>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+
+                  {/* CARD DO MEIO */}
+                  <div className="outline outline-gray-200 w-[320px] lg:w-[380px] space-y-5 p-7 rounded-4xl flex flex-col bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] shadow-3xl scale-105">
+                    <div className="flex justify-end">
+                      <p className="bg-white text-[#1C71E4] rounded-4xl px-5 py-1 outline outline-[#1C71E4]">
+                        Mais Popular
+                      </p>
+                    </div>
+                    <h2 className='text-white text-4xl font-["Poppins-Bold"]'>
+                      R$80 <span className="text-lg">/mês</span>
+                    </h2>
+                    <h3 className="text-white text-2xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <HeartPulse size={24} />
+                      </motion.div>
+                      Profissional
+                    </h3>
+                    <p className="text-white text-base">Automação Profissional</p>
+                    <div className="space-y-3">
+                      {["Multi-step Zaps", "Suporte Premium", "Integrações Ilimitadas"].map(
+                        (item, idx) => (
+                          <div key={idx} className="flex items-center gap-3 text-white">
+                            <div className="bg-white/30 rounded-full w-7 h-7 flex items-center justify-center">
+                              ✔
+                            </div>
+                            <p>{item}</p>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button className="mt-6 py-3 rounded-full bg-white text-[#1C71E4] text-base w-full cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">
+                      Comprar Agora
+                    </button>
+                  </div>
+
+                  {/* CARD 3 */}
+                  <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
+                    <h2 className='text-4xl font-["Poppins-Bold"] text-[#231D4F]'>
+                      R$49 <span className="text-gray-400 text-lg">/mês</span>
+                    </h2>
+                    <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
+                      <motion.div {...pulseAnimation}>
+                        <BriefcaseMedical size={24} />
+                      </motion.div>
+                      Enterprise
+                    </h3>
+                    <p className="text-gray-600 text-base">Soluções Avançadas</p>
+                    <div className="space-y-3">
+                      {["Multi-step Zaps", "Suporte Dedicado", "Integrações Customizadas"].map(
+                        (item, idx) => (
+                          <div key={idx} className="flex items-center gap-3 text-gray-600">
+                            <div className="bg-gray-100/70 rounded-full w-7 h-7 flex items-center justify-center">
+                              ✔
+                            </div>
+                            <p>{item}</p>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button className="mt-6 py-3 rounded-full bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] text-white text-base w-full cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">
+                      Comprar Agora
+                    </button>
+                  </div>
+
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="avulso"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/* TELA AVULSO */}
+                <div className="flex flex-col items-center justify-center text-center gap-8">
+                  <h2 className='text-[#231D4F] text-4xl font-["Poppins-Bold"]'>
+                    Consulta Avulsa
+                  </h2>
+                  <p className="text-gray-600 text-base lg:w-[60%]">
+                    Ideal para quem busca um atendimento pontual, sem compromissos mensais.  
+                    A flexibilidade que você precisa, com a qualidade que merece.
+                  </p>
+                  <h3 className='text-3xl text-[#1C71E4] font-["Poppins-Bold"]'>
+                    R$80 <span className="text-gray-500 text-lg">por consulta</span>
+                  </h3>
+                  <button className="mt-4 py-3 rounded-full bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] text-white text-base w-[220px] cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">
+                    Comprar Agora
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

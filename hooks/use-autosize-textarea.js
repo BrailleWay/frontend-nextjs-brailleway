@@ -4,7 +4,7 @@ export function useAutosizeTextArea({
   ref,
   maxHeight = Number.MAX_SAFE_INTEGER,
   borderWidth = 0,
-  dependencies
+  dependencies = []
 }) {
   const originalHeight = useRef(null)
 
