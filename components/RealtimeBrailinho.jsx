@@ -180,6 +180,48 @@ export function RealtimeBrailinho() {
           .normalize("NFD")
           .replace(/[^a-zA-Z0-9\s]/g, "");
 
+        // 🎯 NOVO: Detectar escolha de médico específico
+        if (pendingConfirm.tipo === "medico" && pendingConfirm.sugestoes?.length > 1) {
+          // Verificar se o usuário mencionou um dos médicos disponíveis
+          for (let i = 0; i < pendingConfirm.sugestoes.length; i++) {
+            const medicoNome = pendingConfirm.sugestoes[i].toLowerCase().normalize("NFD").replace(/[^a-zA-Z0-9\s]/g, "");
+            const numeroOpcao = (i + 1).toString();
+            
+            if (fala.includes(medicoNome) || 
+                fala.includes(numeroOpcao) || 
+                fala.includes(`opção ${numeroOpcao}`) || 
+                fala.includes(`opcao ${numeroOpcao}`) ||
+                (fala.includes(`primeiro`) && i === 0) || 
+                (fala.includes(`segundo`) && i === 1) || 
+                (fala.includes(`terceiro`) && i === 2) ||
+                (fala.includes(`um`) && i === 0) ||
+                (fala.includes(`dois`) && i === 1) ||
+                (fala.includes(`três`) && i === 2)) {
+              
+              console.info(`BRAILINHO ✔️ Médico escolhido: ${pendingConfirm.sugestoes[i]} (opção ${i + 1})`);
+              const newArgs = { ...pendingArgs };
+              newArgs.nome_medico = pendingConfirm.sugestoes[i];
+              
+              setPendingConfirm(null);
+              setPendingArgs(null);
+
+              const output = await verificarDisponibilidade(newArgs);
+              if (output.disponivel) {
+                sendToAssistant({
+                  type: "conversation.item.create",
+                  item: {
+                    type: "function_call_output",
+                    call_id: pendingConfirm.call_id,
+                    output: JSON.stringify(output),
+                  },
+                });
+                sendToAssistant({ type: "response.create" });
+              }
+              return;
+            }
+          }
+        }
+
         if (/(sim|isso|confirm)/.test(fala)) {
           console.info("BRAILINHO ✔️ Confirmação detectada:", fala);
           const newArgs = { ...pendingArgs };
@@ -331,16 +373,21 @@ export function RealtimeBrailinho() {
                   setPendingConfirm({
                     tipo: output.precisaConfirmar,
                     sugestao: output.sugestoes[0],
+                    sugestoes: output.sugestoes,
                     call_id,
                   });
                   setPendingArgs(args);
 
-                  const frase =
-                    output.sugestoes.length === 1
-                      ? `Você quis dizer ${output.sugestoes[0]}? Por favor, responda sim ou não.`
-                      : `Encontrei mais de um resultado: ${output.sugestoes.join(
-                          ", ",
-                        )}. Qual deseja?`;
+                  let frase;
+                  if (output.sugestoes.length === 1) {
+                    frase = `Você quis dizer ${output.sugestoes[0]}? Por favor, responda sim ou não.`;
+                  } else {
+                    // 🎯 NOVO: Mensagem estruturada para múltiplas opções
+                    const opcoes = output.sugestoes.map((nome, index) => 
+                      `${index + 1} - ${nome}`
+                    ).join(", ");
+                    frase = `${output.detalhes || `Encontrei ${output.sugestoes.length} médicos disponíveis`}. As opções são: ${opcoes}. Por favor, escolha um médico dizendo o nome ou o número da opção.`;
+                  }
 
                   sendToAssistant({
                     type: "conversation.item.create",
@@ -351,6 +398,17 @@ export function RealtimeBrailinho() {
                     },
                   });
                   return; // aguarda usuário
+                }
+                // NOVO: feedback de erro/motivo para o usuário
+                if (!output.disponivel && output.motivo) {
+                  sendToAssistant({
+                    type: "conversation.item.create",
+                    item: {
+                      type: "message",
+                      role: "assistant",
+                      content: [{ type: "audio", transcript: output.motivo }],
+                    },
+                  });
                 }
               } else if (name === "confirmar_agendamento_consulta") {
                 // ⚠️  Proteção contra IA alterar argumentos
@@ -375,10 +433,30 @@ export function RealtimeBrailinho() {
                 }
 
                 output = await confirmarAgendamento(safeArgs);
+                // NOVO: feedback de erro/mensagem para o usuário
+                if (!output.success && output.message) {
+                  sendToAssistant({
+                    type: "conversation.item.create",
+                    item: {
+                      type: "message",
+                      role: "assistant",
+                      content: [{ type: "audio", transcript: output.message }],
+                    },
+                  });
+                }
               }
             } catch (err) {
               console.error("BRAILINHO ❌ Erro na função server:", err);
               output = { error: err.message || "Erro desconhecido" };
+              // NOVO: feedback de erro inesperado
+              sendToAssistant({
+                type: "conversation.item.create",
+                item: {
+                  type: "message",
+                  role: "assistant",
+                  content: [{ type: "audio", transcript: output.error }],
+                },
+              });
             }
 
             sendToAssistant({
@@ -439,9 +517,30 @@ export function RealtimeBrailinho() {
           const systemPrompt = `
             Você é o assistente de voz de agendamentos da BrailleWay.
             Fale sempre em português.
-            **IMPORTANTE**: todos os horários fornecidos pelo paciente estão
-            no fuso ${TZ} (-03:00) e devem permanecer nesse fuso.
-            Não converta para UTC ou outros fusos ao interagir com funções.`;
+            
+            **IMPORTANTE**: 
+            - Todos os horários fornecidos pelo paciente estão no fuso ${TZ} (-03:00) e devem permanecer nesse fuso.
+            - Não converta para UTC ou outros fusos ao interagir com funções.
+            
+            **AGENDAMENTO POR ESPECIALIDADE**:
+            - Quando o paciente mencionar apenas uma especialidade (ex: "psicologia", "cardiologia"), 
+              use a função verificar_disponibilidade_medico com o parâmetro "especialidade".
+            - O sistema automaticamente escolherá o melhor médico disponível baseado em:
+              * Proximidade do horário desejado
+              * Flexibilidade de agenda
+              * Menor ocupação
+            - Se houver múltiplos médicos com scores similares, o sistema apresentará as opções
+              e você deve ajudar o paciente a escolher.
+            
+            **EXEMPLOS DE USO**:
+            - "Quero agendar com psicólogo amanhã às 14h" → use especialidade: "psicologia"
+            - "Preciso de cardiologista na sexta às 10h" → use especialidade: "cardiologia"
+            - "Dr. João Silva, amanhã às 15h" → use nome_medico: "João Silva"
+            
+            **CONFIRMAÇÕES**:
+            - Sempre confirme os detalhes antes de agendar
+            - Se houver múltiplas opções, apresente-as claramente
+            - Aguarde a confirmação do paciente antes de prosseguir`;
           dc.send(
             JSON.stringify({
               type: "session.update",

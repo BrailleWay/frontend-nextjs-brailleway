@@ -95,7 +95,12 @@ export function MedicRegisterForm({ specialties = [] }) {
       }
 
       // Adicionar disponibilidades ao data
-      data.disponibilidades = JSON.stringify(Object.values(disponibilidades));
+      data.disponibilidades = JSON.stringify(
+        Object.entries(disponibilidades).map(([diaSemana, disp]) => ({
+          ...disp,
+          diaSemana: Number(diaSemana),
+        }))
+      );
 
       const result = await registerMedic(data);
 

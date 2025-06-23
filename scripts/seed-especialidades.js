@@ -66,6 +66,14 @@ const especialidades = [
     areaAtuacao: 'Pediatria',
     conselhoProfissional: 'CRM',
     ativo: true
+  },
+  {
+    id: 9,
+    nome: 'Obstetrícia',
+    descricao: 'Especialidade médica que cuida da gestação, parto e pós-parto',
+    areaAtuacao: 'Ginecologia e Obstetrícia',
+    conselhoProfissional: 'CRM',
+    ativo: true
   }
 ];
 

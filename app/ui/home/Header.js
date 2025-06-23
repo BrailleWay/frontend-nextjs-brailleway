@@ -12,30 +12,26 @@ import {
   User,
   Calendar,
   LogOut,
-  Menu
+  Menu,
+  ChevronRight
 } from 'lucide-react'
 import Image from 'next/image';
 import { PopoverDemo } from '@/components/Popover';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const drawerRef = useRef(null)
+  const [isNavOpen, setIsNavOpen] = useState(false)
   const profileRef = useRef(null)
-  const { data: session, status } = useSession()
+  const navRef = useRef(null)
+  const { data: session } = useSession()
+  const pathname = usePathname()
 
-  // Fecha o menu ao clicar fora do drawer
+  // Fecha o menu ao clicar fora
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        drawerRef.current &&
-        !drawerRef.current.contains(event.target) &&
-        !event.target.closest('#hamburger-button')
-      ) {
-        setIsOpen(false)
-      }
       if (
         profileRef.current &&
         !profileRef.current.contains(event.target) &&
@@ -43,9 +39,16 @@ export default function Header() {
       ) {
         setIsProfileOpen(false)
       }
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target) &&
+        !event.target.closest('#nav-button')
+      ) {
+        setIsNavOpen(false)
+      }
     }
 
-    if (isOpen || isProfileOpen) {
+    if (isProfileOpen || isNavOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     } else {
       document.removeEventListener('mousedown', handleClickOutside)
@@ -54,43 +57,51 @@ export default function Header() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isOpen, isProfileOpen])
+  }, [isProfileOpen, isNavOpen])
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/' })
   }
 
-  const currentPage = 'Início'
+  // Função para verificar se um link está ativo
+  const isActiveLink = (href) => {
+    if (href === '/') {
+      return pathname === '/'
+    }
+    return pathname.startsWith(href)
+  }
 
   // Menu para usuários não logados
   const guestMenuItems = [
-    { label: 'Início', href: '/' },
-    { label: 'Como funciona', href: '/como-funciona' },
-    { label: 'Sou especialista', href: '/cadastro/medico' },
-    { label: 'Procurar especialista', href: '/procurar-especialista' },
-    { label: 'Login', href: '/login' }
+    { label: 'Início', href: '/', icon: Home },
+    { label: 'Como funciona', href: '/como-funciona', icon: Info },
+    { label: 'Sou especialista', href: '/cadastro/medico', icon: UserCheck },
+    { label: 'Procurar especialista', href: '/procurar-especialista', icon: Search },
+    { label: 'Login', href: '/login', icon: LogIn }
   ]
 
   // Menu para usuários logados
   const userMenuItems = [
-    { label: 'Início', href: '/' },
-    { label: 'Como funciona', href: '/como-funciona' },
-    { label: 'Consultas', href: '/consultas' },
-    { label: 'Procurar especialista', href: '/procurar-especialista' }
+    { label: 'Início', href: '/', icon: Home },
+    { label: 'Como funciona', href: '/como-funciona', icon: Info },
+    { label: 'Consultas', href: '/consultas', icon: Calendar },
+    { label: 'Procurar especialista', href: '/procurar-especialista', icon: Search }
   ]
+
+  const currentMenuItems = session ? userMenuItems : guestMenuItems
 
   return (
     <header className="relative">
-      {/* Overlay (aparece apenas quando isOpen === true) */}
+      {/* Overlay para a sidebar */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 z-40 ${
+          isNavOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
-        {/* Logo */}
-        <div className="flex-shrink-0 flex flex-row items-center gap-10">
+        {/* Logo e Popover */}
+        <div className="flex-shrink-0 flex flex-row items-center gap-4">
           <Image
             src="/home/brailleway_logo.png"
             width={500}
@@ -104,21 +115,25 @@ export default function Header() {
         {/* Menu desktop */}
         <nav className="hidden md:flex space-x-10 items-center">
           <ul className="flex space-x-10 items-center text-[#3C3C3C]">
-            {(session ? userMenuItems : guestMenuItems).map((item) => (
-              <li
-                key={item.label}
-                className={`relative flex items-center gap-2 ${
-                  currentPage === item.label ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
-                } hover:text-[#338DEF] transition-colors duration-200`}
-              >
-                {currentPage === item.label && (
-                  <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
-                )}
-                <Link href={item.href} className="block">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {currentMenuItems.map((item) => {
+              const isActive = isActiveLink(item.href)
+              
+              return (
+                <li
+                  key={item.label}
+                  className={`relative flex items-center gap-2 ${
+                    isActive ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
+                  } hover:text-[#338DEF] transition-colors duration-200`}
+                >
+                  {isActive && (
+                    <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
+                  )}
+                  <Link href={item.href} className="block">
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
 
             {/* Botão para usuários não logados */}
             {!session && (
@@ -182,58 +197,59 @@ export default function Header() {
 
         {/* Botão menu mobile */}
         <button
-          id="hamburger-button"
-          onClick={() => setIsOpen(true)}
+          id="nav-button"
+          onClick={() => setIsNavOpen(true)}
           className="md:hidden focus:outline-none"
         >
-          <Image width={44} height={33} src="/home/sort.png" alt="Menu" className="w-6 h-6" />
+          <Menu size={24} />
         </button>
       </div>
 
-      {/* Drawer lateral (menu mobile) */}
+      {/* Sidebar de navegação mobile */}
       <aside
-        ref={drawerRef}
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-50 transform transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } w-64`}
+        ref={navRef}
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          isNavOpen ? 'translate-x-0' : 'translate-x-full'
+        } w-80`}
       >
-        <div className="flex items-center justify-between px-4 py-4 border-b">
-          <Image
-            src="/home/brailleway_logo.png"
-            width={100}
-            height={100}
-            alt="Logo da Braille Way"
-            className="w-16"
-          />
-          <button onClick={() => setIsOpen(false)} className="focus:outline-none">
-            <X size={24} />
+        <div className="flex items-center justify-between px-6 py-6 border-b">
+          <h2 className="text-lg font-semibold text-gray-800">Navegação</h2>
+          <button 
+            onClick={() => setIsNavOpen(false)} 
+            className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200"
+          >
+            <X size={20} />
           </button>
         </div>
 
-        <nav className="mt-6 px-4">
-          <ul className="space-y-6 text-[#3C3C3C]">
-            {(session ? userMenuItems : guestMenuItems).map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center space-x-3 ${
-                    currentPage === item.label ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
-                  } hover:text-[#338DEF] transition-colors duration-200 relative`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {/* 🔵 Bolinha lateral */}
-                  {currentPage === item.label && (
-                    <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
-                  )}
-                  {item.label === 'Início' && <Home size={20} />}
-                  {item.label === 'Como funciona' && <Info size={20} />}
-                  {item.label === 'Consultas' && <Calendar size={20} />}
-                  {item.label === 'Procurar especialista' && <Search size={20} />}
-                  {item.label === 'Login' && <LogIn size={20} />}
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            ))}
+        <nav className="mt-6 px-6">
+          <ul className="space-y-2">
+            {currentMenuItems.map((item) => {
+              const IconComponent = item.icon
+              const isActive = isActiveLink(item.href)
+              
+              return (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 ${
+                      isActive 
+                        ? 'bg-[#338DEF] text-white shadow-md' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                    onClick={() => setIsNavOpen(false)}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <IconComponent size={20} />
+                      <span className="font-medium">{item.label}</span>
+                    </div>
+                    {isActive && (
+                      <ChevronRight size={20} className="text-white" />
+                    )}
+                  </Link>
+                </li>
+              )
+            })}
 
             {/* Opções para usuários logados no mobile */}
             {session && (
@@ -241,20 +257,31 @@ export default function Header() {
                 <li>
                   <Link
                     href="/perfil"
-                    className="flex items-center space-x-3 text-[#3C3C3C] hover:text-[#338DEF] transition-colors duration-200"
-                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 ${
+                      isActiveLink('/perfil') 
+                        ? 'bg-[#338DEF] text-white shadow-md' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                    onClick={() => setIsNavOpen(false)}
                   >
-                    <User size={20} />
-                    <span>Meu Perfil</span>
+                    <div className="flex items-center space-x-3">
+                      <User size={20} />
+                      <span className="font-medium">Meu Perfil</span>
+                    </div>
+                    {isActiveLink('/perfil') && (
+                      <ChevronRight size={20} className="text-white" />
+                    )}
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-3 w-full text-red-600 hover:text-red-700 transition-colors duration-200"
+                    className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all duration-200"
                   >
-                    <LogOut size={20} />
-                    <span>Sair</span>
+                    <div className="flex items-center space-x-3">
+                      <LogOut size={20} />
+                      <span className="font-medium">Sair</span>
+                    </div>
                   </button>
                 </li>
               </>
@@ -262,11 +289,11 @@ export default function Header() {
 
             {/* Botão "Cadastre-se" mobile para usuários não logados */}
             {!session && (
-              <li>
+              <li className="mt-6">
                 <Link
                   href="/cadastro/paciente"
-                  className="flex items-center justify-center space-x-2 rounded-full w-full h-11 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer font-medium text-sm shadow-md hover:shadow-lg active:scale-95"
-                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center space-x-2 rounded-lg w-full h-12 bg-[#338DEF] text-white hover:bg-blue-600 transition-all duration-200 cursor-pointer font-medium text-sm shadow-md hover:shadow-lg active:scale-95"
+                  onClick={() => setIsNavOpen(false)}
                 >
                   <UserPlus size={20} />
                   <span>Cadastre-se</span>
