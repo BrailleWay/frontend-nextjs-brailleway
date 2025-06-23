@@ -30,7 +30,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center h-screen">
+    <>
+      
+      <div className="container mx-auto p-4 flex justify-center items-center h-screen">
+      
       <form
         action={handleLogin}
         className="w-full max-w-sm p-8 space-y-6 bg-white shadow-md rounded-lg"
@@ -49,5 +52,6 @@ export default function LoginPage() {
         </Button>
       </form>
     </div>
+    </>
   );
 }

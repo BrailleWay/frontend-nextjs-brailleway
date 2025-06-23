@@ -1,10 +1,3 @@
-/* Mantendo comentários intactos */
-/* Texto padrão #3C3C3C */
-/* Hover azul #338DEF */
-/* Bolinha indicadora sempre na lateral esquerda */
-/* Botão "Cadastre-se" compacto */
-/* 🔥 AUMENTADO o espaçamento dos tópicos (desktop e mobile) */
-
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -48,7 +41,6 @@ export default function Header() {
     }
   }, [isOpen])
 
-  // 🔥 Página atual simulada (troque aqui pra testar)
   const currentPage = 'Início'
 
   return (
@@ -68,7 +60,7 @@ export default function Header() {
             width={500}
             height={500}
             alt="Logo da Braille Way"
-            className="w-20 md:w-13 sm:w-12"
+            className="w-20 md:w-28 sm:w-12"
           />
           <PopoverDemo />
         </div>
@@ -77,10 +69,10 @@ export default function Header() {
           <ul className="flex space-x-10 items-center text-[#3C3C3C]">
             {[
               { label: 'Início', href: '/' },
-              { label: 'Como funciona', href: '#' },
-              { label: 'Sou especialista', href: '#' },
-              { label: 'Procurar especialista', href: '#' },
-              { label: 'Login', href: '#' }
+              { label: 'Como funciona', href: '/como-funciona' },
+              { label: 'Sou especialista', href: '/cadastro/medico' },
+              { label: 'Procurar especialista', href: '/procurar-especialista' },
+              { label: 'Login', href: '/login' }
             ].map((item) => (
               <li
                 key={item.label}
@@ -88,7 +80,6 @@ export default function Header() {
                   currentPage === item.label ? 'text-[#338DEF]' : 'text-[#3C3C3C]'
                 } hover:text-[#338DEF] transition-colors duration-200`}
               >
-                {/* 🔵 Indicador (bolinha) lateral */}
                 {currentPage === item.label && (
                   <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
                 )}
@@ -100,12 +91,9 @@ export default function Header() {
 
             {/* 🔥 Botão "Cadastre-se" */}
             <li>
-              <a
-                href="/cadastro/paciente"
-                className="flex items-center justify-center rounded-full bg-[#338DEF] text-white px-5 py-2 text-sm hover:bg-blue-600 transition-all duration-200 shadow-sm active:scale-95"
-              >
+              <Link href="/cadastro/paciente" className="flex items-center justify-center rounded-full bg-[#338DEF] text-white px-5 py-2 text-sm hover:bg-blue-600 transition-all duration-200 shadow-sm active:scale-95">
                 Cadastre-se
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -137,11 +125,11 @@ export default function Header() {
         <nav className="mt-6 px-4">
           <ul className="space-y-6 text-[#3C3C3C]">
             {[
-              { label: 'Início', icon: <Home size={20} />, href: '#' },
-              { label: 'Como funciona', icon: <Info size={20} />, href: '#' },
-              { label: 'Sou psicólogo', icon: <UserCheck size={20} />, href: '#' },
-              { label: 'Procurar psicólogo', icon: <Search size={20} />, href: '#' },
-              { label: 'Login', icon: <LogIn size={20} />, href: '#' }
+              { label: 'Início', icon: <Home size={20} />, href: '/' },
+              { label: 'Como funciona', icon: <Info size={20} />, href: '/como-funciona' },
+              { label: 'Sou psicólogo', icon: <UserCheck size={20} />, href: '/cadastro/medico' },
+              { label: 'Procurar psicólogo', icon: <Search size={20} />, href: '/procurar-psicologo' },
+              { label: 'Login', icon: <LogIn size={20} />, href: '/login' }
             ].map((item) => (
               <li key={item.label}>
                 <a
@@ -163,7 +151,7 @@ export default function Header() {
             {/* 🔥 Botão "Cadastre-se" mobile */}
             <li>
               <a
-                href="#"
+                href="/cadastro/paciente"
                 className="flex items-center justify-center space-x-2 rounded-full w-full h-11 bg-[#338DEF] text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer font-medium text-sm shadow-md hover:shadow-lg active:scale-95"
               >
                 <UserPlus size={20} />

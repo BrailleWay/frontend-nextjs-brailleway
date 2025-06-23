@@ -1,5 +1,6 @@
 // =============================
-// components/RealtimeBrailinho.jsx
+// components/RealtimeBrailinho.jsx   ✅ 22/06/2025
+// Corrigido: erro de fuso horário (10 h ➜ 13 h)
 // =============================
 
 "use client";
@@ -13,6 +14,15 @@ import {
   confirmarAgendamento,
 } from "@/lib/actions";
 
+/*  NOVO: dependências p/ fuso  */
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const TZ = "America/Sao_Paulo";
+
 /*
   🔎  MELHORIAS & DEPURAÇÃO
   -------------------------------------
@@ -21,7 +31,20 @@ import {
   3. Tratamento robusto de erro na negotiation; reconexão automática opcional.
   4. Conversão segura de mensagens (try/catch) + validação de tipos.
   5. Fallback de áudio resumido para browsers sem getUserMedia.
+  6. ✅  Correção de fuso horário/ISO 8601.
 */
+
+/* ----------  NOVOS HELPERS de data/hora  ---------- */
+const toISOWithTimezone = (dateStr, hourStr) => {
+  // dateStr: "2025-06-30"  |  hourStr: "10:00"
+  return dayjs
+    .tz(`${dateStr} ${hourStr}`, "YYYY-MM-DD HH:mm", TZ)
+    .toISOString(); // inclui o offset (-03:00) automaticamente
+};
+
+const ensureTimezoneOffset = (iso) =>
+  /Z$|[+-]\d{2}:\d{2}$/.test(iso) ? iso : `${iso}-03:00`;
+/* -------------------------------------------------- */
 
 const tools = [
   {
@@ -83,7 +106,7 @@ export function RealtimeBrailinho() {
   const { data: session, status: sessionStatus } = useSession();
 
   const peerConnectionRef = useRef(null);
-  const lastAgendamentoArgsRef = useRef(null); // 🌟 Guardar argumentos válidos = useRef(null);
+  const lastAgendamentoArgsRef = useRef(null);
   const audioPlayerRef = useRef(null);
   const localStreamRef = useRef(null);
   const dataChannelRef = useRef(null);
@@ -123,9 +146,10 @@ export function RealtimeBrailinho() {
     }
   }, []);
 
-  // -------------------
-  // 🎤 Escuta confirmações do usuário (sim/não)
-  // -------------------
+  /* --------------------------------------------------
+     🎤  Escuta confirmações do usuário (sim/não)
+     (sem alteração relevante aqui)
+  -------------------------------------------------- */
   useEffect(() => {
     if (!pendingConfirm || !pendingArgs) return;
 
@@ -151,8 +175,10 @@ export function RealtimeBrailinho() {
         if (/(sim|isso|confirm)/.test(fala)) {
           console.info("BRAILINHO ✔️ Confirmação detectada:", fala);
           const newArgs = { ...pendingArgs };
-          if (pendingConfirm.tipo === "medico") newArgs.nome_medico = pendingConfirm.sugestao;
-          if (pendingConfirm.tipo === "especialidade") newArgs.especialidade = pendingConfirm.sugestao;
+          if (pendingConfirm.tipo === "medico")
+            newArgs.nome_medico = pendingConfirm.sugestao;
+          if (pendingConfirm.tipo === "especialidade")
+            newArgs.especialidade = pendingConfirm.sugestao;
 
           setPendingConfirm(null);
           setPendingArgs(null);
@@ -198,12 +224,14 @@ export function RealtimeBrailinho() {
     return () => dc.removeEventListener("message", handleUserConfirm);
   }, [pendingConfirm, pendingArgs, sendToAssistant]);
 
-  // -------------------
-  // 🔌 Conexão WebRTC + DataChannel
-  // -------------------
+  /* --------------------------------------------------
+     🔌 Conexão WebRTC + DataChannel
+  -------------------------------------------------- */
   useEffect(() => {
     if (sessionStatus !== "authenticated") {
-      setConnectionStatus(sessionStatus === "loading" ? "initializing" : "unauthenticated");
+      setConnectionStatus(
+        sessionStatus === "loading" ? "initializing" : "unauthenticated",
+      );
       return;
     }
 
@@ -223,8 +251,13 @@ export function RealtimeBrailinho() {
         peerConnectionRef.current = pc;
 
         pc.onconnectionstatechange = () => {
-          console.debug("BRAILINHO ☆ PeerConnection state:", pc.connectionState);
-          if (["failed", "disconnected", "closed"].includes(pc.connectionState)) {
+          console.debug(
+            "BRAILINHO ☆ PeerConnection state:",
+            pc.connectionState,
+          );
+          if (
+            ["failed", "disconnected", "closed"].includes(pc.connectionState)
+          ) {
             setConnectionStatus("error");
           }
         };
@@ -232,12 +265,17 @@ export function RealtimeBrailinho() {
         const dc = pc.createDataChannel("oai-events");
         dataChannelRef.current = dc;
         dc.onopen = () => console.debug("BRAILINHO ☆ DataChannel aberto");
-        dc.onerror = (e) => console.error("BRAILINHO ❌ DataChannel erro:", e);
+        dc.onerror = (e) =>
+          console.error("BRAILINHO ❌ DataChannel erro:", e);
         dc.onclose = () => console.warn("BRAILINHO ⚠️ DataChannel fechado");
 
         // ----- RECEBE MENSAGENS DA IA
         dc.onmessage = async (event) => {
-          console.debug("BRAILINHO ⇢ Mensagem IA:", event.data?.slice(0, 200), "...");
+          console.debug(
+            "BRAILINHO ⇢ Mensagem IA:",
+            event.data?.slice(0, 200),
+            "...",
+          );
           let srvEvt;
           try {
             srvEvt = JSON.parse(event.data);
@@ -249,7 +287,9 @@ export function RealtimeBrailinho() {
             srvEvt.type === "response.done" &&
             srvEvt.response?.output?.some((i) => i.type === "function_call")
           ) {
-            const functionCall = srvEvt.response.output.find((i) => i.type === "function_call");
+            const functionCall = srvEvt.response.output.find(
+              (i) => i.type === "function_call",
+            );
             const { name, arguments: argStr, id: call_id } = functionCall;
             let args;
             try {
@@ -262,12 +302,23 @@ export function RealtimeBrailinho() {
             let output = {};
             try {
               if (name === "verificar_disponibilidade_medico") {
-                output = await verificarDisponibilidade(args);
-                // Guarda possíveis argumentos de agendamento
-                if (output?.proximaAcao?.argumentos) {
-                  lastAgendamentoArgsRef.current = output.proximaAcao.argumentos;
+                /* --------------------------------------------------
+                   ✅  Ajuste de data/hora ANTES de consultar o back-end
+                   Se a IA passar data+hora, convertemos p/ ISO-8601
+                   preservando o fuso America/Sao_Paulo
+                -------------------------------------------------- */
+                if (args?.data && args?.hora) {
+                  args.dataHora = toISOWithTimezone(args.data, args.hora);
                 }
-                // confirmação necessária (nomes similares)
+                output = await verificarDisponibilidade(args);
+
+                // Guarda argumentos para confirmar_agendamento_consulta
+                if (output?.proximaAcao?.argumentos) {
+                  lastAgendamentoArgsRef.current =
+                    output.proximaAcao.argumentos;
+                }
+
+                // Confirmação de nome/especialidade
                 if (output.precisaConfirmar && output.sugestoes?.length) {
                   setPendingConfirm({
                     tipo: output.precisaConfirmar,
@@ -278,9 +329,10 @@ export function RealtimeBrailinho() {
 
                   const frase =
                     output.sugestoes.length === 1
-                      ? `Você quis dizer ${output.sugestoes[0]}?` +
-                        " Por favor, responda sim ou não."
-                      : `Encontrei mais de um resultado: ${output.sugestoes.join(", ")}. Qual deseja?`;
+                      ? `Você quis dizer ${output.sugestoes[0]}? Por favor, responda sim ou não.`
+                      : `Encontrei mais de um resultado: ${output.sugestoes.join(
+                          ", ",
+                        )}. Qual deseja?`;
 
                   sendToAssistant({
                     type: "conversation.item.create",
@@ -294,12 +346,26 @@ export function RealtimeBrailinho() {
                 }
               } else if (name === "confirmar_agendamento_consulta") {
                 // ⚠️  Proteção contra IA alterar argumentos
-                const safeArgs = lastAgendamentoArgsRef.current || args;
+                const safeArgs =
+                  lastAgendamentoArgsRef.current || args || {};
                 if (!lastAgendamentoArgsRef.current) {
-                  console.warn("BRAILINHO ⚠️ confirmAgendamento sem cache, usando args vindos da IA");
-                } else if (JSON.stringify(args) !== JSON.stringify(safeArgs)) {
-                  console.warn("BRAILINHO ⚠️ IA alterou argumentos. Sobrescrevendo pelos seguros:", safeArgs);
+                  console.warn(
+                    "BRAILINHO ⚠️ confirmAgendamento sem cache, usando args da IA",
+                  );
                 }
+
+                /* --------------------------------------------------
+                   ✅  Força dataHora a ter offset caso esteja ausente
+                -------------------------------------------------- */
+                if (safeArgs?.dataHora) {
+                  safeArgs.dataHora = ensureTimezoneOffset(safeArgs.dataHora);
+                } else if (safeArgs?.data && safeArgs?.hora) {
+                  safeArgs.dataHora = toISOWithTimezone(
+                    safeArgs.data,
+                    safeArgs.hora,
+                  );
+                }
+
                 output = await confirmarAgendamento(safeArgs);
               }
             } catch (err) {
@@ -309,7 +375,11 @@ export function RealtimeBrailinho() {
 
             sendToAssistant({
               type: "conversation.item.create",
-              item: { type: "function_call_output", call_id, output: JSON.stringify(output) },
+              item: {
+                type: "function_call_output",
+                call_id,
+                output: JSON.stringify(output),
+              },
             });
             sendToAssistant({ type: "response.create" });
           }
@@ -348,18 +418,27 @@ export function RealtimeBrailinho() {
               Authorization: `Bearer ${token}`,
             },
             body: offer.sdp,
-          }
+          },
         );
-        if (!sdpRes.ok) throw new Error(`SDP negotiation falhou: ${sdpRes.statusText}`);
+        if (!sdpRes.ok)
+          throw new Error(`SDP negotiation falhou: ${sdpRes.statusText}`);
         const answer = await sdpRes.text();
         await pc.setRemoteDescription({ type: "answer", sdp: answer });
 
-        // Envia System Prompt
+        // Envia System Prompt (✅ inclui instrução de fuso)
         dc.onopen = () => {
           console.debug("BRAILINHO ☆ DataChannel pronto (onopen override)");
-          const systemPrompt = `Sua função é um assistente de agendamento de consultas para a plataforma BrailleWay.\nFale em português.\n`;
+          const systemPrompt = `
+            Você é o assistente de voz de agendamentos da BrailleWay.
+            Fale sempre em português.
+            **IMPORTANTE**: todos os horários fornecidos pelo paciente estão
+            no fuso ${TZ} (-03:00) e devem permanecer nesse fuso.
+            Não converta para UTC ou outros fusos ao interagir com funções.`;
           dc.send(
-            JSON.stringify({ type: "session.update", session: { instructions: systemPrompt, tools } })
+            JSON.stringify({
+              type: "session.update",
+              session: { instructions: systemPrompt, tools },
+            }),
           );
           setConnectionStatus("connected");
         };
@@ -377,7 +456,9 @@ export function RealtimeBrailinho() {
     };
   }, [sessionStatus, cleanup]);
 
-  // UI Indicator helper
+  /* --------------------------------------------------
+     UI
+  -------------------------------------------------- */
   const getStatusIndicator = () => {
     switch (connectionStatus) {
       case "initializing":
@@ -387,7 +468,11 @@ export function RealtimeBrailinho() {
           </div>
         );
       case "unauthenticated":
-        return <div className="text-gray-500">Faça login como paciente para usar.</div>;
+        return (
+          <div className="text-gray-500">
+            Faça login como paciente para usar.
+          </div>
+        );
       case "connecting":
         return (
           <div className="flex items-center justify-center text-yellow-500">
@@ -405,7 +490,11 @@ export function RealtimeBrailinho() {
           </div>
         );
       case "error":
-        return <span className="text-red-500">Erro na Conexão. Tente reabrir.</span>;
+        return (
+          <span className="text-red-500">
+            Erro na Conexão. Tente reabrir.
+          </span>
+        );
       default:
         return <span className="text-gray-500">Desconectado</span>;
     }
@@ -417,7 +506,14 @@ export function RealtimeBrailinho() {
       <div className="my-2 p-2 border rounded-md min-h-[2.5rem] w-full text-center">
         {getStatusIndicator()}
       </div>
-      <Button onClick={cleanup} className="w-full" variant="destructive" disabled={connectionStatus !== "connected" && connectionStatus !== "error"}>
+      <Button
+        onClick={cleanup}
+        className="w-full"
+        variant="destructive"
+        disabled={
+          connectionStatus !== "connected" && connectionStatus !== "error"
+        }
+      >
         <Phone className="w-4 h-4 mr-2" /> Encerrar Chamada
       </Button>
     </div>
