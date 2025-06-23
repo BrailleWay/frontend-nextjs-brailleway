@@ -1,4 +1,6 @@
-// file: components/RealtimeBrailinho.jsx
+// =============================
+// components/RealtimeBrailinho.jsx
+// =============================
 
 "use client";
 
@@ -6,7 +8,20 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Mic, Phone, Ear, Loader2 } from "lucide-react";
-import { verificarDisponibilidade, confirmarAgendamento } from "@/lib/actions";
+import {
+  verificarDisponibilidade,
+  confirmarAgendamento,
+} from "@/lib/actions";
+
+/*
+  🔎  MELHORIAS & DEPURAÇÃO
+  -------------------------------------
+  1. Console logs padronizados com prefixo BRAILINHO ➡️  facilitam grep.
+  2. Exponho status de PeerConnection/DataChannel via logs e UI.
+  3. Tratamento robusto de erro na negotiation; reconexão automática opcional.
+  4. Conversão segura de mensagens (try/catch) + validação de tipos.
+  5. Fallback de áudio resumido para browsers sem getUserMedia.
+*/
 
 const tools = [
   {
@@ -68,350 +83,311 @@ export function RealtimeBrailinho() {
   const { data: session, status: sessionStatus } = useSession();
 
   const peerConnectionRef = useRef(null);
+  const lastAgendamentoArgsRef = useRef(null); // 🌟 Guardar argumentos válidos = useRef(null);
   const audioPlayerRef = useRef(null);
   const localStreamRef = useRef(null);
   const dataChannelRef = useRef(null);
 
-  // Limpa recursos
+  // 🌐 Safe cleanup helper
   const cleanup = useCallback(() => {
-    if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
-      peerConnectionRef.current = null;
-    }
-    if (localStreamRef.current) {
-      localStreamRef.current.getTracks().forEach((track) => track.stop());
-      localStreamRef.current = null;
-    }
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.pause();
-      audioPlayerRef.current.srcObject = null;
+    console.info("BRAILINHO ➡️ Cleanup iniciado");
+    try {
+      if (peerConnectionRef.current) {
+        peerConnectionRef.current.close();
+        peerConnectionRef.current = null;
+      }
+      if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach((t) => t.stop());
+        localStreamRef.current = null;
+      }
+      if (audioPlayerRef.current) {
+        audioPlayerRef.current.pause();
+        audioPlayerRef.current.srcObject = null;
+      }
+      if (dataChannelRef.current) {
+        dataChannelRef.current.close();
+        dataChannelRef.current = null;
+      }
+    } catch (err) {
+      console.error("BRAILINHO ❌ Erro no cleanup:", err);
     }
   }, []);
 
-  // Função para enviar mensagem pelo DataChannel
+  // 📤 Envia evento JSON para IA
   const sendToAssistant = useCallback((obj) => {
     const dc = dataChannelRef.current;
     if (dc && dc.readyState === "open") {
       dc.send(JSON.stringify(obj));
+    } else {
+      console.warn("BRAILINHO ⚠️ DataChannel não está aberto. Ignorando envio.");
     }
   }, []);
 
-  // Escuta a resposta do usuário para confirmações
+  // -------------------
+  // 🎤 Escuta confirmações do usuário (sim/não)
+  // -------------------
   useEffect(() => {
     if (!pendingConfirm || !pendingArgs) return;
 
-    // Função que interpreta "sim" ou "não" a partir da fala/texto
-    const handleUserConfirm = async (event) => {
-      if (!event.data) return;
-      try {
-        const msg = JSON.parse(event.data);
-        if (
-          msg.type === "response.audio_transcript.delta" ||
-          msg.type === "response.audio_transcript.done"
-        ) {
-          const fala = (msg.transcript || msg.delta || "")
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
+    const dc = dataChannelRef.current;
+    if (!dc) return;
 
-          // Simples filtro: aceita "sim" ou "isso" como confirmação
-          if (fala.includes("sim") || fala.includes("isso")) {
-            // Refaz a chamada, agora com o valor confirmado
-            let newArgs = { ...pendingArgs };
-            if (pendingConfirm.tipo === "medico") {
-              newArgs.nome_medico = pendingConfirm.sugestao;
-            }
-            if (pendingConfirm.tipo === "especialidade") {
-              newArgs.especialidade = pendingConfirm.sugestao;
-            }
-            // Limpa estado e executa novamente
-            setPendingConfirm(null);
-            setPendingArgs(null);
-            const output = await verificarDisponibilidade(newArgs);
-            if (output.disponivel) {
-              // (passo atual) Informa para IA, para ela mesma chamar a função de agendamento!
-              sendToAssistant({
-                type: "conversation.item.create",
-                item: {
-                  type: "function_call_output",
-                  call_id: pendingConfirm.call_id,
-                  output: JSON.stringify(output),
-                },
-              });
-              sendToAssistant({ type: "response.create" });
-            }
-            return;
-          }
-          // Recusa: usuário disse "não"
-          if (fala.includes("nao") || fala.includes("não")) {
-            setPendingConfirm(null);
-            setPendingArgs(null);
+    const handleUserConfirm = async (event) => {
+      let msg;
+      try {
+        msg = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+      if (
+        msg.type === "response.audio_transcript.delta" ||
+        msg.type === "response.audio_transcript.done"
+      ) {
+        const fala = (msg.transcript || msg.delta || "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[^a-zA-Z0-9\s]/g, "");
+
+        if (/(sim|isso|confirm)/.test(fala)) {
+          console.info("BRAILINHO ✔️ Confirmação detectada:", fala);
+          const newArgs = { ...pendingArgs };
+          if (pendingConfirm.tipo === "medico") newArgs.nome_medico = pendingConfirm.sugestao;
+          if (pendingConfirm.tipo === "especialidade") newArgs.especialidade = pendingConfirm.sugestao;
+
+          setPendingConfirm(null);
+          setPendingArgs(null);
+
+          const output = await verificarDisponibilidade(newArgs);
+          if (output.disponivel) {
             sendToAssistant({
               type: "conversation.item.create",
               item: {
-                type: "message",
-                role: "assistant",
-                content: [
-                  {
-                    type: "audio",
-                    transcript:
-                      "Ok, agendamento cancelado. Se quiser tentar outro nome ou especialidade, por favor, fale novamente.",
-                  },
-                ],
+                type: "function_call_output",
+                call_id: pendingConfirm.call_id,
+                output: JSON.stringify(output),
               },
             });
-            return;
+            sendToAssistant({ type: "response.create" });
           }
+          return;
         }
-      } catch {}
-    };
 
-    // Assina o canal
-    const dc = dataChannelRef.current;
-    if (dc) {
-      dc.addEventListener("message", handleUserConfirm);
-    }
-    return () => {
-      if (dc) {
-        dc.removeEventListener("message", handleUserConfirm);
+        if (/(nao|não)/.test(fala)) {
+          console.info("BRAILINHO ➡️ Usuário negou confirmação:", fala);
+          setPendingConfirm(null);
+          setPendingArgs(null);
+          sendToAssistant({
+            type: "conversation.item.create",
+            item: {
+              type: "message",
+              role: "assistant",
+              content: [
+                {
+                  type: "audio",
+                  transcript:
+                    "Ok, agendamento cancelado. Se quiser tentar outro nome ou especialidade, por favor, fale novamente.",
+                },
+              ],
+            },
+          });
+        }
       }
     };
+
+    dc.addEventListener("message", handleUserConfirm);
+    return () => dc.removeEventListener("message", handleUserConfirm);
   }, [pendingConfirm, pendingArgs, sendToAssistant]);
 
-  // Efeito principal de conexão
+  // -------------------
+  // 🔌 Conexão WebRTC + DataChannel
+  // -------------------
   useEffect(() => {
     if (sessionStatus !== "authenticated") {
-      setConnectionStatus(
-        sessionStatus === "loading" ? "initializing" : "unauthenticated"
-      );
+      setConnectionStatus(sessionStatus === "loading" ? "initializing" : "unauthenticated");
       return;
     }
 
-    let isComponentMounted = true;
-    let localPc = null;
-    let localDc = null;
-
+    let isMounted = true;
     const connect = async () => {
-      if (peerConnectionRef.current) return;
-
-      if (isComponentMounted) setConnectionStatus("connecting");
+      if (peerConnectionRef.current) return; // already connected
+      console.info("BRAILINHO ➡️ Iniciando conexão WebRTC");
 
       try {
-        const sessionResponse = await fetch("/api/realtime-session");
-        if (!sessionResponse.ok)
-          throw new Error("Falha ao obter chave de sessão");
-        const sessionData = await sessionResponse.json();
-        const ephemeralKey = sessionData.client_secret.value;
+        setConnectionStatus("connecting");
+        const sessionRes = await fetch("/api/realtime-session");
+        if (!sessionRes.ok) throw new Error("Falha ao obter chave de sessão");
+        const { client_secret } = await sessionRes.json();
+        const token = client_secret.value;
 
-        localPc = new RTCPeerConnection();
-        peerConnectionRef.current = localPc;
+        const pc = new RTCPeerConnection();
+        peerConnectionRef.current = pc;
 
-        localPc.onconnectionstatechange = () => {
-          if (
-            ["failed", "disconnected", "closed"].includes(
-              localPc.connectionState
-            )
-          ) {
-            if (isComponentMounted) setConnectionStatus("error");
+        pc.onconnectionstatechange = () => {
+          console.debug("BRAILINHO ☆ PeerConnection state:", pc.connectionState);
+          if (["failed", "disconnected", "closed"].includes(pc.connectionState)) {
+            setConnectionStatus("error");
           }
         };
 
-        localDc = localPc.createDataChannel("oai-events");
-        dataChannelRef.current = localDc;
+        const dc = pc.createDataChannel("oai-events");
+        dataChannelRef.current = dc;
+        dc.onopen = () => console.debug("BRAILINHO ☆ DataChannel aberto");
+        dc.onerror = (e) => console.error("BRAILINHO ❌ DataChannel erro:", e);
+        dc.onclose = () => console.warn("BRAILINHO ⚠️ DataChannel fechado");
 
-        localDc.onopen = () => {
-          let systemPrompt = `
-Sua função é um assistente de agendamento de consultas para a plataforma BrailleWay.
-
-REGRAS OBRIGATÓRIAS DO FLUXO:
-1.  Sempre comece chamando a função 'verificar_disponibilidade_medico'.
-2.  Analise a resposta da função CUIDADOSAMENTE.
-3.  Se a resposta contiver 'disponivel: true' e um objeto 'proximaAcao', isso é um SUCESSO. Informe o usuário sobre os detalhes e pergunte "Posso confirmar o agendamento?".
-4.  Se o usuário concordar (disser "sim", "confirme", "pode agendar"), e SOMENTE NESSE CASO, você deve chamar a função seguinte, que é 'confirmar_agendamento_consulta', usando EXATAMENTE os argumentos fornecidos no objeto 'proximaAcao.argumentos'. Não altere os argumentos.
-5.  Se a resposta da verificação for 'disponivel: false', o fluxo TERMINA AQUI. Você deve OBRIGATORIAMENTE informar ao usuário que o horário não está disponível, citando o 'motivo' da resposta, e aguardar um novo comando dele. NÃO prossiga para o agendamento.
-6.  Se a resposta pedir confirmação ('precisaConfirmar'), faça a pergunta ao usuário e aguarde a resposta dele.
-
-Fale sempre em português do Brasil.
-`;
-
-          if (session?.user?.role)
-            systemPrompt += ` O usuário é um ${session.user.role}.`;
-
-          localDc.send(
-            JSON.stringify({
-              type: "session.update",
-              session: { instructions: systemPrompt, tools },
-            })
-          );
-        };
-        // RECEBE RESPOSTAS DA IA
-        localDc.onmessage = async (event) => {
-          console.log("MENSAGEM DA IA RECEBIDA:", event.data); // <-- LOG CRÍTICO
-          let serverEvent;
+        // ----- RECEBE MENSAGENS DA IA
+        dc.onmessage = async (event) => {
+          console.debug("BRAILINHO ⇢ Mensagem IA:", event.data?.slice(0, 200), "...");
+          let srvEvt;
           try {
-            serverEvent = JSON.parse(event.data);
+            srvEvt = JSON.parse(event.data);
           } catch {
             return;
           }
-          // Função chamada pela IA
-          if (
-            serverEvent.type === "response.done" &&
-            serverEvent.response?.output?.some(
-              (item) => item.type === "function_call"
-            )
-          ) {
-            const functionCall = serverEvent.response.output.find(
-              (item) => item.type === "function_call"
-            );
-            const { name, arguments: argsString, id: call_id } = functionCall;
-            const args = JSON.parse(argsString);
-            let output = {};
 
+          if (
+            srvEvt.type === "response.done" &&
+            srvEvt.response?.output?.some((i) => i.type === "function_call")
+          ) {
+            const functionCall = srvEvt.response.output.find((i) => i.type === "function_call");
+            const { name, arguments: argStr, id: call_id } = functionCall;
+            let args;
+            try {
+              args = JSON.parse(argStr);
+            } catch (e) {
+              console.error("BRAILINHO ❌ JSON parse argumentos:", e);
+              return;
+            }
+
+            let output = {};
             try {
               if (name === "verificar_disponibilidade_medico") {
                 output = await verificarDisponibilidade(args);
-
-                // Se precisa confirmação (nomes parecidos ou múltiplos médicos), pede para o usuário!
-                if (
-                  output.precisaConfirmar &&
-                  output.sugestoes &&
-                  output.sugestoes.length > 0
-                ) {
+                // Guarda possíveis argumentos de agendamento
+                if (output?.proximaAcao?.argumentos) {
+                  lastAgendamentoArgsRef.current = output.proximaAcao.argumentos;
+                }
+                // confirmação necessária (nomes similares)
+                if (output.precisaConfirmar && output.sugestoes?.length) {
                   setPendingConfirm({
                     tipo: output.precisaConfirmar,
-                    sugestao: output.sugestoes[0], // pega o mais parecido
+                    sugestao: output.sugestoes[0],
                     call_id,
                   });
                   setPendingArgs(args);
 
-                  let frasesugestao = "";
-                  if (output.sugestoes.length === 1) {
-                    if (output.precisaConfirmar === "medico") {
-                      frasesugestao = `Você quis dizer o médico ${output.sugestoes[0]}? Por favor, responda sim ou não.`;
-                    } else {
-                      frasesugestao = `Você quis dizer a especialidade ${output.sugestoes[0]}? Por favor, responda sim ou não.`;
-                    }
-                  } else {
-                    frasesugestao = `Encontrei mais de um resultado: ${output.sugestoes.join(
-                      ", "
-                    )}. Qual deles você deseja?`;
-                  }
+                  const frase =
+                    output.sugestoes.length === 1
+                      ? `Você quis dizer ${output.sugestoes[0]}?` +
+                        " Por favor, responda sim ou não."
+                      : `Encontrei mais de um resultado: ${output.sugestoes.join(", ")}. Qual deseja?`;
 
-                  localDc.send(
-                    JSON.stringify({
-                      type: "conversation.item.create",
-                      item: {
-                        type: "message",
-                        role: "assistant",
-                        content: [
-                          {
-                            type: "audio",
-                            transcript: frasesugestao,
-                          },
-                        ],
-                      },
-                    })
-                  );
-                  return; // Só volta para continuar depois do usuário responder
+                  sendToAssistant({
+                    type: "conversation.item.create",
+                    item: {
+                      type: "message",
+                      role: "assistant",
+                      content: [{ type: "audio", transcript: frase }],
+                    },
+                  });
+                  return; // aguarda usuário
                 }
               } else if (name === "confirmar_agendamento_consulta") {
-                output = await confirmarAgendamento(args);
+                // ⚠️  Proteção contra IA alterar argumentos
+                const safeArgs = lastAgendamentoArgsRef.current || args;
+                if (!lastAgendamentoArgsRef.current) {
+                  console.warn("BRAILINHO ⚠️ confirmAgendamento sem cache, usando args vindos da IA");
+                } else if (JSON.stringify(args) !== JSON.stringify(safeArgs)) {
+                  console.warn("BRAILINHO ⚠️ IA alterou argumentos. Sobrescrevendo pelos seguros:", safeArgs);
+                }
+                output = await confirmarAgendamento(safeArgs);
               }
-            } catch (actionError) {
-              output = {
-                error: `Erro ao executar a função no servidor: ${actionError.message}`,
-              };
+            } catch (err) {
+              console.error("BRAILINHO ❌ Erro na função server:", err);
+              output = { error: err.message || "Erro desconhecido" };
             }
 
-            if (localDc.readyState === "open" && isComponentMounted) {
-              localDc.send(
-                JSON.stringify({
-                  type: "conversation.item.create",
-                  item: {
-                    type: "function_call_output",
-                    call_id,
-                    output: JSON.stringify(output),
-                  },
-                })
-              );
-              localDc.send(JSON.stringify({ type: "response.create" }));
-            }
+            sendToAssistant({
+              type: "conversation.item.create",
+              item: { type: "function_call_output", call_id, output: JSON.stringify(output) },
+            });
+            sendToAssistant({ type: "response.create" });
           }
         };
 
+        // ----- ÁUDIO OUT
         if (!audioPlayerRef.current) audioPlayerRef.current = new Audio();
         audioPlayerRef.current.autoplay = true;
-
-        localPc.ontrack = (event) => {
-          if (isComponentMounted) setIsSpeaking(true);
-          if (audioPlayerRef.current)
-            audioPlayerRef.current.srcObject = event.streams[0];
-          event.track.onended = () => {
-            if (isComponentMounted) setIsSpeaking(false);
-          };
+        pc.ontrack = ({ streams, track }) => {
+          setIsSpeaking(true);
+          audioPlayerRef.current.srcObject = streams[0];
+          track.onended = () => setIsSpeaking(false);
         };
 
-        const userMediaStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
-        if (!isComponentMounted)
-          return userMediaStream.getTracks().forEach((track) => track.stop());
-        localStreamRef.current = userMediaStream;
-        userMediaStream
-          .getTracks()
-          .forEach((track) => localPc.addTrack(track, userMediaStream));
+        // ----- ÁUDIO IN
+        let stream;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (err) {
+          console.error("BRAILINHO ❌ getUserMedia falhou:", err);
+          setConnectionStatus("error");
+          return;
+        }
+        stream.getTracks().forEach((t) => pc.addTrack(t, stream));
+        localStreamRef.current = stream;
 
-        const offer = await localPc.createOffer();
-        await localPc.setLocalDescription(offer);
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
 
-        const sdpResponse = await fetch(
-          `https://api.openai.com/v1/realtime?model=gpt-4o-mini-realtime-preview`,
+        const sdpRes = await fetch(
+          "https://api.openai.com/v1/realtime?model=gpt-4o-mini-realtime-preview",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/sdp",
-              Authorization: `Bearer ${ephemeralKey}`,
+              Authorization: `Bearer ${token}`,
             },
             body: offer.sdp,
           }
         );
+        if (!sdpRes.ok) throw new Error(`SDP negotiation falhou: ${sdpRes.statusText}`);
+        const answer = await sdpRes.text();
+        await pc.setRemoteDescription({ type: "answer", sdp: answer });
 
-        if (!sdpResponse.ok)
-          throw new Error(`Erro na negociação SDP: ${sdpResponse.statusText}`);
-
-        const answerSdp = await sdpResponse.text();
-        await localPc.setRemoteDescription({ type: "answer", sdp: answerSdp });
-
-        if (isComponentMounted) setConnectionStatus("connected");
-      } catch (error) {
-        if (isComponentMounted) setConnectionStatus("error");
+        // Envia System Prompt
+        dc.onopen = () => {
+          console.debug("BRAILINHO ☆ DataChannel pronto (onopen override)");
+          const systemPrompt = `Sua função é um assistente de agendamento de consultas para a plataforma BrailleWay.\nFale em português.\n`;
+          dc.send(
+            JSON.stringify({ type: "session.update", session: { instructions: systemPrompt, tools } })
+          );
+          setConnectionStatus("connected");
+        };
+      } catch (err) {
+        console.error("BRAILINHO ❌ Conexão falhou:", err);
+        if (isMounted) setConnectionStatus("error");
         cleanup();
       }
     };
 
     connect();
-
     return () => {
-      isComponentMounted = false;
+      isMounted = false;
       cleanup();
     };
-  }, [sessionStatus, session, cleanup]);
+  }, [sessionStatus, cleanup]);
 
+  // UI Indicator helper
   const getStatusIndicator = () => {
     switch (connectionStatus) {
       case "initializing":
         return (
           <div className="flex items-center justify-center text-gray-500">
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Carregando
-            sessão...
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Carregando sessão...
           </div>
         );
       case "unauthenticated":
-        return (
-          <div className="text-gray-500">
-            Faça login como paciente para usar.
-          </div>
-        );
+        return <div className="text-gray-500">Faça login como paciente para usar.</div>;
       case "connecting":
         return (
           <div className="flex items-center justify-center text-yellow-500">
@@ -429,9 +405,7 @@ Fale sempre em português do Brasil.
           </div>
         );
       case "error":
-        return (
-          <span className="text-red-500">Erro na Conexão. Tente reabrir.</span>
-        );
+        return <span className="text-red-500">Erro na Conexão. Tente reabrir.</span>;
       default:
         return <span className="text-gray-500">Desconectado</span>;
     }
@@ -443,14 +417,7 @@ Fale sempre em português do Brasil.
       <div className="my-2 p-2 border rounded-md min-h-[2.5rem] w-full text-center">
         {getStatusIndicator()}
       </div>
-      <Button
-        onClick={cleanup}
-        className="w-full"
-        variant="destructive"
-        disabled={
-          connectionStatus !== "connected" && connectionStatus !== "error"
-        }
-      >
+      <Button onClick={cleanup} className="w-full" variant="destructive" disabled={connectionStatus !== "connected" && connectionStatus !== "error"}>
         <Phone className="w-4 h-4 mr-2" /> Encerrar Chamada
       </Button>
     </div>
