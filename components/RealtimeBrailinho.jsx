@@ -42,8 +42,16 @@ const toISOWithTimezone = (dateStr, hourStr) => {
     .toISOString(); // inclui o offset (-03:00) automaticamente
 };
 
-const ensureTimezoneOffset = (iso) =>
-  /Z$|[+-]\d{2}:\d{2}$/.test(iso) ? iso : `${iso}-03:00`;
+const ensureTimezoneOffset = (iso) => {
+  // Se já tem offset, retorna como está
+  if (/Z$|[+-]\d{2}:\d{2}$/.test(iso)) {
+    return iso;
+  }
+  
+  // Se não tem offset, assume que é UTC e converte para local
+  const utcDate = dayjs.utc(iso);
+  return utcDate.tz(TZ).toISOString();
+};
 /* -------------------------------------------------- */
 
 const tools = [
