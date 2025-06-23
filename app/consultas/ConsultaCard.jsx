@@ -22,6 +22,9 @@ export default function ConsultaCard({ consulta }) {
   
   const especialidade = consulta.medico.especialidade?.nome || "Especialidade não informada";
 
+  const nomeMedico = consulta.medico?.nome || "Médico";
+  const nomePaciente = consulta.paciente?.nome || null;
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between transition-transform hover:scale-105">
       <div className="flex items-start gap-4 mb-4">
@@ -32,7 +35,10 @@ export default function ConsultaCard({ consulta }) {
           </div>
         </div>
         <div className="flex-grow">
-          <h3 className="font-bold text-lg text-gray-800">{consulta.medico.nome}</h3>
+          <h3 className="font-bold text-lg text-gray-800">{nomeMedico}</h3>
+          {nomePaciente && (
+            <p className="text-sm text-gray-700">Paciente: <span className="font-semibold">{nomePaciente}</span></p>
+          )}
           <p className="text-sm text-gray-500">{`${horaInicio} até ${horaFim}`}</p>
         </div>
       </div>

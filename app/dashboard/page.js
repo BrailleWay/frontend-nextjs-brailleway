@@ -17,6 +17,7 @@ export default async function DashboardPage() {
       <p>Olá, {session.user.name}.</p>
       <p>Seu email é: {session.user.email}</p>
       <p>Seu ID de usuário é: {session.user.id}</p>
+      <p>Seu tipo de usuário é: {session.user.role}</p>
       <div>
         <form action={handleLogout}>
           <button type="submit">Sair (via Server Action)</button>

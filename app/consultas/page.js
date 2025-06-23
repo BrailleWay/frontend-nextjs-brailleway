@@ -1,8 +1,8 @@
-import { getConsultasPaciente } from '@/lib/actions';
+import { getConsultasUsuario } from '@/lib/actions';
 import ConsultaCard from './ConsultaCard';    
 
 export default async function ConsultasPage() {
-  const consultas = await getConsultasPaciente();
+  const consultas = await getConsultasUsuario();
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
