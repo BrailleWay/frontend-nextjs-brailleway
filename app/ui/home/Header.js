@@ -17,8 +17,9 @@ import {
   UserPlus,
   X
 } from 'lucide-react'
-import Image from 'next/image'
-import { PopoverDemo } from '@/components/Popover'
+import Image from 'next/image';
+import { PopoverDemo } from '@/components/Popover';
+import Link from 'next/link';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -71,12 +72,11 @@ export default function Header() {
           />
           <PopoverDemo />
         </div>
-
         {/* Menu desktop */}
         <nav className="hidden md:flex space-x-10 items-center">
           <ul className="flex space-x-10 items-center text-[#3C3C3C]">
             {[
-              { label: 'Início', href: '#' },
+              { label: 'Início', href: '/' },
               { label: 'Como funciona', href: '#' },
               { label: 'Sou especialista', href: '#' },
               { label: 'Procurar especialista', href: '#' },
@@ -92,16 +92,16 @@ export default function Header() {
                 {currentPage === item.label && (
                   <span className="w-2 h-2 bg-[#338DEF] rounded-full"></span>
                 )}
-                <a href={item.href} className="block">
+                <Link href={item.href} className="block">
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
 
             {/* 🔥 Botão "Cadastre-se" */}
             <li>
               <a
-                href="#"
+                href="/cadastro/paciente"
                 className="flex items-center justify-center rounded-full bg-[#338DEF] text-white px-5 py-2 text-sm hover:bg-blue-600 transition-all duration-200 shadow-sm active:scale-95"
               >
                 Cadastre-se

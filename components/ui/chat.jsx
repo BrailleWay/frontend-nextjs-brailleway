@@ -143,7 +143,7 @@ export function Chat({
 
   return (
     <ChatContainer className={className}>
-      {isEmpty && append && suggestions ? (
+{isEmpty && append && suggestions ? (
 
 <PromptSuggestions
   label={
@@ -167,11 +167,11 @@ export function Chat({
       />
     </div>
   }
-  append={(value) => console.log("append", value)} // <-- testando se funciona
-  suggestions={["Qual seu nome?", "O que você faz?", "Me explique sobre IA"]}
+  append={append} // <-- CORREÇÃO: Passe a prop 'append' original
+  suggestions={suggestions} // <-- CORREÇÃO: Passe a prop 'suggestions' original
 />
 
-      ) : null}
+) : null}
       {messages.length > 0 ? (
         <ChatMessages messages={messages}>
           <MessageList messages={messages} isTyping={isTyping} messageOptions={messageOptions} />

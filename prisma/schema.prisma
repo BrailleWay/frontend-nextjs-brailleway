@@ -84,7 +84,6 @@ enum FaturaStatus {
   reembolsada
 }
 
-
 // ===============================================
 // Models (Padronizados e Corrigidos)
 // ===============================================
@@ -100,66 +99,66 @@ model PerfilAcesso {
 }
 
 model NivelAcessoPlano {
-  id                Int                @id @map("nivelAcessoPlano_id")
-  nome              String             @unique @db.VarChar(100)
-  descricao         String             @db.Text
-  planosAssinatura  PlanoAssinatura[]
+  id               Int               @id @map("nivelAcessoPlano_id")
+  nome             String            @unique @db.VarChar(100)
+  descricao        String            @db.Text
+  planosAssinatura PlanoAssinatura[]
 
   @@map("nivelAcessoPlano")
 }
 
 model Admin {
-  id            Int           @id @default(autoincrement()) @map("admin_id")
-  nome          String        @db.VarChar(255)
-  email         String        @unique @db.VarChar(255)
-  senha         String        @db.VarChar(255)
-  telefone      String?       @db.VarChar(20)
-  perfilId      Int?          @default(1) @map("perfil_id")
-  ativo         Boolean?      @default(true)
-  criadoEm      DateTime?     @default(now()) @map("criado_em") @db.Timestamp()
-  atualizadoEm  DateTime?     @updatedAt @map("atualizado_em") @db.Timestamp()
+  id           Int       @id @default(autoincrement()) @map("admin_id")
+  nome         String    @db.VarChar(255)
+  email        String    @unique @db.VarChar(255)
+  senha        String    @db.VarChar(255)
+  telefone     String?   @db.VarChar(20)
+  perfilId     Int?      @default(1) @map("perfil_id")
+  ativo        Boolean?  @default(true)
+  criadoEm     DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime? @updatedAt @map("atualizado_em") @db.Timestamp()
 
-  perfilAcesso  PerfilAcesso? @relation(fields: [perfilId], references: [id]) // CORREÇÃO
+  perfilAcesso PerfilAcesso? @relation(fields: [perfilId], references: [id]) // CORREÇÃO
 
   @@map("Admin")
 }
 
 model Paciente {
-  id              Int               @id @default(autoincrement()) @map("paciente_id")
-  nome            String            @db.VarChar(255)
-  email           String            @unique @db.VarChar(255)
-  telefone        String            @db.VarChar(255)
-  dataNascimento  DateTime          @map("data_nascimento") @db.Date
-  genero          Genero
-  senha           String            @db.VarChar(255)
-  perfilId        Int?              @default(2) @map("perfil_id")
-  descricao       String?           @db.Text
-  ativo           Boolean?          @default(true)
-  criadoEm        DateTime?         @default(now()) @map("criado_em") @db.Timestamp()
-  atualizadoEm    DateTime?         @updatedAt @map("atualizado_em") @db.Timestamp()
+  id             Int       @id @default(autoincrement()) @map("paciente_id")
+  nome           String    @db.VarChar(255)
+  email          String    @unique @db.VarChar(255)
+  telefone       String    @db.VarChar(255)
+  dataNascimento DateTime  @map("data_nascimento") @db.Date
+  genero         Genero
+  senha          String    @db.VarChar(255)
+  perfilId       Int?      @default(2) @map("perfil_id")
+  descricao      String?   @db.Text
+  ativo          Boolean?  @default(true)
+  criadoEm       DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm   DateTime? @updatedAt @map("atualizado_em") @db.Timestamp()
 
-  perfilAcesso    PerfilAcesso?     @relation(fields: [perfilId], references: [id]) // CORREÇÃO
-  cartoes         CartaoPaciente[]
-  planos          PacientePlano[]
+  perfilAcesso     PerfilAcesso?     @relation(fields: [perfilId], references: [id]) // CORREÇÃO
+  cartoes          CartaoPaciente[]
+  planos           PacientePlano[]
   sessoesMeditacao SessaoMeditacao[]
-  consultas       Consulta[]
-  salasChat       SalaChat[]
-  faturas         Fatura[]
+  consultas        Consulta[]
+  salasChat        SalaChat[]
+  faturas          Fatura[]
 
   @@map("Paciente")
 }
 
 model CartaoPaciente {
-  id                      Int        @id @default(autoincrement()) @map("cartaoPaciente_id")
-  operadora               String     @db.VarChar(255)
-  nomeTitular             String     @map("nome_titular") @db.VarChar(255)
+  id                        Int        @id @default(autoincrement()) @map("cartaoPaciente_id")
+  operadora                 String     @db.VarChar(255)
+  nomeTitular               String     @map("nome_titular") @db.VarChar(255)
   numeroCartaoCriptografado String     @map("numero_cartao_criptografado") @db.Text
-  validadeMes             Int        @map("validade_mes")
-  validadeAno             Int        @map("validade_ano")
-  tipoCartao              TipoCartao @map("tipo_cartao")
-  pacienteId              Int        @map("paciente_id")
-  ativo                   Boolean?   @default(true)
-  criadoEm                DateTime?  @default(now()) @map("criado_em") @db.Timestamp()
+  validadeMes               Int        @map("validade_mes")
+  validadeAno               Int        @map("validade_ano")
+  tipoCartao                TipoCartao @map("tipo_cartao")
+  pacienteId                Int        @map("paciente_id")
+  ativo                     Boolean?   @default(true)
+  criadoEm                  DateTime?  @default(now()) @map("criado_em") @db.Timestamp()
 
   paciente Paciente @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
 
@@ -167,30 +166,30 @@ model CartaoPaciente {
 }
 
 model PlanoAssinatura {
-  id                     Int             @id @default(autoincrement()) @map("planoAssinatura_id")
-  nome                   String          @db.VarChar(255)
-  descricao              String          @db.Text
-  preco                  Decimal         @db.Decimal(10, 2)
-  nivelAcessoPlanoId     Int             @map("nivelAcessoPlano_id")
-  duracaoConsultaMinutos Int             @default(30) @map("duracao_consulta_minutos")
-  limiteConsultas        Int             @map("limite_consultas")
-  ativo                  Boolean?        @default(true)
-  criadoEm               DateTime?       @default(now()) @map("criado_em") @db.Timestamp()
+  id                     Int       @id @default(autoincrement()) @map("planoAssinatura_id")
+  nome                   String    @db.VarChar(255)
+  descricao              String    @db.Text
+  preco                  Decimal   @db.Decimal(10, 2)
+  nivelAcessoPlanoId     Int       @map("nivelAcessoPlano_id")
+  duracaoConsultaMinutos Int       @default(30) @map("duracao_consulta_minutos")
+  limiteConsultas        Int       @map("limite_consultas")
+  ativo                  Boolean?  @default(true)
+  criadoEm               DateTime? @default(now()) @map("criado_em") @db.Timestamp()
 
-  nivelAcessoPlano       NivelAcessoPlano @relation(fields: [nivelAcessoPlanoId], references: [id]) // CORREÇÃO
-  pacientesNoPlano       PacientePlano[]
+  nivelAcessoPlano NivelAcessoPlano @relation(fields: [nivelAcessoPlanoId], references: [id]) // CORREÇÃO
+  pacientesNoPlano PacientePlano[]
 
   @@map("planoAssinatura")
 }
 
 model PacientePlano {
-  id                   Int                 @id @default(autoincrement()) @map("pacientePlano_id")
-  pacienteId           Int                 @map("paciente_id")
-  planoAssinaturaId    Int                 @map("planoAssinatura_id")
-  dataInicio           DateTime            @default(now()) @map("data_inicio") @db.Timestamp()
-  dataFim              DateTime?           @map("data_fim") @db.Timestamp()
-  consultasUtilizadas  Int?                @default(0) @map("consultas_utilizadas")
-  status               PacientePlanoStatus? @default(ativo)
+  id                  Int                  @id @default(autoincrement()) @map("pacientePlano_id")
+  pacienteId          Int                  @map("paciente_id")
+  planoAssinaturaId   Int                  @map("planoAssinatura_id")
+  dataInicio          DateTime             @default(now()) @map("data_inicio") @db.Timestamp()
+  dataFim             DateTime?            @map("data_fim") @db.Timestamp()
+  consultasUtilizadas Int?                 @default(0) @map("consultas_utilizadas")
+  status              PacientePlanoStatus? @default(ativo)
 
   paciente        Paciente        @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
   planoAssinatura PlanoAssinatura @relation(fields: [planoAssinaturaId], references: [id]) // CORREÇÃO
@@ -213,17 +212,17 @@ model Especialidade {
 }
 
 model Medico {
-  id               Int                     @id @default(autoincrement()) @map("medico_id")
-  nome             String                  @db.VarChar(255)
-  senha            String                  @db.VarChar(255)
-  crm              String                  @unique @db.VarChar(20)
-  email            String                  @unique @db.VarChar(255)
-  telefone         String                  @db.VarChar(255)
-  especialidadeId  Int                     @map("especialidade_id")
-  perfilId         Int?                    @default(3) @map("perfil_id")
-  ativo            Boolean?                @default(true)
-  criadoEm         DateTime?               @default(now()) @map("criado_em") @db.Timestamp()
-  atualizadoEm     DateTime?               @updatedAt @map("atualizado_em") @db.Timestamp()
+  id              Int       @id @default(autoincrement()) @map("medico_id")
+  nome            String    @db.VarChar(255)
+  senha           String    @db.VarChar(255)
+  crm             String    @unique @db.VarChar(20)
+  email           String    @unique @db.VarChar(255)
+  telefone        String    @db.VarChar(255)
+  especialidadeId Int       @map("especialidade_id")
+  perfilId        Int?      @default(3) @map("perfil_id")
+  ativo           Boolean?  @default(true)
+  criadoEm        DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm    DateTime? @updatedAt @map("atualizado_em") @db.Timestamp()
 
   especialidade    Especialidade           @relation(fields: [especialidadeId], references: [id]) // CORREÇÃO
   perfilAcesso     PerfilAcesso?           @relation(fields: [perfilId], references: [id]) // CORREÇÃO
@@ -238,31 +237,31 @@ model Medico {
 }
 
 model DadosBancariosMedico {
-  id           Int       @id @default(autoincrement()) @map("dadosBancariosMedico_id")
-  medicoId     Int       @map("medico_id")
-  tipoConta    TipoConta @map("tipo_conta")
-  banco        String    @db.VarChar(100)
-  agencia      String    @db.VarChar(10)
-  conta        String    @db.VarChar(20)
-  digitoConta  String?   @map("digito_conta") @db.VarChar(2)
-  pix          String?   @db.VarChar(255)
-  ativo        Boolean?  @default(true)
-  criadoEm     DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  id          Int       @id @default(autoincrement()) @map("dadosBancariosMedico_id")
+  medicoId    Int       @map("medico_id")
+  tipoConta   TipoConta @map("tipo_conta")
+  banco       String    @db.VarChar(100)
+  agencia     String    @db.VarChar(10)
+  conta       String    @db.VarChar(20)
+  digitoConta String?   @map("digito_conta") @db.VarChar(2)
+  pix         String?   @db.VarChar(255)
+  ativo       Boolean?  @default(true)
+  criadoEm    DateTime? @default(now()) @map("criado_em") @db.Timestamp()
 
   medico Medico @relation(fields: [medicoId], references: [id]) // CORREÇÃO
-  
+
   @@unique([medicoId, tipoConta, agencia, conta])
   @@map("dadosBancariosMedico")
 }
 
 model DisponibilidadeMedico {
-  id          Int       @id @default(autoincrement()) @map("disponibilidade_id")
-  medicoId    Int       @map("medico_id")
-  diaSemana   Int       @map("dia_semana")
-  horaInicio  DateTime  @map("hora_inicio") @db.Time()
-  horaFim     DateTime  @map("hora_fim") @db.Time()
-  disponivel  Boolean   @default(true)
-  criadoEm    DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  id         Int       @id @default(autoincrement()) @map("disponibilidade_id")
+  medicoId   Int       @map("medico_id")
+  diaSemana  Int       @map("dia_semana")
+  horaInicio DateTime  @map("hora_inicio") @db.Time()
+  horaFim    DateTime  @map("hora_fim") @db.Time()
+  disponivel Boolean   @default(true)
+  criadoEm   DateTime? @default(now()) @map("criado_em") @db.Timestamp()
 
   medico Medico @relation(fields: [medicoId], references: [id]) // CORREÇÃO
 
@@ -272,12 +271,12 @@ model DisponibilidadeMedico {
 }
 
 model BloqueioAgenda {
-  id        Int      @id @default(autoincrement()) @map("bloqueio_id")
-  medicoId  Int      @map("medico_id")
+  id         Int      @id @default(autoincrement()) @map("bloqueio_id")
+  medicoId   Int      @map("medico_id")
   dataInicio DateTime @map("data_inicio") @db.Timestamp()
-  dataFim   DateTime @map("data_fim") @db.Timestamp()
-  motivo    String?  @db.Text
-  criadoEm  DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  dataFim    DateTime @map("data_fim") @db.Timestamp()
+  motivo     String?  @db.Text
+  criadoEm   DateTime @default(now()) @map("criado_em") @db.Timestamp()
 
   medico Medico @relation(fields: [medicoId], references: [id]) // CORREÇÃO
 
@@ -295,8 +294,8 @@ model Fatura {
   dataPagamento      DateTime?    @map("data_pagamento") @db.Timestamp()
   gatewayTransacaoId String?      @unique @map("gateway_transacao_id")
 
-  paciente        Paciente       @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
-  pacientePlano   PacientePlano? @relation(fields: [pacientePlanoId], references: [id]) // CORREÇÃO
+  paciente      Paciente       @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
+  pacientePlano PacientePlano? @relation(fields: [pacientePlanoId], references: [id]) // CORREÇÃO
 
   @@index([pacienteId])
   @@index([status])
@@ -304,15 +303,15 @@ model Fatura {
 }
 
 model FrequenciaSonora {
-  id              Int         @id @default(autoincrement()) @map("frequenciaSonora_id")
-  nome            String      @db.VarChar(255)
-  descricao       String      @db.Text
-  hz              Decimal     @db.Decimal(10, 2)
-  caminhoArquivo  String      @map("caminho_arquivo") @db.Text
+  id              Int            @id @default(autoincrement()) @map("frequenciaSonora_id")
+  nome            String         @db.VarChar(255)
+  descricao       String         @db.Text
+  hz              Decimal        @db.Decimal(10, 2)
+  caminhoArquivo  String         @map("caminho_arquivo") @db.Text
   formatoArquivo  FormatoArquivo @map("formato_arquivo")
-  duracaoSegundos Int?        @map("duracao_segundos")
-  ativo           Boolean?    @default(true)
-  criadoEm        DateTime?   @default(now()) @map("criado_em") @db.Timestamp()
+  duracaoSegundos Int?           @map("duracao_segundos")
+  ativo           Boolean?       @default(true)
+  criadoEm        DateTime?      @default(now()) @map("criado_em") @db.Timestamp()
   meditacoes      Meditacao[]
 
   @@map("FrequenciaSonora")
@@ -328,7 +327,7 @@ model Meditacao {
   ativo              Boolean?          @default(true)
   criadoEm           DateTime?         @default(now()) @map("criado_em") @db.Timestamp()
 
-  frequenciaSonora FrequenciaSonora @relation(fields: [frequenciaSonoraId], references: [id]) // CORREÇÃO
+  frequenciaSonora FrequenciaSonora  @relation(fields: [frequenciaSonoraId], references: [id]) // CORREÇÃO
   sessoes          SessaoMeditacao[]
 
   @@map("Meditacao")
@@ -351,16 +350,16 @@ model SessaoMeditacao {
 }
 
 model Consulta {
-  id              Int            @id @default(autoincrement()) @map("consulta_id")
-  pacienteId      Int            @map("paciente_id")
-  medicoId        Int            @map("medico_id")
-  dataHora        DateTime       @map("data_hora") @db.Timestamp()
-  duracaoMinutos  Int?           @default(30) @map("duracao_minutos")
-  resumo          String?        @db.Text
-  status          ConsultaStatus? @default(agendada)
-  observacoes     String?        @db.Text
-  criadoEm        DateTime?      @default(now()) @map("criado_em") @db.Timestamp()
-  atualizadoEm    DateTime?      @updatedAt @map("atualizado_em") @db.Timestamp()
+  id             Int             @id @default(autoincrement()) @map("consulta_id")
+  pacienteId     Int             @map("paciente_id")
+  medicoId       Int             @map("medico_id")
+  dataHora       DateTime        @map("data_hora") @db.Timestamp()
+  duracaoMinutos Int?            @default(30) @map("duracao_minutos")
+  resumo         String?         @db.Text
+  status         ConsultaStatus? @default(agendada)
+  observacoes    String?         @db.Text
+  criadoEm       DateTime?       @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm   DateTime?       @updatedAt @map("atualizado_em") @db.Timestamp()
 
   paciente     Paciente      @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
   medico       Medico        @relation(fields: [medicoId], references: [id]) // CORREÇÃO
@@ -377,11 +376,11 @@ model Consulta {
 }
 
 model Avaliacao {
-  id          Int       @id @default(autoincrement()) @map("avaliacao_id")
-  consultaId  Int       @unique @map("consulta_id")
-  nota        Int
-  comentario  String?   @db.Text
-  criadoEm    DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  id         Int       @id @default(autoincrement()) @map("avaliacao_id")
+  consultaId Int       @unique @map("consulta_id")
+  nota       Int
+  comentario String?   @db.Text
+  criadoEm   DateTime? @default(now()) @map("criado_em") @db.Timestamp()
 
   consulta Consulta @relation(fields: [consultaId], references: [id]) // CORREÇÃO
 
@@ -406,14 +405,14 @@ model Laudo {
 }
 
 model VideoChamada {
-  id           Int       @id @default(autoincrement()) @map("videoChamada_id")
-  consultaId   Int       @unique @map("consulta_id")
-  urlExterna   String    @map("url_externa") @db.Text
-  plataforma   String    @db.VarChar(100)
-  salaId       String?   @map("sala_id") @db.VarChar(255)
-  criadoEm     DateTime? @default(now()) @map("criado_em") @db.Timestamp()
-  iniciadoEm   DateTime? @map("iniciado_em") @db.Timestamp()
-  encerradoEm  DateTime? @map("encerrado_em") @db.Timestamp()
+  id          Int       @id @default(autoincrement()) @map("videoChamada_id")
+  consultaId  Int       @unique @map("consulta_id")
+  urlExterna  String    @map("url_externa") @db.Text
+  plataforma  String    @db.VarChar(100)
+  salaId      String?   @map("sala_id") @db.VarChar(255)
+  criadoEm    DateTime? @default(now()) @map("criado_em") @db.Timestamp()
+  iniciadoEm  DateTime? @map("iniciado_em") @db.Timestamp()
+  encerradoEm DateTime? @map("encerrado_em") @db.Timestamp()
 
   consulta Consulta @relation(fields: [consultaId], references: [id]) // CORREÇÃO
 
@@ -421,12 +420,12 @@ model VideoChamada {
 }
 
 model SalaChat {
-  id          Int             @id @default(autoincrement()) @map("sala_id")
-  pacienteId  Int             @map("paciente_id")
-  medicoId    Int             @map("medico_id")
-  consultaId  Int?            @map("consulta_id")
-  status      SalaChatStatus? @default(ativa)
-  criadoEm    DateTime?       @default(now()) @map("criado_em") @db.Timestamp()
+  id         Int             @id @default(autoincrement()) @map("sala_id")
+  pacienteId Int             @map("paciente_id")
+  medicoId   Int             @map("medico_id")
+  consultaId Int?            @map("consulta_id")
+  status     SalaChatStatus? @default(ativa)
+  criadoEm   DateTime?       @default(now()) @map("criado_em") @db.Timestamp()
 
   paciente  Paciente   @relation(fields: [pacienteId], references: [id]) // CORREÇÃO
   medico    Medico     @relation(fields: [medicoId], references: [id]) // CORREÇÃO
@@ -438,15 +437,15 @@ model SalaChat {
 }
 
 model Mensagem {
-  id              Int           @id @default(autoincrement()) @map("mensagem_id")
-  salaId          Int           @map("sala_id")
-  remetenteTipo   RemetenteTipo @map("remetente_tipo")
-  remetenteId     Int           @map("remetente_id")
-  mensagem        String        @db.Text
-  tipoMensagem    TipoMensagem  @default(texto) @map("tipo_mensagem")
-  arquivoCaminho  String?       @map("arquivo_caminho") @db.Text
-  lida            Boolean?      @default(false)
-  enviadoEm       DateTime?     @default(now()) @map("enviado_em") @db.Timestamp()
+  id             Int           @id @default(autoincrement()) @map("mensagem_id")
+  salaId         Int           @map("sala_id")
+  remetenteTipo  RemetenteTipo @map("remetente_tipo")
+  remetenteId    Int           @map("remetente_id")
+  mensagem       String        @db.Text
+  tipoMensagem   TipoMensagem  @default(texto) @map("tipo_mensagem")
+  arquivoCaminho String?       @map("arquivo_caminho") @db.Text
+  lida           Boolean?      @default(false)
+  enviadoEm      DateTime?     @default(now()) @map("enviado_em") @db.Timestamp()
 
   salaChat SalaChat @relation(fields: [salaId], references: [id]) // CORREÇÃO
 
@@ -482,19 +481,19 @@ view VwPacientesAtivos {
 }
 
 view VwConsultasHoje {
-  id              Int            @id @map("consulta_id")
-  pacienteId      Int            @map("paciente_id")
-  medicoId        Int            @map("medico_id")
-  dataHora        DateTime       @map("data_hora")
-  duracaoMinutos  Int?           @map("duracao_minutos")
-  resumo          String?
-  status          ConsultaStatus?
-  observacoes     String?
-  criadoEm        DateTime?      @map("criado_em")
-  atualizadoEm    DateTime?      @map("atualizado_em")
-  nomePaciente    String         @map("nome_paciente")
-  nomeMedico      String         @map("nome_medico")
-  especialidade   String
+  id             Int             @id @map("consulta_id")
+  pacienteId     Int             @map("paciente_id")
+  medicoId       Int             @map("medico_id")
+  dataHora       DateTime        @map("data_hora")
+  duracaoMinutos Int?            @map("duracao_minutos")
+  resumo         String?
+  status         ConsultaStatus?
+  observacoes    String?
+  criadoEm       DateTime?       @map("criado_em")
+  atualizadoEm   DateTime?       @map("atualizado_em")
+  nomePaciente   String          @map("nome_paciente")
+  nomeMedico     String          @map("nome_medico")
+  especialidade  String
 
   @@map("vw_consultas_hoje")
 }

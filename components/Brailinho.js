@@ -1,6 +1,7 @@
 "use client"
  
 import { useState } from "react"
+import { useSession } from "next-auth/react"
 import { useChat } from "@ai-sdk/react"
  
 import { cn } from "@/lib/utils"
@@ -15,12 +16,13 @@ import {
 } from "@/components/ui/select"
  
 const MODELS = [
-  { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
+  { id: "gemini-2.5-flash-preview-05-20", name: "gemini-2.5-flash-preview-05-20" },
   { id: "", name: "" },
 ]
  
 export function ChatDemo(props) {
   const [selectedModel, setSelectedModel] = useState(MODELS[0].id)
+  const { data: session } = useSession()
   const {
     messages,
     input,
@@ -39,6 +41,20 @@ export function ChatDemo(props) {
   })
  
   const isLoading = status === "submitted" || status === "streaming"
+
+  let suggestions = [
+    "O que é a BrailleWay?",
+    "Quais planos a BrailleWay oferece?",
+  ]
+
+  if (!session) {
+    suggestions.unshift("Como faço login ou cadastro?")
+  } else if (session.user.role === "paciente") {
+    suggestions.unshift("Agendar uma consulta")
+    suggestions.unshift("Quero ver meus dados")
+  } else if (session.user.role === "medico") {
+    suggestions.unshift("Acessar meus dados de médico")
+  }
  
   return (
     <div className={cn("flex", "flex-col", "h-[500px]", "w-full")}>
@@ -68,11 +84,7 @@ export function ChatDemo(props) {
         append={append}
         setMessages={setMessages}
         transcribeAudio={transcribeAudio}
-        suggestions={[
-          "Marcar uma consulta utilizando o Brailinho",
-          "O que é a BrailleWay?",
-          "Quais planos a BrailleWay oferece?",
-        ]}
+        suggestions={suggestions}
       />
     </div>
   )

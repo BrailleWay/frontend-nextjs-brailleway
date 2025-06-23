@@ -1,22 +1,30 @@
 // /app/api/chat/route.js
 
 import { streamText } from "ai";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-// import { prisma } from "@/lib/prisma";
+import { createOpenAI } from "@ai-sdk/openai";
+import { auth } from "@/auth";
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_API_KEY || "",
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
 });
 
 
-const buildGoogleGenAIPrompt = (messages) => {
-  const systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar 
-  telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual.`;
+const buildOpenAIPrompt = (messages, role) => {
+  let systemPrompt = `Você é a assistente virtual, Brailinho, do site BrailleWay. A plataforma tem o intuito de disponibilidar
+  telemedicina para todas as pessoas, mas com foco especial naqueles que possuem deficiência visual. Pode responder perguntas não relacionadas ao site também.`;
+
+  if (role === "paciente") {
+    systemPrompt +=
+      " O usuário está autenticado como paciente. Ajude-o a consultar seus próprios dados e a agendar consultas.";
+  } else if (role === "medico") {
+    systemPrompt +=
+      " O usuário está autenticado como médico. Responda questões apenas sobre seus próprios dados e consultas.";
+  }
+
   return [{ role: "system", content: systemPrompt }, ...messages];
 };
 
 export async function POST(request) {
-  // 1. Leia o corpo da requisição UMA ÚNICA VEZ.
   const requestBody = await request.json();
 
   // (Opcional) Log para depuração
@@ -29,46 +37,12 @@ export async function POST(request) {
   const messages = requestBody.messages || [];
   const modelId = requestBody.model;
 
-  // A correção robusta, lendo diretamente de requestBody
-//   const userId = requestBody.userId || requestBody.userid;
-
-//   console.log("BACKEND LOG: userId extraído:", userId); // Agora vai mostrar '4'
-
-//   // 3. A validação agora vai funcionar como esperado.
-//   if (!userId) {
-//     console.error("BACKEND LOG: Validação falhou! userId não encontrado.");
-//     return new Response("Erro: ID do usuário não fornecido.", { status: 400 });
-//   }
-
-//   // O resto do seu código para buscar posts e chamar a IA continua o mesmo...
-//   let diaryContext = "O usuário ainda não possui anotações.";
-//   try {
-//     const posts = await prisma.post.findMany({
-//       where: {
-//         userId: Number(userId),
-//       },
-//       orderBy: {
-//         createdAt: "asc",
-//       },
-//       select: {
-//         descricao: true,
-//         titulo: true,
-//         date: true,
-//         mood: true,
-//       },
-//     });
-
-//     if (posts.length > 0) {
-//       diaryContext = posts.map((post) => `Data do diário: ${post.date}, Humor do dia: ${post.mood}, Título do diário: ${post.titulo}, Descrição do diário: "${post.descricao}"`).join("\n");
-//     }
-//   } catch (error) {
-//     console.error("Erro ao buscar posts no Prisma:", error);
-//     diaryContext = "Ocorreu um erro ao tentar ler o diário.";
-//   }
+  const session = await auth();
+  const role = session?.user?.role;
 
   const stream = await streamText({
-    model: google(modelId || "gemini-2.0-flash"),
-    messages: buildGoogleGenAIPrompt(messages),
+    model: openai(modelId || "gpt-4o-mini"),
+    messages: buildOpenAIPrompt(messages, role),
     temperature: 1,
   });
 
