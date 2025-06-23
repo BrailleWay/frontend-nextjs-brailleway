@@ -2,13 +2,17 @@ import Image from 'next/image';
 import React from 'react';
 import Button from '@/components/Button';
 import './Section1.css';
+import Link from 'next/link';
+
 
 export default function Section1() {
     return (
         <div className="container gap-16 md:gap-9 lg:gap-24 2xl:gap-20 mt-20 mb-20 mx-auto flex flex-col-reverse lg:flex-row px-4">
             {/* ESQUERDA */}
             <div className="relative   flex justify-center items-center ">
-                <img
+                <Image
+                    width={1080}
+                    height={1080}
                     src="/home/familia (4).png"
                     alt="A imagem é composta por um fundo em formato de quadrado com um degradê que começa na borda inferior direita com um tom verde-água claro, transita para um azul vivo no centro e finaliza na parte superior com um azul mais claro e radiante, refletindo as cores da logo.
 
