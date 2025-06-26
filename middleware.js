@@ -1,4 +1,4 @@
-// middleware.js
+// middleware.js - Auth.js v5
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
@@ -6,40 +6,41 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  // Se o usuário está logado e tenta acessar a página de login, redireciona para homepage
-  if (isLoggedIn && nextUrl.pathname === "/login") {
+  // Rotas protegidas que requerem autenticação
+  const protectedRoutes = [
+    "/dashboard",
+    "/perfil", 
+    "/consultas",
+    "/procurar-especialista",
+    "/homepage"
+  ];
+
+  // Rotas públicas que redirecionam para homepage se logado
+  const publicRoutes = ["/", "/login"];
+
+  // Se logado e tentando acessar rota pública, redireciona para homepage
+  if (isLoggedIn && publicRoutes.includes(nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/homepage", nextUrl));
   }
 
-  // Se o usuário está logado e tenta acessar a página raiz, redireciona para homepage
-  if (isLoggedIn && nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/homepage", nextUrl));
-  }
-
-  // Se o usuário não está logado e tenta acessar rotas protegidas, redireciona para login
-  if (!isLoggedIn && isProtectedRoute(nextUrl.pathname)) {
+  // Se não logado e tentando acessar rota protegida, redireciona para login
+  if (!isLoggedIn && protectedRoutes.some(route => nextUrl.pathname.startsWith(route))) {
     return NextResponse.redirect(new URL("/login", nextUrl));
   }
 
   return NextResponse.next();
 });
 
-// Função para verificar se uma rota é protegida
-function isProtectedRoute(pathname) {
-  const protectedRoutes = [
-    "/dashboard",
-    "/consultas",
-    "/perfil",
-    "/procurar-especialista",
-  ];
-  
-  return protectedRoutes.some(route => pathname.startsWith(route));
-}
-
-// O `matcher` define quais rotas serão processadas pelo middleware.
+// Configurar quais rotas usar o middleware
 export const config = {
   matcher: [
-    // Processa todas as rotas, exceto as de API, as estáticas e assets
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)",
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

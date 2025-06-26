@@ -65,7 +65,7 @@ const tools = [
       properties: {
         especialidade: {
           type: "string",
-          description: "A especialidade médica desejada, como 'Psicologia'.",
+          description: "Nome da especialidade médica desejada.",
         },
         nome_medico: {
           type: "string",
@@ -540,7 +540,22 @@ export function RealtimeBrailinho() {
             **CONFIRMAÇÕES**:
             - Sempre confirme os detalhes antes de agendar
             - Se houver múltiplas opções, apresente-as claramente
-            - Aguarde a confirmação do paciente antes de prosseguir`;
+            - Aguarde a confirmação do paciente antes de prosseguir
+            
+            **TRATAMENTO DE ERROS**:
+            - Se o sistema retornar "Nenhum médico com essa especialidade", sugira outras especialidades similares
+            - Se retornar "O horário solicitado não está disponível", sugira horários alternativos
+            - Se retornar "Médico sem disponibilidades configuradas", informe que o médico ainda não configurou sua agenda
+            - Se retornar "Não é possível agendar no passado", peça uma data futura
+            - Se retornar "Data ou hora inválida", peça para o paciente repetir a data e hora
+            
+            **FLUXO DE AGENDAMENTO**:
+            1. Coletar especialidade ou nome do médico
+            2. Coletar data e hora desejadas
+            3. Verificar disponibilidade usando verificar_disponibilidade_medico
+            4. Se houver confirmação necessária, aguardar resposta do paciente
+            5. Se disponível, confirmar agendamento usando confirmar_agendamento_consulta
+            6. Informar sucesso ou erro ao paciente`;
           dc.send(
             JSON.stringify({
               type: "session.update",

@@ -1,13 +1,16 @@
-// auth.js
+// auth.js - Configuração simplificada do Auth.js v5
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "./lib/prisma"; //
+import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
+  session: { 
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 dias
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -21,22 +24,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         try {
-          // Primeiro tentamos autenticar como Paciente
+          const email = credentials.email.toLowerCase().trim();
+          const password = credentials.password;
+
+          // Buscar paciente primeiro
           const patient = await prisma.paciente.findUnique({
-            where: { email: credentials.email.toLowerCase().trim() },
+            where: { email },
           });
 
-          if (patient) {
-            // Verificar se o paciente está ativo
-            if (!patient.ativo) {
-              throw new Error("Conta desativada. Entre em contato com o suporte.");
-            }
-
-            const passwordsMatch = await bcrypt.compare(
-              credentials.password,
-              patient.senha
-            );
-
+          if (patient && patient.ativo) {
+            const passwordsMatch = await bcrypt.compare(password, patient.senha);
             if (passwordsMatch) {
               return {
                 id: patient.id.toString(),
@@ -44,27 +41,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 email: patient.email,
                 role: "paciente",
               };
-            } else {
-              throw new Error("Senha incorreta");
             }
           }
 
-          // Em seguida tentamos autenticar como Médico
+          // Buscar médico se paciente não encontrado
           const doctor = await prisma.medico.findUnique({
-            where: { email: credentials.email.toLowerCase().trim() },
+            where: { email },
           });
 
-          if (doctor) {
-            // Verificar se o médico está ativo
-            if (!doctor.ativo) {
-              throw new Error("Conta desativada. Entre em contato com o suporte.");
-            }
-
-            const passwordsMatch = await bcrypt.compare(
-              credentials.password,
-              doctor.senha
-            );
-
+          if (doctor && doctor.ativo) {
+            const passwordsMatch = await bcrypt.compare(password, doctor.senha);
             if (passwordsMatch) {
               return {
                 id: doctor.id.toString(),
@@ -72,28 +58,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 email: doctor.email,
                 role: "medico",
               };
-            } else {
-              throw new Error("Senha incorreta");
             }
           }
 
-          // Se nenhum usuário for encontrado
-          throw new Error("Email não encontrado. Verifique se o email está correto ou cadastre-se.");
+          // Se chegou aqui, credenciais inválidas
+          throw new Error("Email ou senha incorretos");
         } catch (error) {
-          // Se já é um erro customizado, repassa
-          if (error.message && !error.message.includes("prisma")) {
-            throw error;
-          }
-          
-          // Para erros do Prisma ou outros erros inesperados
           console.error("Erro durante autenticação:", error);
-          throw new Error("Erro interno do servidor. Tente novamente.");
+          throw error;
         }
       },
     }),
   ],
   callbacks: {
-    // Adiciona o ID e a role do usuário ao token JWT e à sessão
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -110,20 +87,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: "/login", // Redireciona para sua página de login customizada
+    signIn: "/login",
   },
-  // Configurações adicionais para melhor experiência
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 dias
-  },
-  // Tratamento de erros personalizado
   events: {
-    async signIn({ user, account, profile, isNewUser }) {
-      console.log(`Usuário ${user.email} (${user.role}) fez login com sucesso`);
+    async signIn({ user }) {
+      console.log(`✅ Login: ${user.email} (${user.role})`);
     },
-    async signOut({ session, token }) {
-      console.log("Usuário fez logout");
+    async signOut() {
+      console.log("✅ Logout realizado");
     },
   },
 });
