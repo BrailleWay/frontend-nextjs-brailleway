@@ -2,6 +2,7 @@
 import Button from "../../../components/Button";
 import AudioButton from "../../../components/AudioButton";
 import AudioPlayer from "../../../components/AudioButton copy";
+import Image from "next/image";
 
 export const Section6 = () => {
   return (
@@ -12,19 +13,23 @@ export const Section6 = () => {
         <div className="flex-shrink-0 w-full sm:w-auto">
           {/* IMG MOBILE */}
           <div className="block sm:hidden w-full mb-6">
-            <img
+            <Image
               className="w-[250px] mx-auto"
               src="/imgHome/FoneMobile.png"
               alt="Imagem Mobile"
+              width={1200}
+              height={1300}
             />
           </div>
 
           {/* IMG DESKTOP */}
           <div className="hidden sm:flex w-full justify-end">
-            <img
+            <Image
               className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[500px] max-w-none object-contain"
               src="/imgHome/FoneDeOuvido.png"
               alt="Fone de Ouvido"
+              width={652}
+              height={1300}
             />
           </div>
         </div>
