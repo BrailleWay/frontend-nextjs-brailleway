@@ -1,13 +1,10 @@
-// auth.js
+// file: auth.js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs"; // bcryptjs continua aqui, pois é usado no lado do servidor
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  // ❌ Remover a linha do adapter
-  // adapter: PrismaAdapter(prisma), 
-
   session: { 
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 dias
