@@ -1,6 +1,6 @@
 // app/cadastro/medico/page.js
 import prisma from "@/lib/prisma";
-import { MedicRegisterForm } from "@/components/forms/RegistroMedico";
+import { MedicRegisterForm } from "@/components/forms/RegistrarMedico";
 
 // Esta página agora é um Server Component que busca os dados.
 export default async function RegisterMedicPage() {

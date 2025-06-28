@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "@/components/forms/LoginForm";
 import { revalidatePath } from "next/cache";
 
 export default async function LoginPage() {
