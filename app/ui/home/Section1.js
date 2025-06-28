@@ -62,12 +62,12 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
                 </h2>
                 <div className="h-0.5 w-full mb-5 bg-black" />
                 <h3 className="text-left  font-poppins text-base md:text-1xl text-[#343434]">
-                    Para quem enxerga com o coração e sente com a alma, a <span className="text-[#1C71E4] font-['Poppins-bold']">Braille Way</span> abre portas para consultas mais humanas, acessíveis e feitas para transformar vidas.
+                    Para quem enxerga com o coração e sente com a alma, a <span className="text-[#1C71E4] font-bold">Braille Way</span> abre portas para consultas mais humanas, acessíveis e feitas para transformar vidas.
                 </h3>
                 <div className="w-full flex justify-center lg:justify-start">
                     <button
                       className="
-                        font-['Poppins-regular']
+                        font-poppins
                         rounded-full
                         text-white
                         px-10

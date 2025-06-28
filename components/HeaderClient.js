@@ -100,7 +100,7 @@ export default function HeaderClient({ session}) {
         }`}
       />
 
-      <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-['Urbanist-semibold']">
+      <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-urbanist font-semibold">
         {/* Logo e Popover */}
         <div className="flex-shrink-0 flex flex-row items-center gap-4">
           <Image
@@ -164,7 +164,7 @@ export default function HeaderClient({ session}) {
                   >
                     <div className="px-4 py-2 border-b border-gray-100">
                       <p className="text-sm font-medium text-gray-800">{session.user.name}</p>
-                      <p className="text-xs text-gray-500">{session.user.email}</p>
+                      <p className="text-xs text-gray-100">{session.user.email}</p>
                     </div>
                     <Link
                       href="/perfil"
