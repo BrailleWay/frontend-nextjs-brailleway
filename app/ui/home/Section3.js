@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 export default function VoceImporta(){
@@ -83,13 +84,13 @@ export default function VoceImporta(){
 
         {/* Button */}
         <div className="text-center">
-          <a href="/cadastro" className="font-poppins
+          <Link href="/cadastro/paciente" className="font-poppins font-medium
                         rounded-full
                         text-white
-                        px-5
-                        py-2.5
+                        px-8
+                        py-4
                         text-sm
-                        md:text-1xl
+                        md:text-base
                         mt-4
                         bg-gradient-to-r
                         from-[#4090EC]
@@ -98,16 +99,16 @@ export default function VoceImporta(){
                         w-fit
                         mx-auto
                         block
-                        shadow-[0_4px_16px_-2px_rgba(0,0,0,0.18)]
+                        drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
                         transition
                         duration-200
-                        hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.28)]
+                        hover:shadow-md
                         hover:scale-105
                         active:scale-100
                         cursor-pointer
                         ">
             Começar Hoje
-          </a>
+          </Link>
         </div>
       </div>
     </section>

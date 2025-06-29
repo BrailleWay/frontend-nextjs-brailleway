@@ -32,14 +32,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // Aplica as variáveis de fonte no HTML
     <html lang="pt-br" className={`${inter.variable} ${urbanist.variable} ${poppins.variable}`}>
       <body>
-        {/* O Next.js aplicará a fonte 'Inter' aqui por padrão se configurado no tailwind */}
         <Header />
         {children}
         <Footer />
       </body>
     </html>
-  );
+  )
 }

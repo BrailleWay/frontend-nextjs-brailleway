@@ -8,7 +8,7 @@ export default async function Header() {
 
   return (
     <>
-      <HeaderClient session={session} />;
+      <HeaderClient session={session} />
     </>
   );
 }
