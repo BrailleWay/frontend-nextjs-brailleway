@@ -19,16 +19,16 @@ export default function Section7() {
       <div className="text-white max-w-7xl mx-auto px-4 flex flex-col">
 
         {/* TÍTULOS */}
-        <h2 className='tracking-widest mt-10 font-["Poppins-SemiBold"] text-center text-3xl lg:text-4xl'>
+        <h2 className='tracking-widest mt-10 font-poppins font-semibold text-center text-3xl lg:text-4xl'>
           Nossos Planos
         </h2>
-        <h3 className='text-center font-["Poppins-Regular"] text-base lg:text-lg lg:w-2/3 mx-3 lg:mx-auto mt-3'>
+        <h3 className='text-center font-poppins text-base lg:text-lg lg:w-2/3 mx-3 lg:mx-auto mt-3'>
           Nossos Pacotes de Cuidados Acessíveis foram pensados para oferecer
           qualidade, conforto e bem-estar a preços justos.
         </h3>
 
         {/* BOTÕES DE SELEÇÃO */}
-        <div className='mt-6 flex flex-row items-center font-["Poppins-SemiBold"] rounded-full w-fit mx-auto outline outline-white p-1.5 gap-3'>
+        <div className='mt-6 flex flex-row items-center font-poppins font-semibold rounded-full w-fit mx-auto outline outline-white p-1.5 gap-3'>
           <button
             onClick={() => setAtivo("planos")}
             className={`cursor-pointer rounded-full px-6 py-2 text-base ${
@@ -52,7 +52,7 @@ export default function Section7() {
         </div>
 
         {/* CONTEÚDO DOS CARDS */}
-        <div className="w-full mt-10 gap-10 p-6 mb-10 bg-white rounded-4xl font-['Poppins-Medium']">
+        <div className="w-full mt-10 gap-10 p-6 mb-10 bg-white rounded-4xl font-poppins font-medium">
           <AnimatePresence mode="wait">
             {ativo === "planos" ? (
               <motion.div
@@ -66,7 +66,7 @@ export default function Section7() {
 
                   {/* CARD 1 */}
                   <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
-                    <h2 className='text-4xl font-["Poppins-Bold"] text-[#231D4F]'>
+                    <h2 className='text-4xl font-poppins font-bold text-[#231D4F]'>
                       R$50  <span className="text-gray-400 text-lg">/mês</span>
                     </h2>
                     <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function Section7() {
                         Mais Popular
                       </p>
                     </div>
-                    <h2 className='text-white text-4xl font-["Poppins-Bold"]'>
+                    <h2 className='text-white text-4xl font-poppins font-bold'>
                       R$80 <span className="text-lg">/mês</span>
                     </h2>
                     <h3 className="text-white text-2xl flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function Section7() {
 
                   {/* CARD 3 */}
                   <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
-                    <h2 className='text-4xl font-["Poppins-Bold"] text-[#231D4F]'>
+                    <h2 className='text-4xl font-poppins font-bold text-[#231D4F]'>
                       R$49 <span className="text-gray-400 text-lg">/mês</span>
                     </h2>
                     <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
@@ -168,14 +168,14 @@ export default function Section7() {
               >
                 {/* TELA AVULSO */}
                 <div className="flex flex-col items-center justify-center text-center gap-8">
-                  <h2 className='text-[#231D4F] text-4xl font-["Poppins-Bold"]'>
+                  <h2 className='text-[#231D4F] text-4xl font-poppins font-bold'>
                     Consulta Avulsa
                   </h2>
                   <p className="text-gray-600 text-base lg:w-[60%]">
                     Ideal para quem busca um atendimento pontual, sem compromissos mensais.  
                     A flexibilidade que você precisa, com a qualidade que merece.
                   </p>
-                  <h3 className='text-3xl text-[#1C71E4] font-["Poppins-Bold"]'>
+                  <h3 className='text-3xl text-[#1C71E4] font-poppins font-bold'>
                     R$80 <span className="text-gray-500 text-lg">por consulta</span>
                   </h3>
                   <button className="mt-4 py-3 rounded-full bg-[linear-gradient(to_right,_#4BA8FF,_#1C71E4)] text-white text-base w-[220px] cursor-pointer hover:scale-105 transition-transform shadow-md hover:shadow-xl">

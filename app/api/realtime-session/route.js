@@ -20,7 +20,7 @@ export async function GET() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-4o-mini-realtime-preview",
         voice: "verse",
       }),
     });
@@ -36,7 +36,6 @@ export async function GET() {
 
     const data = await response.json();
     
-    // Envia o client_secret (chave efêmera) para o frontend
     return NextResponse.json(data);
 
   } catch (error) {

@@ -1,5 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import { getConsultasUsuario } from '@/lib/actions';
-import ConsultaCard from './ConsultaCard';    
+import ConsultaCard from './ConsultaCard';  
 
 export default async function ConsultasPage() {
   const consultas = await getConsultasUsuario();

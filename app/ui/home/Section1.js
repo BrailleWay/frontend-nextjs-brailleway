@@ -24,24 +24,24 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
 
 "
                     className="img-vazada"
+                    priority={true}
                 />
                 <div id="container-esquerda">
                     <div className="w-full  space-y-4 z-0">
-                        <h2 className="text-white text-center md:text-left font-['Inter-semibold'] text-4xl md:max-w-sm">
+                        <h2 className="text-white text-center md:text-left font-inter font-semibold text-4xl md:max-w-sm">
                             Ouça nossas<br/> frequências
                         </h2>
-                        <h3 className="text-white text-center md:text-left font-regular font-inter text-base md:max-w-sm">
+                        <h3 className="text-white text-center md:text-left font-inter text-base md:max-w-sm">
                             Teste grátis<br /> e tenha acesso <br />a nossos sons <br />para relaxar
                         </h3>
                         
                           <Button
+                            className="font-inter"
                             style={{
                                 background: 'white',
                                 color: '#1c1c1c',
                                 padding: '7px 17px',
                                 borderRadius: '9999px',
-                                fontFamily: 'Inter, sans-serif',
-                                fontWeight: 400,
                                 fontSize: '0.9rem',
                                 margin: '0rem 0rem',
                                 boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
@@ -57,18 +57,18 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
 
             {/* DIREITA */}
             <div id="merece-cuidados" className="flex flex-col lg:max-w-2xl px-4">
-                <h2 className="text-center lg:text-left lg:max-w-xl mb-8 text-4xl md:text-6xl lg:text-7xl font-['Urbanist-medium']">
+                <h2 className="text-center lg:text-left lg:max-w-xl mb-8 text-4xl md:text-6xl lg:text-7xl font-urbanist font-medium">
                     <span className="text-[#343434]">Sua saúde merece </span>
-                    <span className="font-['Urbanist-bold'] text-[#1C71E4]">cuidados</span>
+                    <span className="font-bold text-[#1C71E4]">cuidados</span>
                 </h2>
                 <div className="h-0.5 w-full mb-5 bg-black" />
-                <h3 className="text-left  font-['Poppins-regular'] text-base md:text-1xl text-[#343434]">
-                    Para quem enxerga com o coração e sente com a alma, a <span className="text-[#1C71E4] font-['Poppins-bold']">Braille Way</span> abre portas para consultas mais humanas, acessíveis e feitas para transformar vidas.
+                <h3 className="text-left  font-poppins text-base md:text-1xl text-[#343434]">
+                    Para quem enxerga com o coração e sente com a alma, a <span className="text-[#1C71E4] font-bold">Braille Way</span> abre portas para consultas mais humanas, acessíveis e feitas para transformar vidas.
                 </h3>
                 <div className="w-full flex justify-center lg:justify-start">
                     <button
                       className="
-                        font-['Poppins-regular']
+                        font-poppins
                         rounded-full
                         text-white
                         px-10

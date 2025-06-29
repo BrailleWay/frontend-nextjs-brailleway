@@ -1,5 +1,5 @@
-import Footer from "../ui/home/Footer";
-import Header from "../ui/home/Header";
+// File: app/homepage/page.js
+
 import Section1 from "../ui/home/Section1";
 import Section2 from "../ui/home/Section2";
 import Section3 from "../ui/home/Section3";
@@ -8,7 +8,8 @@ import Section5 from "../ui/home/Section5";
 import Section6 from "../ui/home/Section6";
 import Section7 from "../ui/home/Section7";
 
-export default function Home() {
+export default async function Home() {
+  
   return (
     <>
       <Section1 />

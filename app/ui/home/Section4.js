@@ -1,45 +1,51 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 export default function PsychologistSection() {
   const psychologists = [
     {
-      name: 'Julian Jameson',
+      name: "Julian Jameson",
       rating: 4.8,
-      profession: 'Obstetra ',
-      public: 'Crianças e Adolescentes',
-      tags: ['Ansiedade', 'TDAH', 'Depressão'],
-      image: '/home/Imagem Medico.png',
-      alt: 'Julian Jameson',
+      profession: "Obstetra ",
+      public: "Crianças e Adolescentes",
+      tags: ["Ansiedade", "TDAH", "Depressão"],
+      image: "/home/Imagem Medico.png",
+      alt: "Julian Jameson",
     },
     {
-      name: 'Maria Souza',
+      name: "Maria Souza",
       rating: 4.9,
-      profession: 'Psiquiatra',
-      public: 'Adultos e Idosos',
-      tags: ['Ansiedade', 'Autismo', 'Depressão'],
-      image: '/home/Imagem Psicologo codigo.png',
-      alt: 'Maria Souza',
+      profession: "Psiquiatra",
+      public: "Adultos e Idosos",
+      tags: ["Ansiedade", "Autismo", "Depressão"],
+      image: "/home/Imagem Psicologo codigo.png",
+      alt: "Maria Souza",
     },
   ];
 
   return (
     <section className="py-22 px-6 bg-white max-w-7xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-10 items-start lg:items-center justify-between">
-        
         {/* TEXTO LATERAL */}
         <div className="max-w-md flex-shrink-0">
-          <h2 className="text-4xl font-semibold text-[#343434] mb-4">
-            Ache seu <span className="text-[#1C71E4]">profissional ideal</span>
+          <h2 className="text-4xl font-inter text-[#343434] mb-4">
+            Ache seu{" "}
+            <span className="text-[#1C71E4] font-semibold">
+              profissional ideal
+            </span>
           </h2>
-          <p className="text-[#232323] mb-6 text-1xl text-justify">
-            Encontre o especialista perfeito para você! Avaliar o atendimento nos ajuda a garantir a qualidade dos serviços de telemedicina e construir uma rede cada vez mais acolhedora e eficiente em áreas oferecidas pela Braille Way no serviço de Telemedicina.
+          <p className="text-[#232323] mb-6 text-1xl text-justify font-poppins">
+            Encontre o especialista perfeito para você! Avaliar o atendimento
+            nos ajuda a garantir a qualidade dos serviços de telemedicina e
+            construir uma rede cada vez mais acolhedora e eficiente em áreas
+            oferecidas pela Braille Way no serviço de Telemedicina.
           </p>
-          <button className="font-['Poppins-regular']
+          <button
+            className="font-poppins font-medium
 rounded-full
 text-white
-px-4
-py-2
+px-8
+py-4
 text-l
 md:text-l
 mt-4
@@ -56,7 +62,8 @@ hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.28)]
 hover:scale-105
 active:scale-100
 cursor-pointer
-justify-center">
+justify-center"
+          >
             Ache seu especialista
           </button>
         </div>
@@ -81,10 +88,12 @@ justify-center">
               {/* CONTEÚDO */}
               <div className="p-5 flex flex-col gap-2">
                 {/* NOME */}
-                <h3 className="font-semibold text-[#343434] text-lg">{psych.name}</h3>
+                <h3 className="font-semibold font-poppins text-[#343434] text-lg">
+                  {psych.name}
+                </h3>
 
                 {/* PROFISSÃO */}
-                <p className="text-sm text-[#5a5a5a]">{psych.profession}</p>
+                <p className="text-sm text-[#5a5a5a] font-inter">{psych.profession}</p>
 
                 {/* AVALIAÇÃO */}
                 <div className="flex items-center gap-1 text-yellow-500 text-sm">
@@ -92,14 +101,14 @@ justify-center">
                 </div>
 
                 {/* PÚBLICO */}
-                <p className="text-xs text-[#5a5a5a] mt-1">{psych.public}</p>
+                <p className="text-xs text-[#5a5a5a] mt-1 font-inter">{psych.public}</p>
 
                 {/* TAGS */}
                 <div className="flex flex-wrap gap-2 mt-2">
                   {psych.tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="border border-[#1C71E4] text-[#1C71E4] text-xs px-3 py-1 rounded-full"
+                      className="border font-inter border-[#1C71E4] text-[#1C71E4] text-xs px-3 py-1 rounded-full"
                     >
                       {tag}
                     </span>
@@ -107,7 +116,8 @@ justify-center">
                 </div>
 
                 {/* BOTÃO */}
-                <button className="mt-4
+                <button
+                  className="mt-4 font-poppins font-medium
 bg-gradient-to-r
 from-[#4090EC]
 via-[#1C71E4]
@@ -120,7 +130,8 @@ px-2
 rounded-full
 text-sm
 transition
-cursor-pointer">
+cursor-pointer"
+                >
                   Conectar
                 </button>
               </div>

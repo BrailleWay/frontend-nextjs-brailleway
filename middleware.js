@@ -1,46 +1,38 @@
-// middleware.js - Auth.js v5
+// middleware.js
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export default auth((req) => {
   const { nextUrl } = req;
+  const userRole = req.auth?.user?.role;
   const isLoggedIn = !!req.auth;
 
-  // Rotas protegidas que requerem autenticação
-  const protectedRoutes = [
-    "/dashboard",
-    "/perfil", 
-    "/consultas",
-    "/procurar-especialista",
-    "/homepage"
-  ];
-
-  // Rotas públicas que redirecionam para homepage se logado
-  const publicRoutes = ["/", "/login"];
-
-  // Se logado e tentando acessar rota pública, redireciona para homepage
-  if (isLoggedIn && publicRoutes.includes(nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/homepage", nextUrl));
+  // Se o usuário está logado e tenta acessar a página de login, redirecione-o
+  if (isLoggedIn && nextUrl.pathname === "/login") {
+    const redirectUrl = userRole === 'medico' ? '/consultas' : '/consultas';
+    return NextResponse.redirect(new URL(redirectUrl, nextUrl));
   }
 
-  // Se não logado e tentando acessar rota protegida, redireciona para login
-  if (!isLoggedIn && protectedRoutes.some(route => nextUrl.pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL("/login", nextUrl));
+  
+  // Protegendo a rota de consultas do paciente
+  if (nextUrl.pathname.startsWith("/consultas") && !isLoggedIn) {
+     return NextResponse.redirect(new URL("/login", nextUrl));
   }
 
+  if (nextUrl.pathname.startsWith("/perfil") && !isLoggedIn) {
+     return NextResponse.redirect(new URL("/login", nextUrl));
+  }
+
+  // Se nenhuma das condições acima for atendida, continua a navegação
   return NextResponse.next();
 });
 
-// Configurar quais rotas usar o middleware
+// O matcher é crucial para evitar loops de redirecionamento e
+// garantir que o middleware só rode nas páginas da aplicação.
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    '/login',
+    '/consultas/:path*',
+    '/perfil',
   ],
-};
+}
