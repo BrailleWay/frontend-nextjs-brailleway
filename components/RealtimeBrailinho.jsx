@@ -13,7 +13,7 @@ import {
   verificarDisponibilidade,
   confirmarAgendamento,
 } from "@/lib/actions";
-
+import { tools } from '@/lib/assistantTools';
 /*  NOVO: dependências p/ fuso  */
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -52,59 +52,8 @@ const ensureTimezoneOffset = (iso) => {
   const utcDate = dayjs.utc(iso);
   return utcDate.tz(TZ).toISOString();
 };
-/* -------------------------------------------------- */
 
-const tools = [
-  {
-    type: "function",
-    name: "verificar_disponibilidade_medico",
-    description:
-      "Verifica se há um horário disponível para uma consulta com um médico por nome ou especialidade em uma data e hora específicas. Sempre deve ser a primeira chamada.",
-    parameters: {
-      type: "object",
-      properties: {
-        especialidade: {
-          type: "string",
-          description: "Nome da especialidade médica desejada.",
-        },
-        nome_medico: {
-          type: "string",
-          description: "O nome do médico desejado.",
-        },
-        data: {
-          type: "string",
-          description: "Data da consulta no formato AAAA-MM-DD.",
-        },
-        hora: {
-          type: "string",
-          description: "Hora da consulta no formato HH:MM (24h).",
-        },
-      },
-      required: ["data", "hora"],
-    },
-  },
-  {
-    type: "function",
-    name: "confirmar_agendamento_consulta",
-    description:
-      "Agenda a consulta após confirmação verbal. Só deve ser chamada após encontrar um horário disponível e o paciente concordar.",
-    parameters: {
-      type: "object",
-      properties: {
-        medicoId: {
-          type: "number",
-          description:
-            "O ID numérico do médico, retornado pela função anterior.",
-        },
-        dataHora: {
-          type: "string",
-          description: "A data/hora no formato ISO 8601.",
-        },
-      },
-      required: ["medicoId", "dataHora"],
-    },
-  },
-];
+
 
 export function RealtimeBrailinho() {
   const [connectionStatus, setConnectionStatus] = useState("initializing");
