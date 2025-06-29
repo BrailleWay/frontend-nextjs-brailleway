@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ChatDemo } from "./Brailinho"
-import { RealtimeBrailinho } from "./RealtimeBrailinho" // Importe o novo componente
+import { ChainedBrailinho } from "./brailinho/ChainedBrailinho"
 
 export function PopoverDemo() {
   return (
@@ -18,14 +18,13 @@ export function PopoverDemo() {
         */}
         <div className="space-y-4">
            {/* Seção de Voz */}
-          <RealtimeBrailinho />
+          <ChainedBrailinho />
 
           <hr/>
 
            {/* Seção de Texto (Opcional, pode manter ou remover) */}
           <details>
              <summary className="cursor-pointer text-sm font-medium text-center">Abrir chat de texto</summary>
-             <ChatDemo />
           </details>
         </div>
       </PopoverContent>
