@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export default async function RegisterMedicPage() {
   const session = await auth();
   if (session?.user) {
-    redirect('/homepage');
+    redirect('/');
   }
 
   const specialties = await prisma.especialidade.findMany({

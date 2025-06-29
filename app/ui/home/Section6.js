@@ -46,7 +46,7 @@ export const Section6 = () => {
           {/* TÍTULOS */}
           <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-16">
             Precisa Relaxar? Que tal ouvir um som Tranquilizador? <br />
-            <span className="text-[#4BA8FF] font-regular">
+            <span className="text-[#4BA8FF]">
               Entre em nossa sala e relaxe!
             </span>
           </div>
@@ -94,9 +94,9 @@ export const Section6 = () => {
                   item.bg || "bg-[#F8F8F8]"
                 } ${item.text || "text-[#343434]"} relative p-4 min-h-[190px]`}
               >
-                <div className="text-xl font-medium mb-2">{item.title}</div>
+                <div className="text-xl font-poppins font-semibold mb-2">{item.title}</div>
                 <p
-                  className="font-light text-base mb-3"
+                  className="font-poppins text-base mb-3"
                   style={{
                     color: item.text === "text-white" ? "#fff" : "#5a5a5a",
                   }}

@@ -24,6 +24,7 @@ Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala pr
 
 "
                     className="img-vazada"
+                    priority={true}
                 />
                 <div id="container-esquerda">
                     <div className="w-full  space-y-4 z-0">

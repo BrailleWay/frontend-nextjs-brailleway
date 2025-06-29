@@ -12,8 +12,8 @@ export default async function LoginPage() {
     redirect("/homepage");
   }
   if (session?.error) {
-    revalidatePath("/login");
-    redirect("/login");
+    revalidatePath("/");
+    redirect("/");
   }
   return (
     <LoginForm session={session} />

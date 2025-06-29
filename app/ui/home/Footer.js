@@ -28,11 +28,11 @@ export default function Footer() {
 
             <div className="flex gap-3">
               {[
-                { href: "#", bg: "#1C71E4", icon: "/icons/Linkedin.png", alt: "LinkedIn" },
-                { href: "#", bg: "#4090EC", icon: "/icons/Instagram.png", alt: "Instagram" },
-                { href: "#", bg: "#1C71E4", icon: "/icons/GitHub.png", alt: "GitHub" },
+                { href: "https://www.linkedin.com/company/brailleway/", bg: "#1C71E4", icon: "/icons/Linkedin.png", alt: "LinkedIn" },
+                { href: "https://www.instagram.com/_brailleway/", bg: "#4090EC", icon: "/icons/Instagram.png", alt: "Instagram" },
+                { href: "https://github.com/BrailleWay", bg: "#1C71E4", icon: "/icons/GitHub.png", alt: "GitHub" },
               ].map((item, idx) => (
-                <a
+                <Link
                   key={idx}
                   href={item.href}
                   target="_blank"
@@ -40,7 +40,7 @@ export default function Footer() {
                   className={`bg-[${item.bg}] p-2 rounded-full hover:brightness-110 transition`}
                 >
                   <Image src={item.icon} alt={item.alt} width={18} height={18} />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
