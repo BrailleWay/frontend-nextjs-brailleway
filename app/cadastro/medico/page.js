@@ -1,10 +1,16 @@
 // app/cadastro/medico/page.js
 import prisma from "@/lib/prisma";
 import { MedicRegisterForm } from "@/components/forms/RegistrarMedico";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 // Esta página agora é um Server Component que busca os dados.
 export default async function RegisterMedicPage() {
-  // Buscamos as especialidades ativas do banco de dados.
+  const session = await auth();
+  if (session?.user) {
+    redirect('/homepage');
+  }
+
   const specialties = await prisma.especialidade.findMany({
     where: {
       ativo: true,
