@@ -136,7 +136,7 @@ export default function VoceImporta() {
                 </h3>
               </div>
               <p className="text-sm font-inter font-semibold">
-                Defina o melhor horário para você, de forma prática e rápida. Nosso sistema garante privacidade, autonomia e suporte para que você se sinta seguro durante todo o processo. Se quiser, diga "brailinho" e nossa assistente IA irá te ajudar.
+                Defina o melhor horário para você, de forma prática e rápida. Nosso sistema garante privacidade, autonomia e suporte para que você se sinta seguro durante todo o processo. Se quiser, diga &quot;brailinho&quot; e nossa assistente IA irá te ajudar.
               </p>
             </div>
           </article>
