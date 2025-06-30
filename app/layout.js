@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./ui/home/Header";
 import Footer from "./ui/home/Footer";
 import { Urbanist, Inter, Poppins } from "next/font/google";
+ 
 
 // Fonte principal/padrão do site
 const inter = Inter({
@@ -33,10 +34,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" className={`${inter.variable} ${urbanist.variable} ${poppins.variable}`}>
+      <head>
+        <script src="https://cdn.userway.org/widget.js" data-account="An0lOgTRcx"></script>
+      </head>
       <body>
+        
         <Header />
         {children}
         <Footer />
+         
       </body>
     </html>
   );

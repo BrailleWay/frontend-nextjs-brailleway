@@ -157,3 +157,13 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2),
     inset 0 4px 12px rgba(0, 0, 0, 0.25);
 }
+
+/* Ajusta posição do botão do UserWay */
+#userwayAccessibilityIcon {
+  top: auto !important;
+  bottom: -24rem !important; /* 🠒 Define a distância do fundo */
+  right: 20px !important;  /* 🠒 Define a distância da direita */
+  z-index: 9999 !important;
+}
+
+ 
