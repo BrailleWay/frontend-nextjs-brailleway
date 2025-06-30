@@ -1,28 +1,26 @@
 // app/layout.js
 import "./globals.css";
-import Header from "./ui/home/Header";
+import Header from "./ui/home/Header.js";
 import Footer from "./ui/home/Footer";
 import { Urbanist, Inter, Poppins } from "next/font/google";
 
-// Fonte principal/padrão do site
 const inter = Inter({
   subsets: ["latin"],
-  display: 'swap', // Melhora o carregamento
-  variable: '--font-inter', // Opcional, mas boa prática
+  display: "swap",
+  variable: "--font-inter",
 });
 
-// Fontes secundárias como variáveis
 const urbanist = Urbanist({
   subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-urbanist', // Cria a variável CSS
+  display: "swap",
+  variable: "--font-urbanist",
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  display: 'swap',
-  variable: '--font-poppins', // Cria a variável CSS
+  display: "swap",
+  variable: "--font-poppins",
 });
 
 export const metadata = {
@@ -39,5 +37,5 @@ export default function RootLayout({ children }) {
         <Footer />
       </body>
     </html>
-  )
+  );
 }
