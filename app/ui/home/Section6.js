@@ -1,10 +1,47 @@
 "use client";
+
+import Image from "next/image";
 import Button from "../../../components/Button";
 import AudioButton from "../../../components/AudioButton";
-import AudioPlayer from "../../../components/AudioButton copy";
-import Image from "next/image";
+import AudioPlayer from "../../../components/AudioButton copy"; // atenção aqui: parece nome confuso, seria bom renomear este arquivo para algo como AudioPlayer.jsx
 
 export const Section6 = () => {
+  const sounds = [
+    {
+      title: "Áudio Principal",
+      desc: "Ele acalma, relaxa e alivia, faz se sentir seguro. Feche os olhos.",
+      player: true,
+      src: "/audios/meditacao.mp3",
+      bg: "bg-gradient-to-r from-[#4090EC] via-[#1C71E4] to-[#44D7D1]",
+      text: "text-white",
+    },
+    {
+      title: "Som ao escolher uma estrela",
+      desc: "Esse som confirma que você escolheu uma estrela, usado para a avaliação.",
+      player: false,
+    },
+    {
+      title: "Som ao entrar em chamada",
+      desc: "Esse som mostra que você entrou em chamada, usado para as sessões entre você e o profissional.",
+      player: false,
+    },
+    {
+      title: "Som de Aviso",
+      desc: "Avisar sobre interrupções importantes, como um novo comentário, notificação ou alerta.",
+      player: false,
+    },
+    {
+      title: "Voz de Guia Acolhedora",
+      desc: "Essa voz feminina suave vai te acompanhar durante toda a navegação.",
+      player: false,
+    },
+    {
+      title: "Voz de Guia Masculina",
+      desc: "Esta voz masculina transmite confiança e clareza durante a navegação.",
+      player: false,
+    },
+  ];
+
   return (
     <div className="w-full bg-white px-4 py-10">
       {/* CONTAINER FLEX */}
@@ -16,7 +53,7 @@ export const Section6 = () => {
             <Image
               className="w-[250px] mx-auto"
               src="/imgHome/FoneMobile.png"
-              alt="Imagem Mobile"
+              alt="Imagem de um fone de ouvido para mobile"
               width={1200}
               height={1300}
             />
@@ -27,7 +64,7 @@ export const Section6 = () => {
             <Image
               className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[500px] max-w-none object-contain"
               src="/imgHome/FoneDeOuvido.png"
-              alt="Fone de Ouvido"
+              alt="Imagem de um fone de ouvido"
               width={652}
               height={1300}
             />
@@ -35,59 +72,16 @@ export const Section6 = () => {
         </div>
 
         {/* CONTEÚDO CENTRAL */}
-        <div
-          className="
-                        w-full 
-                        max-w-[1300px] 
-                        mx-auto 
-                        lg:ml-24
-                    "
-        >
+        <div className="w-full max-w-[1300px] mx-auto lg:ml-24">
           {/* TÍTULOS */}
           <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-16">
             Precisa Relaxar? Que tal ouvir um som Tranquilizador? <br />
-            <span className="text-[#4BA8FF]">
-              Entre em nossa sala e relaxe!
-            </span>
+            <span className="text-[#4BA8FF]">Entre em nossa sala e relaxe!</span>
           </div>
 
           {/* BLOCOS */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {[
-              {
-                title: "Áudio Principal",
-                desc: "Ele acalma, relaxa e alivia, faz se sentir seguro. Feche os olhos.",
-                player: true,
-                src: "/audios/meditacao.mp3",
-                bg: "bg-gradient-to-r from-[#4090EC] via-[#1C71E4] to-[#44D7D1]",
-                text: "text-white",
-              },
-              {
-                title: "Som ao escolher uma estrela",
-                desc: "Esse som confirma que você escolheu uma estrela, usado para a avaliação.",
-                player: false,
-              },
-              {
-                title: "Som ao entrar em chamada",
-                desc: "Esse som mostra que você entrou em chamada, usado para as sessões entre você e o profissional.",
-                player: false,
-              },
-              {
-                title: "Som de Aviso",
-                desc: "Avisar sobre interrupções importantes, como um novo comentário, notificação ou alerta.",
-                player: false,
-              },
-              {
-                title: "Voz de Guia Acolhedora",
-                desc: "Essa voz feminina suave vai te acompanhar durante toda a navegação.",
-                player: false,
-              },
-              {
-                title: "Voz de Guia Masculina",
-                desc: "Esta voz masculina transmite confiança e clareza durante a navegação.",
-                player: false,
-              },
-            ].map((item, idx) => (
+            {sounds.map((item, idx) => (
               <div
                 key={idx}
                 className={`font-poppins rounded-2xl overflow-hidden ${
