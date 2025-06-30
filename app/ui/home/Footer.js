@@ -67,10 +67,15 @@ export default function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir ${item.alt} em nova aba`}
-                      className="p-2 rounded-full hover:brightness-110 transition"
+                      className="w-9 h-9 flex items-center justify-center rounded-full hover:brightness-110 transition shadow-md"
                       style={{ backgroundColor: item.bg }}
                     >
-                      <Image src={item.icon} alt={item.alt} width={18} height={18} />
+                      <Image
+                        src={item.icon}
+                        alt={item.alt}
+                        width={20}
+                        height={20}
+                      />
                     </Link>
                   </li>
                 ))}
@@ -148,8 +153,8 @@ export default function Footer() {
         {/* COPYRIGHT */}
         <div className="flex flex-col sm:flex-row justify-between items-center text-white mt-2 gap-2 text-xs sm:text-sm">
           <p>
-            Copyright ©{" "}
-            <span className="font-inter font-medium">2025 BrailleWay</span>
+           © 2025 BrailleWay.{" "}
+            <span className="font-inter font-medium">Todos os direitos reservados.</span>
           </p>
           <a className="cursor-pointer hover:opacity-80" href="#">
             Políticas
