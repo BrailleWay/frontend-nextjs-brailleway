@@ -17,7 +17,7 @@ export default function Footer() {
             href="https://www.cvv.org.br"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-blue-600 focus:outline focus:outline-2 focus:outline-white"
+            className="underline text-blue-600 focus:outline-none focus:ring-2 focus:ring-white"
           >
             www.cvv.org.br
           </a>
@@ -67,7 +67,8 @@ export default function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir ${item.alt} em nova aba`}
-                      className={`bg-[${item.bg}] p-2 rounded-full hover:brightness-110 transition`}
+                      className="p-2 rounded-full hover:brightness-110 transition"
+                      style={{ backgroundColor: item.bg }}
                     >
                       <Image src={item.icon} alt={item.alt} width={18} height={18} />
                     </Link>
@@ -78,18 +79,33 @@ export default function Footer() {
           </div>
 
           {/* LINKS */}
-          <nav className="flex justify-center sm:justify-start gap-15" aria-label="Navegação institucional">
+          <nav
+            className="flex justify-center sm:justify-start gap-15"
+            aria-label="Navegação institucional"
+          >
             <div className="text-white space-y-1.5">
               <p className="font-poppins font-semibold text-lg">Empresas</p>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Sobre</a>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Termos de uso</a>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Responsáveis Técnicos</a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Sobre
+              </a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Termos de uso
+              </a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Responsáveis Técnicos
+              </a>
             </div>
             <div className="text-white space-y-1.5">
               <p className="font-poppins font-semibold text-lg">Fale conosco</p>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Contato</a>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Dúvidas</a>
-              <a className="block cursor-pointer hover:opacity-80" href="#">Parcerias</a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Contato
+              </a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Dúvidas
+              </a>
+              <a className="block cursor-pointer hover:opacity-80" href="#">
+                Parcerias
+              </a>
             </div>
           </nav>
 
