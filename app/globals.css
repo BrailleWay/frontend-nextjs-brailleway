@@ -161,8 +161,7 @@
 /* Ajusta posição do botão do UserWay */
 #userwayAccessibilityIcon {
   top: auto !important;
-  bottom: -24rem !important; /* 🠒 Define a distância do fundo */
-  right: 20px !important;  /* 🠒 Define a distância da direita */
+  
   z-index: 9999 !important;
 }
 
