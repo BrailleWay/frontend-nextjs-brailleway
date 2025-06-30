@@ -1,159 +1,177 @@
-import { NextResponse } from 'next/server';
-import { verificarDisponibilidade, confirmarAgendamento } from '@/lib/actions';
-import { tools } from '@/lib/assistantTools';
-
-const systemPrompt = `Você é o assistente de voz de agendamentos da BrailleWay.
-Fale sempre em português.
-
-**IMPORTANTE**:
-- Todos os horários fornecidos pelo paciente estão no fuso America/Sao_Paulo (-03:00) e devem permanecer nesse fuso.
-- Não converta para UTC ou outros fusos ao interagir com funções.
-
-**AGENDAMENTO POR ESPECIALIDADE**:
-- Quando o paciente mencionar apenas uma especialidade (ex: "psicologia", "cardiologia"), use a função verificar_disponibilidade_medico com o parâmetro "especialidade".
-- O sistema automaticamente escolherá o melhor médico disponível baseado em:
-  * Proximidade do horário desejado
-  * Flexibilidade de agenda
-  * Menor ocupação
-- Se houver múltiplos médicos com scores similares, o sistema apresentará as opções e você deve ajudar o paciente a escolher.
-
-**EXEMPLOS DE USO**:
-- "Quero agendar com psicólogo amanhã às 14h" → use especialidade: "psicologia"
-- "Preciso de cardiologista na sexta às 10h" → use especialidade: "cardiologia"
-- "Dr. João Silva, amanhã às 15h" → use nome_medico: "João Silva"
-
-**CONFIRMAÇÕES**:
-- Sempre confirme os detalhes antes de agendar
-- Se houver múltiplas opções, apresente-as claramente
-- Aguarde a confirmação do paciente antes de prosseguir
-
-**TRATAMENTO DE ERROS**:
-- Se o sistema retornar "Nenhum médico com essa especialidade", sugira outras especialidades similares
-- Se retornar "O horário solicitado não está disponível", sugira horários alternativos
-- Se retornar "Médico sem disponibilidades configuradas", informe que o médico ainda não configurou sua agenda
-- Se retornar "Não é possível agendar no passado", peça uma data futura
-- Se retornar "Data ou hora inválida", peça para o paciente repetir a data e hora
-
-**FLUXO DE AGENDAMENTO**:
-1. Coletar especialidade ou nome do médico
-2. Coletar data e hora desejadas
-3. Verificar disponibilidade usando verificar_disponibilidade_medico
-4. Se houver confirmação necessária, aguardar resposta do paciente
-5. Se disponível, confirmar agendamento usando confirmar_agendamento_consulta
-6. Informar sucesso ou erro ao paciente`;
+// ===== app/api/voice-chain/route.js =====
+import { NextResponse } from "next/server";
+import { verificarDisponibilidade, confirmarAgendamento } from "@/lib/actions";
+import { tools } from "@/lib/assistantTools";
+import { systemPrompt } from "@/lib/systemPrompt";
 
 export async function POST(req) {
   const openAIKey = process.env.OPENAI_API_KEY;
   if (!openAIKey) {
-    return NextResponse.json({ error: 'OpenAI API key not configured.' }, { status: 500 });
+    return NextResponse.json(
+      { error: "OPENAI_API_KEY não configurada." },
+      { status: 500 }
+    );
   }
 
   const form = await req.formData();
-  const audio = form.get('audio');
-  const messages = JSON.parse(form.get('messages') || '[]');
+  const audio = form.get("audio");
+  const messages = JSON.parse(form.get("messages") || "[]");
 
-  if (!audio || !(audio instanceof Blob)) {
-    return NextResponse.json({ error: 'Audio file missing.' }, { status: 400 });
+  if (!audio) {
+    return NextResponse.json(
+      { error: "Arquivo de áudio ausente." },
+      { status: 400 }
+    );
   }
 
-  const transcribeFd = new FormData();
-  transcribeFd.append('file', audio, 'audio.webm');
-  transcribeFd.append('model', 'gpt-4o-transcribe');
-  transcribeFd.append('response_format', 'text');
+  // -------- 1) Transcrição --------------------------------------------------
+  const transFd = new FormData();
+  transFd.append("file", audio, "audio.webm");
+  transFd.append("model", "whisper-1");
+  transFd.append("language", "pt");
 
-  const transcriptRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${openAIKey}`,
-    },
-    body: transcribeFd,
-  });
+  const transcriptRes = await fetch(
+    "https://api.openai.com/v1/audio/transcriptions",
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${openAIKey}` },
+      body: transFd,
+    }
+  );
 
   if (!transcriptRes.ok) {
-    return NextResponse.json({ error: 'Failed to transcribe audio.' }, { status: 500 });
+    const err = await transcriptRes.json().catch(() => ({}));
+    console.error("[voice‑chain] Falha na transcrição:", err);
+    return NextResponse.json(
+      { error: "Falha na transcrição." },
+      { status: 500 }
+    );
   }
 
-  const transcript = await transcriptRes.text();
-  messages.push({ role: 'user', content: transcript });
+  const { text: transcript } = await transcriptRes.json();
+  if (!transcript.trim()) {
+    return NextResponse.json({ transcript: "", messages, audio: null });
+  }
 
-  let completionRes = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${openAIKey}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o',
-      messages: [{ role: 'system', content: systemPrompt }, ...messages],
-      tools,
-    }),
-  });
+  // -------- 2) Chat Completion --------------------------------------------
+  messages.push({ role: "user", content: transcript });
+
+  const chatBody = {
+    model: "gpt-4o",
+    messages: [{ role: "system", content: systemPrompt }, ...messages],
+    tools,
+    tool_choice: "auto",
+  };
+
+  const completionRes = await fetch(
+    "https://api.openai.com/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${openAIKey}`,
+      },
+      body: JSON.stringify(chatBody),
+    }
+  );
 
   if (!completionRes.ok) {
     const err = await completionRes.text();
-    console.error('Chat completion failed:', err);
-    return NextResponse.json({ error: 'Chat completion failed.' }, { status: 500 });
+    console.error("[voice‑chain] Falha no chat:", err);
+    return NextResponse.json({ error: "Falha no chat" }, { status: 500 });
   }
 
   const completionData = await completionRes.json();
-  let message = completionData.choices[0].message;
+  let assistantMessage = completionData.choices[0].message;
+  messages.push(assistantMessage);
 
-  if (message.tool_calls && message.tool_calls.length) {
-    const call = message.tool_calls[0];
-    const name = call.function.name;
-    const args = JSON.parse(call.function.arguments || '{}');
-    let output = {};
+  // -------- 3) Execução de Tool (se houver) --------------------------------
+  if (assistantMessage.tool_calls?.length) {
+    const toolCall = assistantMessage.tool_calls[0];
+    const { name } = toolCall.function;
+    const args = JSON.parse(toolCall.function.arguments || "{}");
+
+    let toolOutput;
     try {
-      if (name === 'verificar_disponibilidade_medico') {
-        output = await verificarDisponibilidade(args);
-      } else if (name === 'confirmar_agendamento_consulta') {
-        output = await confirmarAgendamento(args);
+      if (name === "verificar_disponibilidade_medico") {
+        toolOutput = await verificarDisponibilidade(args);
+      } else if (name === "confirmar_agendamento_consulta") {
+        toolOutput = await confirmarAgendamento(args);
+      } else {
+        toolOutput = { error: `Função '${name}' não implementada.` };
       }
-    } catch (e) {
-      output = { error: e.message };
+    } catch (err) {
+      toolOutput = { error: err.message };
     }
-    messages.push({ role: 'assistant', tool_calls: [call] });
-    messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(output) });
 
-    completionRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${openAIKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [{ role: 'system', content: systemPrompt }, ...messages],
-      }),
+    messages.push({
+      role: "tool",
+      tool_call_id: toolCall.id,
+      content: JSON.stringify(toolOutput),
     });
 
-    if (!completionRes.ok) {
-      const err2 = await completionRes.text();
-      console.error('Chat completion failed 2:', err2);
-      return NextResponse.json({ error: 'Chat completion failed.' }, { status: 500 });
+    // Segunda rodada após tool
+    const secondRes = await fetch(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${openAIKey}`,
+        },
+        body: JSON.stringify({
+          ...chatBody,
+          messages: [{ role: "system", content: systemPrompt }, ...messages],
+        }),
+      }
+    );
+
+    if (!secondRes.ok) {
+      const err = await secondRes.text();
+      console.error("[voice‑chain] Falha pós‑tool:", err);
+      return NextResponse.json({ error: "Falha pós‑tool" }, { status: 500 });
     }
-    const data2 = await completionRes.json();
-    message = data2.choices[0].message;
+    const secondData = await secondRes.json();
+    assistantMessage = secondData.choices[0].message;
+    messages.push(assistantMessage);
   }
 
+  // -------- 4) TTS ---------------------------------------------------------
   let audioBase64 = null;
-  if (message.content) {
-    const speechRes = await fetch('https://api.openai.com/v1/audio/speech', {
-      method: 'POST',
+  if (assistantMessage.content) {
+    const ttsBody = {
+      model: "tts-1",
+      input: assistantMessage.content,
+      voice: "nova",
+    };
+    const ttsRes = await fetch("https://api.openai.com/v1/audio/speech", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${openAIKey}`,
       },
-      body: JSON.stringify({ model: 'gpt-4o-mini-tts', input: message.content, voice: 'nova' }),
+      body: JSON.stringify(ttsBody),
     });
-    if (speechRes.ok) {
-      const buf = Buffer.from(await speechRes.arrayBuffer());
-      audioBase64 = buf.toString('base64');
+
+    if (ttsRes.ok) {
+      const buf = Buffer.from(await ttsRes.arrayBuffer());
+      audioBase64 = buf.toString("base64");
     } else {
-      const err3 = await speechRes.text();
-      console.error('Speech synthesis failed:', err3);
+      console.error("[voice‑chain] Falha no TTS:", await ttsRes.text());
     }
   }
 
-  return NextResponse.json({ transcript, response: message.content || null, audio: audioBase64, messages });
+  console.log("[voice-chain] TRANSCRIPT:", transcript);
+  console.log(
+    "[voice-chain] USER MSGS:",
+    messages.filter((m) => m.role === "user").map((m) => m.content)
+  );
+  console.log("[voice-chain] ASSISTANT MSG:", assistantMessage.content);
+
+  return NextResponse.json({
+    transcript,
+    messages,
+    audio: audioBase64,
+    assistantText: assistantMessage.content || "",
+  });
 }

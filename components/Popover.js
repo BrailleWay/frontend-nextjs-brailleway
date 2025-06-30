@@ -1,13 +1,17 @@
-// file: components/Popover.js
+"use client"
 
+// file: components/Popover.js
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ChatDemo } from "./Brailinho"
 import { ChainedBrailinho } from "./brailinho/ChainedBrailinho"
 
+
 export function PopoverDemo() {
+  const [open, setOpen] = useState(false);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         {/* O nome do botão pode mudar para refletir as duas opções */}
         <Button variant="outline">Assistente Brailinho</Button>
@@ -18,7 +22,7 @@ export function PopoverDemo() {
         */}
         <div className="space-y-4">
            {/* Seção de Voz */}
-          <ChainedBrailinho />
+          <ChainedBrailinho active={open} />
 
           <hr/>
 
