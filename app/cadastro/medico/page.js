@@ -21,7 +21,7 @@ export default async function RegisterMedicPage() {
   });
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center min-h-screen">
+    <div className="">
       {/* Passamos as especialidades para o componente de formulário */}
       <MedicRegisterForm specialties={specialties} />
     </div>
