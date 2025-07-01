@@ -14,32 +14,16 @@ export default function VoceImporta() {
           <div className="relative h-15 mt-3">
             <h2
               id="como-comecar-titulo"
-              className="md:text-5xl text-sm font-poppins font-medium text-[#4B4B4B] md:mb-12 text-left"
+              className="text-xl sm:text-2xl md:text-5xl font-poppins font-medium text-[#4B4B4B] md:mb-12 mb-16 text-left"
             >
               Como <span className="font-poppins font-semibold text-[#1C71E4]">começar</span>
             </h2>
-
-            {/* Imagens para mobile */}
-            <Image
-              className="md:hidden bottom-50 left-70 relative w-25 md:bottom-32 md:left-5 z-10"
-              alt="Mulher sorrindo de jaqueta clara representando o início do processo"
-              src="/home/mulher-comecar.png"
-              width={171}
-              height={221}
-            />
-            <Image
-              className="md:hidden bottom-61 left-70 relative w-25 md:bottom-43.5 md:left-5 z-0"
-              alt=""
-              src="/home/Rectangle 48.png"
-              width={198}
-              height={90}
-              aria-hidden="true"
-            />
           </div>
 
           {/* IMAGEM DESKTOP */}
           <div className="">
             <div className="md:absolute">
+              {/* Imagem só aparece no desktop */}
               <Image
                 className="hidden md:block md:relative w-25 md:bottom-28 md:left-5 z-10"
                 alt="Mulher sorrindo de jaqueta clara representando o início do processo"
@@ -60,10 +44,10 @@ export default function VoceImporta() {
         </div>
 
         {/* CARDS */}
-        <div className="flex flex-col lg:flex-row gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row gap-8 mb-12 mt-0 md:mt-0">
           {/* CARD 1 */}
           <article
-            className="card-hover flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
+            className="flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
             style={{
               backgroundColor: '#1C71E4',
               boxShadow: 'inset 0 4px 12px rgba(0, 0, 0, 0.25)',
@@ -103,7 +87,7 @@ export default function VoceImporta() {
 
           {/* CARD 2 */}
           <article
-            className="card-hover flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
+            className="flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
             style={{
               backgroundColor: '#4BA8FF',
               boxShadow: 'inset 0 4px 12px rgba(0, 0, 0, 0.25)',
@@ -143,9 +127,9 @@ export default function VoceImporta() {
 
           {/* CARD 3 */}
           <article
-            className="card-hover flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
+            className="flex-1 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between"
             style={{
-              backgroundColor: '#66DDE2',
+              backgroundColor: '#3FC1C6', // Verde água mais escuro
               boxShadow: 'inset 0 4px 12px rgba(0, 0, 0, 0.25)',
             }}
             aria-labelledby="card-viva"
