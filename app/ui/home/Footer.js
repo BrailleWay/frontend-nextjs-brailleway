@@ -17,7 +17,7 @@ export default function Footer() {
             href="https://www.cvv.org.br"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-blue-600 focus:outline-none focus:ring-2 focus:ring-white"
+            className="underline text-[#338DEF] focus:outline-none focus:ring-2 focus:ring-white"
           >
             www.cvv.org.br
           </a>

@@ -1,16 +1,18 @@
-// file: app/cadastro/paciente/page.js
+// Cadastro gamificado com Poppins e estilo refinado e login social funcional
+
 "use client";
 
 import { useState } from "react";
 import { registerPatient } from "@/lib/actions";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { PasswordStrength } from "@/components/ui/password-strength";
-import { Eye, EyeOff, User, Mail, Phone, Calendar, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function RegistrarPaciente() {
   const [formData, setFormData] = useState({
@@ -24,393 +26,217 @@ export default function RegistrarPaciente() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Limpar erros quando o usuário começar a digitar
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError("");
   };
 
-  const validateForm = () => {
-    // Nome
-    if (!formData.name.trim()) {
-      setError("Nome completo é obrigatório");
-      return false;
+  const nextStep = () => {
+    if (step === 1 && formData.name && formData.birthDate) {
+      setStep(2);
+    } else if (step === 2 && formData.email) {
+      setStep(3);
     }
-    
-    if (formData.name.trim().length < 3) {
-      setError("Nome deve ter pelo menos 3 caracteres");
-      return false;
-    }
-
-    // Email
-    if (!formData.email.trim()) {
-      setError("Email é obrigatório");
-      return false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setError("Digite um email válido");
-      return false;
-    }
-
-    // Telefone (opcional, mas se preenchido deve ser válido)
-    if (formData.phone.trim()) {
-      const phoneRegex = /^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/;
-      if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
-        setError("Digite um telefone válido");
-        return false;
-      }
-    }
-
-    // Data de nascimento
-    if (!formData.birthDate) {
-      setError("Data de nascimento é obrigatória");
-      return false;
-    }
-
-    const birthDate = new Date(formData.birthDate);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    
-    if (age < 0 || age > 120) {
-      setError("Data de nascimento inválida");
-      return false;
-    }
-
-    if (age < 13) {
-      setError("Você deve ter pelo menos 13 anos para se cadastrar");
-      return false;
-    }
-
-    // Gênero
-    if (!formData.gender) {
-      setError("Selecione um gênero");
-      return false;
-    }
-
-    // Senha
-    if (!formData.password) {
-      setError("Senha é obrigatória");
-      return false;
-    }
-
-    if (formData.password.length < 6) {
-      setError("Senha deve ter pelo menos 6 caracteres");
-      return false;
-    }
-
-    // Confirmação de senha
-    if (!formData.confirmPassword) {
-      setError("Confirme sua senha");
-      return false;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("As senhas não coincidem");
-      return false;
-    }
-
-    return true;
   };
+
+  const prevStep = () => setStep((prev) => prev - 1);
+
+  const progressPercent = (step / 3) * 100;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
-
+    if (formData.password !== formData.confirmPassword) {
+      setError("As senhas não coincidem");
+      return;
+    }
     setIsLoading(true);
-    setError("");
-    setSuccess("");
-
     try {
       const result = await registerPatient(formData);
-
       if (result.success) {
-        setSuccess("Cadastro realizado com sucesso! Redirecionando para login...");
-        // Limpar formulário
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          birthDate: "",
-          gender: "",
-          password: "",
-          confirmPassword: "",
-        });
-        // Redirecionar para login após 2 segundos
+        setSuccess("Cadastro realizado com sucesso! Redirecionando...");
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);
       } else {
         setError(result.message);
       }
-    } catch (error) {
-      console.error("Erro durante cadastro:", error);
-      setError("Erro inesperado. Tente novamente.");
+    } catch (err) {
+      setError("Erro ao cadastrar. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
-        {/* Logo/Brand */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">BrailleWay</h1>
-          <p className="text-gray-600">Crie sua conta de paciente</p>
-        </div>
+    <div
+      className="min-h-screen min-w-full flex items-center justify-center p-4 font-[Poppins,sans-serif]"
+      style={{
+        backgroundImage: "url('/login/CaraLendoBraille.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="flex items-center justify-center w-full max-w-6xl">
+        <div className="relative flex w-full max-w-6xl h-[680px] rounded-[32px] shadow-lg overflow-hidden">
+          <div
+            className="hidden md:flex w-1/2 h-full border-4 border-white rounded-l-[32px] justify-center items-center"
+            style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+          ></div>
 
-        {/* Registration Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Nome Completo */}
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <User className="h-4 w-4" />
-                Nome Completo
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Digite seu nome completo"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                disabled={isLoading}
-                autoComplete="name"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="seu@email.com"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                disabled={isLoading}
-                autoComplete="email"
-              />
-            </div>
-
-            {/* Telefone */}
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                Telefone (Opcional)
-              </Label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="(11) 99999-9999"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                disabled={isLoading}
-                autoComplete="tel"
-              />
-            </div>
-
-            {/* Data de Nascimento e Gênero */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="birthDate" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  Data de Nascimento
-                </Label>
-                <Input
-                  id="birthDate"
-                  name="birthDate"
-                  type="date"
-                  value={formData.birthDate}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                  max={new Date().toISOString().split('T')[0]}
-                />
+          <div className="w-full md:w-1/2 bg-white h-full rounded-r-[32px] md:rounded-l-none flex flex-col justify-center px-8 py-10 relative shadow-lg">
+            <div className="flex flex-col items-center">
+              <img src="/home/brailleway_logo.png" alt="Logo BrailleWay" className="w-40 h-auto mb-4" />
+              <h1 className="text-3xl font-medium text-[#343434] text-center mb-1">
+                Olá, tudo bem?
+              </h1>
+              <p className="text-sm font-light text-[#343434] text-center mb-4 max-w-sm">
+                Você está no cadastro de usuário. Vamos preencher um formulário rapidinho para saber mais sobre você, ok?
+              </p>
+              <div className="w-full bg-gray-200 h-2 rounded-full mt-2 mb-6">
+                <div className="bg-gradient-to-r from-[#3E97F3] via-[#227CE7] to-[#47E0D0] h-2 rounded-full transition-all duration-300" style={{ width: `${progressPercent}%` }}></div>
               </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="gender" className="text-sm font-medium text-gray-700">
-                  Gênero
-                </Label>
-                <select
-                  name="gender"
-                  id="gender"
-                  value={formData.gender}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-                  disabled={isLoading}
-                >
-                  <option value="">Selecione...</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Feminino</option>
-                  <option value="Outro">Outro</option>
-                  <option value="Prefiro_nao_informar">Prefiro não informar</option>
-                </select>
-              </div>
-            </div>
 
-            {/* Senha */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Lock className="h-4 w-4" />
-                Senha
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Digite sua senha"
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                  autoComplete="new-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-              </div>
-              
-              {/* Password Strength Indicator */}
-              <PasswordStrength password={formData.password} />
-            </div>
-
-            {/* Confirmar Senha */}
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Lock className="h-4 w-4" />
-                Confirmar Senha
-              </Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  placeholder="Confirme sua senha"
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                  autoComplete="new-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-              </div>
-              
-              {/* Password Match Indicator */}
-              {formData.confirmPassword && (
-                <div className="flex items-center gap-2">
-                  {formData.password === formData.confirmPassword ? (
-                    <div className="flex items-center gap-1 text-green-600">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-xs">Senhas coincidem</span>
+              <form onSubmit={handleSubmit} className="w-full space-y-6 max-w-md">
+                {step === 1 && (
+                  <>
+                    <div>
+                      <Label htmlFor="name" className="mt-4  mb-2 text-[#343434] font-medium">Nome completo</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Informe seu nome"
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-1 text-red-600">
-                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                      <span className="text-xs">Senhas não coincidem</span>
+                    <div>
+                      <Label htmlFor="birthDate" className="mb-2 text-[#343434] font-medium">Data de nascimento</Label>
+                      <Input
+                        id="birthDate"
+                        name="birthDate"
+                        type="date"
+                        value={formData.birthDate}
+                        onChange={handleInputChange}
+                        required
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
                     </div>
+                  </>
+                )}
+                {step === 2 && (
+                  <>
+                    <div>
+                      <Label htmlFor="email" className="text-[#343434] font-medium">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Informe seu email"
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone" className="text-[#343434] font-medium">Telefone</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="(11) 99999-9999"
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
+                    </div>
+                  </>
+                )}
+                {step === 3 && (
+                  <>
+                    <div>
+                      <Label htmlFor="password" className="text-[#343434] font-medium">Senha</Label>
+                      <Input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Crie uma senha segura"
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="confirmPassword" className="text-[#343434] font-medium">Confirmar senha</Label>
+                      <Input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Repita a senha"
+                        className="bg-gray-100 placeholder:font-light placeholder:text-gray-400 mt-1"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {error && (
+                  <Alert className="bg-red-100">
+                    <AlertDescription className="text-red-700">{error}</AlertDescription>
+                  </Alert>
+                )}
+
+                {success && (
+                  <Alert className="bg-green-100">
+                    <AlertDescription className="text-green-700">{success}</AlertDescription>
+                  </Alert>
+                )}
+
+                <div className="flex justify-center gap-4">
+                  {step > 1 && (
+                    <Button type="button" onClick={prevStep} className="bg-gray-300 text-[#343434] rounded-full px-6 py-2">Voltar</Button>
+                  )}
+                  {step < 3 ? (
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      className="bg-gradient-to-r from-[#3E97F3] via-[#227CE7] to-[#47E0D0] text-white font-medium rounded-full px-6 py-2"
+                      disabled={
+                        (step === 1 && (!formData.name || !formData.birthDate)) ||
+                        (step === 2 && !formData.email)
+                      }
+                    >
+                      Próxima etapa
+                    </Button>
+                  ) : (
+                    <Button type="submit" disabled={isLoading} className="bg-gradient-to-r from-[#3E97F3] via-[#227CE7] to-[#47E0D0] text-white font-medium rounded-full px-6 py-2">
+                      {isLoading ? (
+                        <><LoadingSpinner size="sm" className="mr-2" />Cadastrando...</>
+                      ) : (
+                        "Criar conta"
+                      )}
+                    </Button>
                   )}
                 </div>
-              )}
+              </form>
+
+              <p className="mt-8 text-sm text-gray-500 text-center">
+                Já tem uma conta? <Link href="/login" className="text-[#338DEF] underline">Faça login</Link>
+              </p>
             </div>
-
-            {/* Error Message */}
-            {error && (
-              <Alert className="border-red-200 bg-red-50">
-                <AlertDescription className="text-red-800">
-                  {error}
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {/* Success Message */}
-            {success && (
-              <Alert className="border-green-200 bg-green-50">
-                <AlertDescription className="text-green-800">
-                  {success}
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <LoadingSpinner size="sm" className="mr-2" />
-                  Cadastrando...
-                </>
-              ) : (
-                "Criar Conta"
-              )}
-            </Button>
-          </form>
-
-          {/* Additional Links */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Já tem uma conta?{" "}
-              <Link
-                href="/login"
-                className="text-blue-600 hover:text-blue-800 font-medium"
-              >
-                Faça login aqui
-              </Link>
-            </p>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-xs text-gray-500">
-            © 2024 BrailleWay. Todos os direitos reservados.
-          </p>
         </div>
       </div>
     </div>

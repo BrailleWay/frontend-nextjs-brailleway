@@ -70,7 +70,7 @@ export default function LoginForm() {
             
             <div className="mb-4 flex flex-col items-center">
               <img
-                src="brailleway_logo.png"
+                src="/home/brailleway_logo.png"
                 alt="Logo BrailleWay"
                 className="w-50 h-auto mb-4"
               />
