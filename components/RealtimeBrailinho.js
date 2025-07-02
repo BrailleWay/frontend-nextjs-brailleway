@@ -1,12 +1,6 @@
-// =============================
-// components/RealtimeBrailinho.jsx   ✅ 22/06/2025
-// Corrigido: erro de fuso horário (10 h ➜ 13 h)
-// =============================
-
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Mic, Phone, Ear, Loader2 } from "lucide-react";
 import {
@@ -14,7 +8,7 @@ import {
   confirmarAgendamento,
 } from "@/lib/actions";
 
-/*  NOVO: dependências p/ fuso  */
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -23,18 +17,7 @@ dayjs.extend(timezone);
 
 const TZ = "America/Sao_Paulo";
 
-/*
-  🔎  MELHORIAS & DEPURAÇÃO
-  -------------------------------------
-  1. Console logs padronizados com prefixo BRAILINHO ➡️  facilitam grep.
-  2. Exponho status de PeerConnection/DataChannel via logs e UI.
-  3. Tratamento robusto de erro na negotiation; reconexão automática opcional.
-  4. Conversão segura de mensagens (try/catch) + validação de tipos.
-  5. Fallback de áudio resumido para browsers sem getUserMedia.
-  6. ✅  Correção de fuso horário/ISO 8601.
-*/
 
-/* ----------  NOVOS HELPERS de data/hora  ---------- */
 const toISOWithTimezone = (dateStr, hourStr) => {
   // dateStr: "2025-06-30"  |  hourStr: "10:00"
   return dayjs
@@ -65,7 +48,7 @@ const tools = [
       properties: {
         especialidade: {
           type: "string",
-          description: "Nome da especialidade médica desejada.",
+          description: "A especialidade médica desejada, como 'Psicologia'.",
         },
         nome_medico: {
           type: "string",
@@ -106,12 +89,11 @@ const tools = [
   },
 ];
 
-export function RealtimeBrailinho() {
+export function RealtimeBrailinho({ session }) {
   const [connectionStatus, setConnectionStatus] = useState("initializing");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState(null);
   const [pendingArgs, setPendingArgs] = useState(null);
-  const { data: session, status: sessionStatus } = useSession();
 
   const peerConnectionRef = useRef(null);
   const lastAgendamentoArgsRef = useRef(null);
@@ -154,10 +136,7 @@ export function RealtimeBrailinho() {
     }
   }, []);
 
-  /* --------------------------------------------------
-     🎤  Escuta confirmações do usuário (sim/não)
-     (sem alteração relevante aqui)
-  -------------------------------------------------- */
+
   useEffect(() => {
     if (!pendingConfirm || !pendingArgs) return;
 
@@ -278,10 +257,8 @@ export function RealtimeBrailinho() {
      🔌 Conexão WebRTC + DataChannel
   -------------------------------------------------- */
   useEffect(() => {
-    if (sessionStatus !== "authenticated") {
-      setConnectionStatus(
-        sessionStatus === "loading" ? "initializing" : "unauthenticated",
-      );
+    if (!session?.user) {
+      setConnectionStatus(session === undefined ? "initializing" : "unauthenticated");
       return;
     }
 
@@ -540,22 +517,7 @@ export function RealtimeBrailinho() {
             **CONFIRMAÇÕES**:
             - Sempre confirme os detalhes antes de agendar
             - Se houver múltiplas opções, apresente-as claramente
-            - Aguarde a confirmação do paciente antes de prosseguir
-            
-            **TRATAMENTO DE ERROS**:
-            - Se o sistema retornar "Nenhum médico com essa especialidade", sugira outras especialidades similares
-            - Se retornar "O horário solicitado não está disponível", sugira horários alternativos
-            - Se retornar "Médico sem disponibilidades configuradas", informe que o médico ainda não configurou sua agenda
-            - Se retornar "Não é possível agendar no passado", peça uma data futura
-            - Se retornar "Data ou hora inválida", peça para o paciente repetir a data e hora
-            
-            **FLUXO DE AGENDAMENTO**:
-            1. Coletar especialidade ou nome do médico
-            2. Coletar data e hora desejadas
-            3. Verificar disponibilidade usando verificar_disponibilidade_medico
-            4. Se houver confirmação necessária, aguardar resposta do paciente
-            5. Se disponível, confirmar agendamento usando confirmar_agendamento_consulta
-            6. Informar sucesso ou erro ao paciente`;
+            - Aguarde a confirmação do paciente antes de prosseguir`;
           dc.send(
             JSON.stringify({
               type: "session.update",
@@ -576,7 +538,7 @@ export function RealtimeBrailinho() {
       isMounted = false;
       cleanup();
     };
-  }, [sessionStatus, cleanup]);
+  }, [session, cleanup]);
 
   /* --------------------------------------------------
      UI
