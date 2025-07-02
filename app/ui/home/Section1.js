@@ -13,7 +13,7 @@ export default function Section1() {
       {/* ESQUERDA: IMAGEM + TEXTO + BOTÃO */}
       <div className="relative flex justify-center items-center">
         <Image
-          alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, e..."
+          alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, segurando uma bengala com três listras azuis."
           className="img-vazada"
           decoding="async"
           data-nimg="1"
