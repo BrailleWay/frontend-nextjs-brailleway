@@ -67,11 +67,12 @@ export default function VoceImporta() {
         <div className="w-full md:w-1/2 flex justify-center" aria-hidden="false">
           <div className="imagem-container relative" role="img" aria-label="Homem de jaqueta amarela com expressão contemplativa, posicionado à direita da tela.">
             <Image
-              src="/home/caraDaJaquetaAmarela.png"
+              src="/home/caraDaJaquetaAmarela.webp"
               alt="Homem de jaqueta amarela com expressão contemplativa"
               width={486}
               height={563}
               className="imagem-principal"
+              sizes="(max-width: 767px) 100vw, 50vw"
             />
             <div className="gradient-bg" aria-hidden="true" />
           </div>

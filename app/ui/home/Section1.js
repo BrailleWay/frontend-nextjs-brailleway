@@ -15,10 +15,11 @@ export default function Section1() {
         <Image
           width={1080}
           height={1080}
-          src="/home/familia (4).png"
+          src="/home/familia (4).webp"
           alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, segurando uma bengala com três listras azuis."
           className="img-vazada"
           priority
+          sizes="(max-width: 1023px) 100vw, 50vw"
         />
 
         {/* Texto alternativo longo acessível apenas para leitores de tela */}
