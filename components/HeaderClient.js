@@ -103,13 +103,16 @@ export default function HeaderClient({ session}) {
       <div className="header h-18 bg-white flex justify-between items-center shadow-sm px-4 md:px-8 font-urbanist font-semibold">
         {/* Logo e Popover */}
         <div className="flex-shrink-0 flex flex-row items-center gap-4">
-          <Image
-            src="/home/brailleway_logo.png"
-            width={500}
-            height={500}
-            alt="Logo da Braille Way"
-            className="w-20 md:w-28 sm:w-12"
-          />
+          <Link href="/">
+            <Image
+              src="/home/brailleway_logo.png"
+              width={500}
+              height={500}
+              alt="Logo da Braille Way"
+              className="w-20 md:w-28 sm:w-12"
+            />
+          
+          </Link>
           <PopoverDemo />
         </div>
 
