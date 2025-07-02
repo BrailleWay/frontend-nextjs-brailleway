@@ -113,7 +113,7 @@ export default function HeaderClient({ session}) {
             />
           
           </Link>
-          <PopoverDemo />
+          <PopoverDemo session={session} />
         </div>
 
         {/* Menu desktop */}
