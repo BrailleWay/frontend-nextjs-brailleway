@@ -27,7 +27,7 @@ export default function VoceImporta() {
               <Image
                 className="hidden md:block md:relative w-25 md:bottom-28 md:left-5 z-10"
                 alt="Mulher sorrindo de jaqueta clara representando o início do processo"
-                src="/home/mulher-comecar.png"
+                src="/home/mulher-comecar.webp"
                 width={171}
                 height={221}
               />
