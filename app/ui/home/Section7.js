@@ -65,19 +65,19 @@ export default function Section7() {
                   {/* CARD 1 */}
                   <div className="outline outline-gray-200 w-[300px] lg:w-[360px] space-y-5 p-7 rounded-4xl flex flex-col">
                     <h2 className="text-4xl font-poppins font-bold text-[#231D4F]">
-                      R$50 <span className="text-gray-400 text-lg">/mês</span>
+                      R$0 <span className="text-gray-400 text-lg">/mês</span>
                     </h2>
                     <h3 className="text-[#231D4F] text-2xl flex items-center gap-2">
                       <motion.div {...pulseAnimation}>
                         <Stethoscope size={24} />
                       </motion.div>
-                      Starter
+                      Gratuito
                     </h3>
-                    <p className="text-gray-600 text-base">Automação Básica</p>
+                    <p className="text-gray-600 text-base">Serviços Básicos</p>
                     <div className="space-y-3">
                       {[
-                        "Sessões: 1 sessão / mês",
-                        "Duração: 40 minutos",
+                        "Sala meditação",
+                        "Uma seção brailinho",
                         "Suporte Básico",
                       ].map((item, idx) => (
                         <div
@@ -110,14 +110,31 @@ export default function Section7() {
                       <motion.div {...pulseAnimation}>
                         <HeartPulse size={24} />
                       </motion.div>
-                      Profissional
+                      Plano Tato
                     </h3>
-                    <p className="text-white text-base">Automação Profissional</p>
+                    <p className="text-white text-base">Serviço Profissional</p>
                     <div className="space-y-3">
                       {[
-                        "Multi-step Zaps",
-                        "Suporte Premium",
-                        "Integrações Ilimitadas",
+                        "2 Sessões por mês",
+                        "Duração 40 minutos",
+                        "Frequências Terapêuticas",
+                      ].map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-3 text-white"
+                        >
+                          <div className="bg-white/30 rounded-full w-7 h-7 flex items-center justify-center">
+                            ✔
+                          </div>
+                          <p>{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        "Suporte Prioritário",
+                        "Conteúdos Exclusivos",
+                        "Tudo incluso d",
                       ].map((item, idx) => (
                         <div
                           key={idx}
@@ -144,14 +161,16 @@ export default function Section7() {
                       <motion.div {...pulseAnimation}>
                         <BriefcaseMedical size={24} />
                       </motion.div>
-                      Enterprise
+                      Plano Sinais
                     </h3>
-                    <p className="text-gray-600 text-base">Soluções Avançadas</p>
+                    <p className="text-gray-600 text-base">Serviços:</p>
                     <div className="space-y-3">
                       {[
-                        "Multi-step Zaps",
-                        "Suporte Dedicado",
-                        "Integrações Customizadas",
+                        "Tudo dos outros planos",
+                        "4 Sessões por mês",
+                        "Sessão: duração de 60 minutos",
+                        "Suporte prioritário",
+                        "Conteúdos exclusivos"
                       ].map((item, idx) => (
                         <div
                           key={idx}
