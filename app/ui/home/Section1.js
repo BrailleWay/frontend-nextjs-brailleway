@@ -13,44 +13,27 @@ export default function Section1() {
       {/* ESQUERDA: IMAGEM + TEXTO + BOTÃO */}
       <div className="relative flex justify-center items-center">
         <Image
+          width={1080}
+          height={1080}
+          src="/home/familia (4).webp"
           alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, segurando uma bengala com três listras azuis."
           className="img-vazada"
-          decoding="async"
-          data-nimg="1"
-          fetchpriority="high" // <- Já está aqui!
-          height="1080"
-          loading="eager"
+          priority
           sizes="(max-width: 1023px) 100vw, 50vw"
-          src="/_next/image?url=%2Fhome%2Ffamilia%20(4).%40384w.webp&w=384&q=75"
-          style={{ color: "transparent" }}
-          width="1080"
         />
 
         {/* Texto alternativo longo acessível apenas para leitores de tela */}
         <span id="desc-imagem" className="sr-only">
-          A imagem é composta por um fundo em formato de quadrado com um degradê
-          que começa na borda inferior direita com um tom verde-água claro,
-          transita para um azul vivo no centro e finaliza na parte superior com
-          um azul mais claro e radiante, refletindo as cores da logo. Em frente
-          a esse fundo colorido, há um homem enquadrado do peito para cima. Ele
-          está olhando para a direita, levemente para cima, com uma expressão
-          sorridente. É careca, com sobrancelhas finas e um nariz um pouco mais
-          alongado. Ele veste uma camisa social de botão na cor cinza clara e
-          segura uma bengala preta com três listras azuis. À direita da imagem,
-          há um texto sobre um fundo branco.
+          A imagem é composta por um fundo em formato de quadrado com um degradê que começa na borda inferior direita com um tom verde-água claro, transita para um azul vivo no centro e finaliza na parte superior com um azul mais claro e radiante, refletindo as cores da logo. Em frente a esse fundo colorido, há um homem enquadrado do peito para cima. Ele está olhando para a direita, levemente para cima, com uma expressão sorridente. É careca, com sobrancelhas finas e um nariz um pouco mais alongado. Ele veste uma camisa social de botão na cor cinza clara e segura uma bengala preta com três listras azuis. À direita da imagem, há um texto sobre um fundo branco.
         </span>
 
         <div id="container-esquerda">
           <div className="w-full space-y-4 z-0">
             <h2 className="text-white text-center md:text-left font-inter font-semibold text-4xl md:max-w-sm">
-              Ouça nossas
-              <br />
-              frequências
+              Ouça nossas<br />frequências
             </h2>
             <p className="text-white text-center md:text-left font-inter text-base md:max-w-sm">
-              Teste grátis
-              <br />e tenha acesso <br />a nossos sons <br />
-              para relaxar
+              Teste grátis<br />e tenha acesso <br />a nossos sons <br />para relaxar
             </p>
 
             <Button
@@ -91,9 +74,8 @@ export default function Section1() {
 
         <p className="text-left font-poppins text-base md:text-1xl text-[#343434]">
           Para quem enxerga com o coração e sente com a alma, a{" "}
-          <span className="text-[#1C71E4] font-bold">Braille Way</span> abre
-          portas para consultas mais humanas, acessíveis e feitas para
-          transformar vidas.
+          <span className="text-[#1C71E4] font-bold">Braille Way</span> abre portas
+          para consultas mais humanas, acessíveis e feitas para transformar vidas.
         </p>
 
         <div className="w-full flex justify-center lg:justify-start">
