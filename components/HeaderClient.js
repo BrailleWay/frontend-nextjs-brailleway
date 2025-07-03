@@ -110,6 +110,7 @@ export default function HeaderClient({ session}) {
               height={500}
               alt="Logo da Braille Way"
               className="w-20 md:w-28 sm:w-12"
+              priority
             />
           
           </Link>

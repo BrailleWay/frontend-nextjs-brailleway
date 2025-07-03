@@ -4,7 +4,7 @@ import Header from "./ui/home/Header";
 import Footer from "./ui/home/Footer";
 import { Urbanist, Inter, Poppins } from "next/font/google";
 import Script from "next/script"; // ✅ Importar Script corretamente
-import AccessibilityScripts from "@/components/AccessibilityScripts";
+import ExternalScripts from "@/components/ExternalScripts";
 
 // Fonte principal/padrão do site
 const inter = Inter({
@@ -36,14 +36,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" className={`${inter.variable} ${urbanist.variable} ${poppins.variable}`}>
       <body>
-        {/* ✅ Script do UserWay acessível e sem erro */}
+        <ExternalScripts />
         <Script
           src="https://cdn.userway.org/widget.js"
           strategy="afterInteractive"
           data-account="An0lOgTRcx"
         />
-        <AccessibilityScripts />
-
 
         
         <Header />

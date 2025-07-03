@@ -8,6 +8,7 @@ import Link from "next/link";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { registerMedic } from "@/lib/actions";
+import Image from "next/image";
 
 const diasSemana = [
 	{ id: 0, nome: "Domingo" },
@@ -147,14 +148,16 @@ export function MedicRegisterForm({ specialties = [] }) {
     <div className="w-full max-w-md">
         {/* Logo acima do texto */}
         <div className="flex justify-center mb-4">
-            <img
-                src="/brailleway_logo.png"
+            <Image
+                src="/brailleway_logo.webp"
                 alt="Logo BrailleWay"
                 className="h-180 w-auto"
                 style={{ maxHeight: 100 }}
+                width={2000}
+                height={1176}
             />
         </div>
-        <h1 className="text-2xl md:text-3xl font-medium mb-2 text-center" style={{ color: "rgb(52,52,52)", fontFamily: "Poppins, sans-serif" }}>
+        <h1 className="text-2xl md:text-3xl font-poppins font-medium mb-2 text-center" style={{ color: "rgb(52,52,52)" }}>
             Olá, doutor(a)! Tudo certo? 
         </h1>
         <p className="  text-center text-sm mb-6" style={{ color: "rgb(52,52,52)", fontFamily: "Poppins, sans-serif" }}>

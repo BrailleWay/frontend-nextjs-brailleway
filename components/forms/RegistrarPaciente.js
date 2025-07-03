@@ -92,7 +92,7 @@ export default function RegistrarPaciente() {
 
           <div className="w-full md:w-1/2 bg-white h-full rounded-r-[32px] md:rounded-l-none flex flex-col justify-center px-8 py-10 relative shadow-lg">
             <div className="flex flex-col items-center">
-              <img src="/home/brailleway_logo.png" alt="Logo BrailleWay" className="w-40 h-auto mb-4" />
+              <Image width={2000} height={1178} src="/home/brailleway_logo.webp" alt="Logo BrailleWay" className="w-40 h-auto mb-4" />
               <h1 className="text-3xl font-medium text-[#343434] text-center mb-1">
                 Olá, tudo bem?
               </h1>

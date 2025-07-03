@@ -9,6 +9,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Eye, EyeOff } from "lucide-react";
 import { login } from "@/lib/actions";
 import { useState } from "react";
+import Image from "next/image";
 
 function LoginButton() {
   const { pending } = useFormStatus();
@@ -69,8 +70,8 @@ export default function LoginForm() {
           <div className="w-full md:w-1/2 h-full bg-white rounded-r-[32px] md:rounded-l-none rounded-[32px] relative shadow-lg flex flex-col items-center justify-center">
             
             <div className="mb-4 flex flex-col items-center">
-              <img
-                src="/home/brailleway_logo.png"
+              <Image
+                src="/home/brailleway_logo.webp"
                 alt="Logo BrailleWay"
                 className="w-50 h-auto mb-4"
               />
