@@ -9,7 +9,7 @@ export default function PsychologistSection() {
       profession: "Obstetra",
       public: "Crianças e Adolescentes",
       tags: ["Ansiedade", "TDAH", "Depressão"],
-      image: "/home/Imagem Medico.png",
+      image: "/home/Imagem Medico.webp",
       alt: "Foto do Dr. Julian Jameson, obstetra especializado em crianças e adolescentes",
     },
     {
@@ -18,7 +18,7 @@ export default function PsychologistSection() {
       profession: "Psiquiatra",
       public: "Adultos e Idosos",
       tags: ["Ansiedade", "Autismo", "Depressão"],
-      image: "/home/Imagem Psicologo codigo.png",
+      image: "/home/Imagem Psicologo codigo.webp",
       alt: "Foto da Dra. Maria Souza, psiquiatra especializada em adultos e idosos",
     },
   ];
@@ -81,7 +81,7 @@ export default function PsychologistSection() {
                   {psych.profession}
                 </p>
 
-                <div className="flex items-center gap-1 text-yellow-500 text-sm" aria-label={`Nota ${psych.rating} de 5`}>
+                <div className="flex items-center gap-1 text-yellow-500 text-sm font-poppins font-medium" aria-label={`Nota ${psych.rating} de 5`}>
                   ★ {psych.rating}
                 </div>
 

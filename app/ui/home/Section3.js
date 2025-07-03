@@ -34,7 +34,7 @@ export default function VoceImporta() {
               <Image
                 className="hidden md:block md:relative w-25 md:bottom-39.25 md:left-5 z-0"
                 alt=""
-                src="/home/Rectangle 48.png"
+                src="/home/Rectangle 48.webp"
                 width={198}
                 height={90}
                 aria-hidden="true"

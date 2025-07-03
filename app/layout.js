@@ -4,6 +4,7 @@ import Header from "./ui/home/Header";
 import Footer from "./ui/home/Footer";
 import { Urbanist, Inter, Poppins } from "next/font/google";
 import Script from "next/script"; // ✅ Importar Script corretamente
+import AccessibilityScripts from "@/components/AccessibilityScripts";
 
 // Fonte principal/padrão do site
 const inter = Inter({
@@ -41,6 +42,9 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
           data-account="An0lOgTRcx"
         />
+        <AccessibilityScripts />
+
+
         
         <Header />
         {children}

@@ -37,6 +37,7 @@ export default function Footer() {
               width={200}
               height={80}
               priority
+              
             />
 
             <nav aria-label="Redes sociais">

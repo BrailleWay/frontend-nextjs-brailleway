@@ -9,9 +9,18 @@ export const Section5 = () => {
           Veja como <span className="text-[#1C71E4] font-bold">transformamos vidas</span>
         </h2>
 
-        {/* VÍDEO */}
-        <div className="w-full rounded-3xl overflow-hidden shadow-xl">
-          <video className="w-full h-auto" controls playsInline>
+        {/* VÍDEO OTIMIZADO */}
+        {/* Usamos aspect-ratio para evitar CLS e bg-black para um fundo elegante antes do poster carregar */}
+        <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-xl bg-black">
+          <video
+            className="w-full h-full"
+            controls
+            playsInline
+            preload="none" // A otimização mais importante
+            poster="/videos/poster_anuncio.webp" // Use uma imagem de capa leve
+          >
+            {/* Forneça o formato mais moderno primeiro */}
+            <source src="/videos/Anuncio.webm" type="video/webm" />
             <source src="/videos/Anuncio.mp4" type="video/mp4" />
             Seu navegador não suporta vídeo.
           </video>

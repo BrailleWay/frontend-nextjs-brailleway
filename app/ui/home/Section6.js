@@ -43,7 +43,7 @@ export const Section6 = () => {
   ];
 
   return (
-    <div className="w-full bg-white px-4 py-10">
+    <div className="w-full container ">
       {/* CONTAINER FLEX */}
       <div className="flex flex-col sm:flex-row-reverse sm:items-center w-full">
         {/* IMAGEM */}
@@ -60,7 +60,7 @@ export const Section6 = () => {
           </div>
 
           {/* IMG DESKTOP */}
-          <div className="hidden sm:flex w-full justify-end">
+          {/* <div className="hidden sm:flex w-full justify-end">
             <Image
               className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[500px] max-w-none object-contain"
               src="/imgHome/FoneDeOuvido.png"
@@ -69,10 +69,11 @@ export const Section6 = () => {
               height={1300}
             />
           </div>
+          */}
         </div>
 
         {/* CONTEÚDO CENTRAL */}
-        <div className="w-full max-w-[1300px] mx-auto lg:ml-24">
+        <div className="w-full max-w-[1300px] mx-auto">
           {/* TÍTULOS */}
           <div className="font-poppins text-[#343434] text-2xl md:text-3xl lg:text-[32px] leading-tight mb-16">
             Precisa Relaxar? Que tal ouvir um som Tranquilizador? <br />
@@ -111,7 +112,7 @@ export const Section6 = () => {
           </div>
 
           {/* BOTÃO */}
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center items-center">
             <Button>Ouça mais</Button>
           </div>
         </div>

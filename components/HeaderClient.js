@@ -105,7 +105,7 @@ export default function HeaderClient({ session}) {
         <div className="flex-shrink-0 flex flex-row items-center gap-4">
           <Link href="/">
             <Image
-              src="/home/brailleway_logo.png"
+              src="/home/brailleway_logo.webp"
               width={500}
               height={500}
               alt="Logo da Braille Way"
