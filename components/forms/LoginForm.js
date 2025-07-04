@@ -1,6 +1,8 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom'; 
 import { logar } from '@/lib/actions/login';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,7 +46,7 @@ function LoginButton() {
 /* ─────────────────────────── Componente principal ─────────────────────────── */
 export default function LoginForm() {
   /*  ✅ useFormState devolve a mensagem de erro vinda da server action  */
-  const [errorMessage, dispatch] = useFormState(logar, undefined);
+  const [errorMessage, dispatch] = useActionState(logar, undefined);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
