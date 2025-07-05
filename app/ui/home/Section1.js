@@ -18,7 +18,7 @@ export default function Section1() {
           src="/home/familia (4).webp"
           alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, segurando uma bengala com três listras azuis."
           className="img-vazada"
-          priority
+          priority={true}
           sizes="(max-width: 640px) 75vw, (max-width: 768px) 50vw, 25vw"
           fetchpriority="high"
         />
