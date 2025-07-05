@@ -38,8 +38,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" className={`${inter.variable} ${urbanist.variable} ${poppins.variable}`}>
       <body>
-        <Analytics/>
-        <SpeedInsights/>
+        
         <ExternalScripts />
         <Script
           src="https://cdn.userway.org/widget.js"
@@ -51,6 +50,8 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        <Analytics/>
+        <SpeedInsights/>
       </body>
     </html>
   );
