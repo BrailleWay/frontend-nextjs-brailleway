@@ -19,7 +19,7 @@ export default function Section1() {
           alt="Homem sorrindo de perfil à direita com fundo colorido em degradê azul e verde, segurando uma bengala com três listras azuis."
           className="img-vazada"
           priority
-          sizes="(max-width: 640px) 100vw, (max-width: 768px) 66vw, 33vw"
+          sizes="(max-width: 640px) 75vw, (max-width: 768px) 50vw, 25vw"
           fetchpriority="high"
         />
 
