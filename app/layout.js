@@ -5,6 +5,8 @@ import Footer from "./ui/home/Footer";
 import { Urbanist, Inter, Poppins } from "next/font/google";
 import Script from "next/script"; // ✅ Importar Script corretamente
 import ExternalScripts from "@/components/ExternalScripts";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 // Fonte principal/padrão do site
 const inter = Inter({
@@ -36,6 +38,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" className={`${inter.variable} ${urbanist.variable} ${poppins.variable}`}>
       <body>
+        <Analytics/>
+        <SpeedInsights/>
         <ExternalScripts />
         <Script
           src="https://cdn.userway.org/widget.js"
