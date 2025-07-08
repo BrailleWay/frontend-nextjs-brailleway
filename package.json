@@ -43,6 +43,8 @@
     "sonner": "^2.0.5",
     "string-similarity": "^4.0.4",
     "tailwind-merge": "^3.3.1",
+    "twilio": "^5.7.2",
+    "twilio-video": "^2.31.0",
     "wavefile": "^11.0.0",
     "zod": "^3.25.67"
   },

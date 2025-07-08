@@ -20,7 +20,6 @@ export default function Section1() {
           className="img-vazada"
           priority={true}
           sizes="(max-width: 640px) 75vw, (max-width: 768px) 50vw, 25vw"
-          fetchpriority="high"
         />
 
         {/* Texto alternativo longo acessível apenas para leitores de tela */}

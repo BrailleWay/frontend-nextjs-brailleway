@@ -18,7 +18,6 @@ export const Section5 = () => {
             playsInline
             preload="none" // A otimização mais importante
             poster="/videos/poster_anuncio.webp" // Use uma imagem de capa leve
-            sizes
           >
             {/* Forneça o formato mais moderno primeiro */}
             <source src="/videos/Anuncio.webm" type="video/webm" />
