@@ -58,7 +58,7 @@ export default function VoceImporta() {
             <p className="text-[#343434] font-poppins">
               Relacionamentos difíceis e momentos duros fazem parte da vida, mas é possível
               aprender a enfrentá-los com mais leveza. Com apoio psiquiátrico, você desenvolve
-              habilidades para se conectar melhor com os outros e com você mesmo.
+              habilidades para se conectar melhor com os outros e com você mesmo. //Tem que trocar os textos da page da Section 5 (Estão ligados pelo mesmo tema)
             </p>
           </article>
         </div>
