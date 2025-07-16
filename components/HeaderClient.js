@@ -75,7 +75,6 @@ export default function HeaderClient({ session}) {
   // Menu para usuários não logados
   const guestMenuItems = [
     { label: 'Início', href: '/', icon: Home },
-    { label: 'Como funciona', href: '/como-funciona', icon: Info },
     { label: 'Sou especialista', href: '/cadastro/medico', icon: UserCheck },
     { label: 'Procurar especialista', href: '/procurar-especialista', icon: Search },
     { label: 'Login', href: '/login', icon: LogIn }
@@ -84,7 +83,6 @@ export default function HeaderClient({ session}) {
   // Menu para usuários logados
   const userMenuItems = [
     { label: 'Início', href: '/', icon: Home },
-    { label: 'Como funciona', href: '/como-funciona', icon: Info },
     { label: 'Consultas', href: '/consultas', icon: Calendar },
     { label: 'Procurar especialista', href: '/procurar-especialista', icon: Search }
   ]
